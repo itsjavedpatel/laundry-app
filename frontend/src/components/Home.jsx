@@ -19,6 +19,7 @@ import Footer from "./Footer";
 const Home = () => {
   return (
     <>
+    {/* this is home page */}
       {/* Hero Section */}
       <div className="relative bg-gradient-to-r from-gray-600 to-green-400 text-white">
         <div className="max-w-7xl mx-auto px-4 py-24 flex flex-col lg:flex-row items-center">
