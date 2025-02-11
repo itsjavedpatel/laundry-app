@@ -25,7 +25,7 @@ const Login = () => {
     }
   };
   return (
-    <section className=" bg-gradient-to-r from-gray-600 to-green-400 ">
+    <section className=" bg-gradient-to-r from-[#eeaeca] to-[#94bbe9] ">
       <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
         <a
           href="#"
@@ -113,7 +113,7 @@ const Login = () => {
               >
                 Sign in
               </button>
-              <p className="text-sm font-light text-gray-500 dark:text-gray-400">
+              {/* <p className="text-sm font-light text-gray-500 dark:text-gray-400">
                 Don’t have an account yet?{" "}
                 <Link
                   to="/signup"
@@ -121,7 +121,7 @@ const Login = () => {
                 >
                   Sign up
                 </Link>
-              </p>
+              </p> */}
             </form>
           </div>
         </div>

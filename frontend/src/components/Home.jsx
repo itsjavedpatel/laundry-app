@@ -19,19 +19,19 @@ import Footer from "./Footer";
 const Home = () => {
   return (
     <>
-
+      
       {/* Hero Section */}
-      <div className="relative bg-gradient-to-r from-gray-600 to-green-400 text-white">
+      <div className="relative text-black bg-gradient-to-r from-[#eeaeca] to-[#94bbe9]">
         <div className="max-w-7xl mx-auto px-4 py-24 flex flex-col lg:flex-row items-center">
           <div className="lg:w-1/2 space-y-8">
             <h1 className="text-5xl font-bold leading-tight">
               Effortless Laundry Services at Your Fingertips
             </h1>
-            <p className="text-xl text-blue-100">
+            <p className="text-xl text-grey-600">
               Experience the convenience of modern laundry management with our
               smart solutions.
             </p>
-            <button className="bg-white text-blue-600 px-8 py-3 rounded-full font-semibold hover:bg-blue-50 transition-colors">
+            <button className=" border-[1px] border-black text-black px-8 py-3 rounded-md font-semibold hover:bg-[#eeeaea] hover:text-[#956161] transition-colors">
               Schedule a Pickup
             </button>
           </div>
@@ -95,7 +95,7 @@ const Home = () => {
       {/* Services Section */}
       <section
         id="services"
-        className="py-20  bg-gray-50 bg-gradient-to-r from-gray-600 to-green-400 text-white"
+        className="py-20  bg-gray-50 bg-gradient-to-r from-[#eeaeca] to-[#94bbe9] text-white"
       >
         <Services />
         {/* <div className="max-w-7xl mx-auto px-4">
