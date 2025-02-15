@@ -1,25 +1,28 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
-
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 const Login = () => {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     email: "",
     password: "",
+    role: "",
   });
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
-  const handleSubmit = async () => {
+  const handleSubmit = async (e) => {
+    e.preventDefault();
     try {
       const response = await axios.post(
-        "http://localhost:3000/api/form",
+        "http://localhost:3000/auth/api/form",
         formData,
         {
           headers: { "Content-Type": "application/json" },
         }
       );
       console.log("Response:", response.data);
+      navigate("/unidashboard");
     } catch (error) {
       console.error("Error:", error);
     }
@@ -33,6 +36,28 @@ const Login = () => {
               Sign in to your account
             </h1>
             <form className="space-y-4 md:space-y-6" onSubmit={handleSubmit}>
+              <div>
+                <label
+                  htmlFor="role"
+                  className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-900"
+                >
+                  Select role
+                </label>
+                <select
+                  className="block w-full pl-5 pr-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white"
+                  value={formData.role}
+                  onChange={handleChange}
+                  name="role"
+                  required
+                >
+                  <option value="">-- Select Role --</option>
+                  <option value="admin">Admin</option>
+                  <option value="university">University</option>
+                  <option value="student">Student</option>
+                  <option value="laundryAgent">Laundry Agent</option>
+                  <option value="deliveryAgent">Delivery Agent</option>
+                </select>
+              </div>
               <div>
                 <label
                   htmlFor="email"
