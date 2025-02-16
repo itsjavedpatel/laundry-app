@@ -1,6 +1,7 @@
 exports.login = async (req, res) => {
   try {
-    if (req.body.password === "") {
+    const { email, password } = req.body;
+    if (password === "") {
       res.json({ message: "Password required!", data: req.body });
     } else {
       console.log("Received Form Data:", req.body);
