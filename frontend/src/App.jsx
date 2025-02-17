@@ -6,6 +6,7 @@ import NavBar from "./components/NavBar";
 import Login from "./pages/Login";
 import Register from "./components/Register";
 import Unidashboard from "./components/Unidashboard";
+import Error from "./components/Error";
 function App() {
   return (
     <>
@@ -14,8 +15,9 @@ function App() {
         <Routes>
           <Route path="/" element={<LandingPage />} />
           <Route path="/login" element={<Login />} />
-          <Route path="/signup" element={<Register />} />
+          <Route path="/register" element={<Register />} />
           <Route path="/unidashboard" element={<Unidashboard />} />
+          <Route path="/error" element={<Error />} />
         </Routes>
       </BrowserRouter>
     </>
