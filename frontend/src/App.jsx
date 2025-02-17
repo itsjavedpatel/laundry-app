@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import "./index.css";
+import Unidashboard from "./components/Unidashboard";
 import LandingPage from "./pages/LandingPage";
 import NavBar from "./components/NavBar";
 import Login from "./pages/Login";
@@ -15,9 +16,8 @@ function App() {
         <Routes>
           <Route path="/" element={<LandingPage />} />
           <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
+          <Route path="/signup" element={<Register />} />
           <Route path="/unidashboard" element={<Unidashboard />} />
-          <Route path="/error" element={<Error />} />
         </Routes>
       </BrowserRouter>
     </>
