@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
 const Login = () => {
   const navigate = useNavigate();
@@ -13,48 +15,61 @@ const Login = () => {
   };
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    console.log("🟢 Form data being sent:", formData); // Debugging log
+
     try {
+      // Send POST request to backend
       const response = await axios.post(
-        "http://localhost:3000/auth/login",
+        "http://localhost:3000/auth/login", // API endpoint
         formData,
-        {
-          headers: { "Content-Type": "application/json" },
-        }
+        { headers: { "Content-Type": "application/json" } }
       );
 
-      console.log("Response:", response.data);
-      if (role === "Student") {
+      console.log("✅ Response from backend:", response.data);
+      toast.success("🎉 Login successful!");
+
+      // 🏆 Redirect user based on role
+      if (formData.role === "Student") {
         navigate("/student-dashboard");
-      } else if (role === "Admin") {
+      } else if (formData.role === "Admin") {
         navigate("/admin-dashboard");
-      } else if (role === "University") {
+      } else if (formData.role === "University") {
         navigate("/unidashboard");
       }
     } catch (error) {
-      if (error.response) {
-        // The request was made, and the server responded with a status code that is not 200
-        // console.error("Login failed:", error.response.data);
+      console.error("❌ Login failed:", error);
 
+      // 🌍 Handle different types of errors
+      if (error.response) {
+        console.log("❌ Backend response:", error.response.data);
+
+        // 🎯 Handle specific HTTP error codes
         if (error.response.status === 400) {
-          alert("Invalid email or password!"); // User entered wrong credentials
+          toast.error("❌ Invalid password. Please try again.");
         } else if (error.response.status === 403) {
-          alert("Unauthorized access!"); // Role-based restrictions
+          toast.warn("🚫 Unauthorized access! Please check your role.");
+        } else if (error.response.status === 404) {
+          toast.info("🔍 User not found. Please check your credentials.");
         } else if (error.response.status === 500) {
-          alert("Server error! Please try again later."); // Backend crashed
+          toast.error("🛑 Server error! Please try again later.");
         } else {
-          alert(error.response.data.message); // Generic API error message
+          toast.error(
+            error.response.data.message || "An unknown error occurred."
+          );
         }
       } else if (error.request) {
-        // The request was made, but no response was received
-        // console.error("No response from server:", error.request);
-        alert("No response from server. Check your internet connection.");
+        console.error("❌ No response from server:", error.request);
+        toast.error(
+          "❌ No response from server. Check your internet connection."
+        );
       } else {
-        // Something else happened
-        // console.error("Error:", error.message);
-        alert("An unexpected error occurred.");
+        console.error("❌ Unexpected error:", error.message);
+        toast.error("⚠️ An unexpected error occurred.");
       }
     }
   };
+
   return (
     <section className=" bg-gradient-to-r from-[#eeaeca] to-[#94bbe9] ">
       <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
@@ -154,15 +169,6 @@ const Login = () => {
               >
                 Sign in
               </button>
-              {/* <p className="text-sm font-light text-gray-500 dark:text-gray-400">
-                Don’t have an account yet?{" "}
-                <Link
-                  to="/signup"
-                  className="font-medium text-primary-600 hover:underline dark:text-primary-500"
-                >
-                  Sign up
-                </Link>
-              </p> */}
             </form>
           </div>
         </div>
