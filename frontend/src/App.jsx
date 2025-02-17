@@ -6,7 +6,6 @@ import LandingPage from "./pages/LandingPage";
 import NavBar from "./components/NavBar";
 import Login from "./pages/Login";
 import Register from "./components/Register";
-import Unidashboard from "./components/Unidashboard";
 import Error from "./components/Error";
 function App() {
   return (

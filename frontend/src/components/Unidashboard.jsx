@@ -1,7 +1,7 @@
 import React from "react";
 
 const Unidashboard = () => {
-  return <div>Unidashboard</div>;
+  return <div>university</div>;
 };
 
 export default Unidashboard;
