@@ -1,7 +1,10 @@
 import React, { useState } from "react";
 import { Building2, Mail, MapPin, Loader2 } from "lucide-react";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 function Register() {
+  const navigate = useNavigate();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [formData, setFormData] = useState({
     universityName: "",
@@ -9,11 +12,49 @@ function Register() {
     zipCode: "",
   });
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    setIsSubmitting(true);
+    console.log("formData:", formData);
+
+    // setIsSubmitting(true);
     // Simulate API call
-    setTimeout(() => setIsSubmitting(false), 1500);
+    try {
+      const response = await axios.post(
+        "http://localhost:3000/auth/register",
+        formData,
+        { headers: { "Content-Type": "application/json" } }
+      );
+      alert("Registration successfull");
+      console.log("response", response.data);
+      navigate("/login");
+    } catch (error) {
+      if (error.response) {
+        // The request was made, and the server responded with a status code that is not 200
+        console.error("Login failed:", error.response.data);
+        // const { status, data } = error.response;
+        // if (status === 400) {
+        //   alert("Invalid email format or missing fields.");
+        // } else if (status === 403) {
+        //   alert("Unauthorized access! Please check your role.");
+        // } else if (status === 409) {
+        //   alert("University already exists! Try logging in.");
+        // } else if (status === 500) {
+        //   alert("Server error! Please try again later.");
+        // } else {
+        //   alert(data.message || "An error occurred.");
+        // }
+      } else if (error.request) {
+        // The request was made, but no response was received
+        // console.error("No response from server:", error.request);
+        alert("No response from server. Check your internet connection.");
+      } else {
+        // Something else happened
+        // console.error("Error:", error.message);
+        alert("An unexpected error occurred.");
+      }
+    } finally {
+      setIsSubmitting(false); // ✅ Always reset loading state after API call
+    }
   };
 
   const handleChange = (e) => {

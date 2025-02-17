@@ -15,16 +15,44 @@ const Login = () => {
     e.preventDefault();
     try {
       const response = await axios.post(
-        "http://localhost:3000/auth/api/form",
+        "http://localhost:3000/auth/login",
         formData,
         {
           headers: { "Content-Type": "application/json" },
         }
       );
+
       console.log("Response:", response.data);
-      navigate("/unidashboard");
+      if (role === "Student") {
+        navigate("/student-dashboard");
+      } else if (role === "Admin") {
+        navigate("/admin-dashboard");
+      } else if (role === "University") {
+        navigate("/unidashboard");
+      }
     } catch (error) {
-      console.error("Error:", error);
+      if (error.response) {
+        // The request was made, and the server responded with a status code that is not 200
+        // console.error("Login failed:", error.response.data);
+
+        if (error.response.status === 400) {
+          alert("Invalid email or password!"); // User entered wrong credentials
+        } else if (error.response.status === 403) {
+          alert("Unauthorized access!"); // Role-based restrictions
+        } else if (error.response.status === 500) {
+          alert("Server error! Please try again later."); // Backend crashed
+        } else {
+          alert(error.response.data.message); // Generic API error message
+        }
+      } else if (error.request) {
+        // The request was made, but no response was received
+        // console.error("No response from server:", error.request);
+        alert("No response from server. Check your internet connection.");
+      } else {
+        // Something else happened
+        // console.error("Error:", error.message);
+        alert("An unexpected error occurred.");
+      }
     }
   };
   return (
@@ -48,14 +76,13 @@ const Login = () => {
                   value={formData.role}
                   onChange={handleChange}
                   name="role"
-                  required
                 >
                   <option value="">-- Select Role --</option>
-                  <option value="admin">Admin</option>
-                  <option value="university">University</option>
-                  <option value="student">Student</option>
-                  <option value="laundryAgent">Laundry Agent</option>
-                  <option value="deliveryAgent">Delivery Agent</option>
+                  <option value="Admin">Admin</option>
+                  <option value="University">University</option>
+                  <option value="Student">Student</option>
+                  <option value="Laundry">Laundry Agent</option>
+                  <option value="Delivery">Delivery Agent</option>
                 </select>
               </div>
               <div>

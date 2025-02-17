@@ -2,8 +2,8 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { WashingMachine, Menu, X, LogIn } from "lucide-react";
 import { FaUniversity } from "react-icons/fa";
-import IconButton from '@mui/material/IconButton';
-import Tooltip from '@mui/material/Tooltip';
+import IconButton from "@mui/material/IconButton";
+import Tooltip from "@mui/material/Tooltip";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -77,14 +77,13 @@ const Navbar = () => {
               className=" text-white px-4 py-2 rounded-md hover:bg-[#94bbe9] hover:text-black hover:border-0 transition-colors "
             >
               <Tooltip title="Login">
-                <IconButton> 
-                  <LogIn  className="text-white"/>
+                <IconButton>
+                  <LogIn className="text-white" />
                 </IconButton>
               </Tooltip>
-
             </Link>
             <Link
-              to="/signup"
+              to="/register"
               className="border border-white-[1px] text-white px-4 py-2 rounded-md hover:bg-[#94bbe9] hover:text-black hover:border-0 transition-colors flex  items-center gap-2"
             >
               <FaUniversity />
@@ -132,7 +131,7 @@ const Navbar = () => {
               Login
             </Link>
             <Link
-              to="/signup"
+              to="/register"
               className=" border border-white-1 px-3 py-2 rounded-md text-white text-center  hover:bg-[#94bbe9] hover:text-black hover:border-0 transition-colors flex items-center justify-center gap-2"
               onClick={() => setIsOpen(false)}
             >
