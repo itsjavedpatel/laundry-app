@@ -7,15 +7,26 @@ import NavBar from "./components/NavBar";
 import Login from "./pages/Login";
 import Register from "./components/Register";
 import Error from "./components/Error";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 function App() {
   return (
     <>
+      <ToastContainer
+        position="top-right"
+        autoClose={3000} // Toast auto-close time (3 seconds)
+        hideProgressBar={false} // Hide progress bar
+        closeOnClick={true} // Close on click
+        pauseOnHover={true} // Pause on hover
+        draggable={false} // Disable dragging
+        style={{ marginTop: "80px" }}
+      />
       <BrowserRouter>
         <NavBar />
         <Routes>
           <Route path="/" element={<LandingPage />} />
           <Route path="/login" element={<Login />} />
-          <Route path="/signup" element={<Register />} />
+          <Route path="/register" element={<Register />} />
           <Route path="/unidashboard" element={<Unidashboard />} />
         </Routes>
       </BrowserRouter>

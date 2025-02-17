@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Building2, Mail, MapPin, Loader2 } from "lucide-react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 function Register() {
   const navigate = useNavigate();
@@ -16,44 +17,42 @@ function Register() {
     e.preventDefault();
     console.log("formData:", formData);
 
-    // setIsSubmitting(true);
-    // Simulate API call
+    setIsSubmitting(true);
     try {
       const response = await axios.post(
         "http://localhost:3000/auth/register",
         formData,
         { headers: { "Content-Type": "application/json" } }
       );
-      alert("Registration successfull");
+      toast.success("Registration successful! 🎉");
       console.log("response", response.data);
       navigate("/login");
     } catch (error) {
       if (error.response) {
-        // The request was made, and the server responded with a status code that is not 200
-        console.error("Login failed:", error.response.data);
-        // const { status, data } = error.response;
-        // if (status === 400) {
-        //   alert("Invalid email format or missing fields.");
-        // } else if (status === 403) {
-        //   alert("Unauthorized access! Please check your role.");
-        // } else if (status === 409) {
-        //   alert("University already exists! Try logging in.");
-        // } else if (status === 500) {
-        //   alert("Server error! Please try again later.");
-        // } else {
-        //   alert(data.message || "An error occurred.");
-        // }
+        console.error("Error:", error.response.data);
+        const { status, data } = error.response;
+        if (status === 400) {
+          toast.error("Invalid email format or missing fields. ❌");
+        } else if (status === 403) {
+          toast.warn("Unauthorized access! Please check your role. 🚫");
+        } else if (status === 409) {
+          toast.info("University already exists! Try logging in. 🔄");
+        } else if (status === 500) {
+          toast.error("Server error! Please try again later. 🛑");
+        } else {
+          toast.error(data.message || "An error occurred. ⚠️");
+        }
       } else if (error.request) {
-        // The request was made, but no response was received
-        // console.error("No response from server:", error.request);
-        alert("No response from server. Check your internet connection.");
+        console.error("No response from server:", error.request);
+        toast.error(
+          "No response from server. Check your internet connection. ❌"
+        );
       } else {
-        // Something else happened
-        // console.error("Error:", error.message);
-        alert("An unexpected error occurred.");
+        console.error("Unexpected error:", error.message);
+        toast.error("An unexpected error occurred. ⚠️");
       }
     } finally {
-      setIsSubmitting(false); // ✅ Always reset loading state after API call
+      setIsSubmitting(false); // Always reset loading state after API call
     }
   };
 
@@ -100,7 +99,6 @@ function Register() {
                   onChange={handleChange}
                   className="block w-full pl-10 pr-3 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white"
                   placeholder="Enter university name"
-                  required
                 />
               </div>
             </div>

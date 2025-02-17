@@ -7,10 +7,14 @@ const bcrypt = require("bcryptjs");
 
 //login logic
 exports.login = async (req, res) => {
+  const { email, password, role } = req.body;
+
+  console.log("🟢 Data received at backend:", req.body);
+
   try {
-    const { email, password, role } = req.body;
-    // Find user in the database
     let user;
+
+    // 🔍 Find the user based on their role
     if (role === "Student") {
       user = await Student.findOne({ email });
     } else if (role === "Admin") {
@@ -22,60 +26,77 @@ exports.login = async (req, res) => {
     } else if (role === "Delivery") {
       user = await Delivery.findOne({ email });
     } else {
+      console.log("❌ Role not declared:", role);
       return res
         .status(403)
         .json({ message: "Role is not declared", data: req.body });
     }
 
+    console.log("🟢 User found in database:", user);
+
+    // 🔍 If user is not found, return 404 error
     if (!user) {
+      console.log("❌ User not found!");
       return res
         .status(404)
         .json({ message: "User not Found!", data: req.body });
     }
-    // compare password with the hasehd password in the database
-    const isMatch = await bcrypt.compare(password, user.password);
-    if (!isMatch) {
+
+    // 🛑 Check if the entered password matches the stored password (without bcrypt for now)
+    if (password !== user.password) {
+      console.log("❌ Incorrect password!");
       return res
         .status(400)
         .json({ message: "Incorrect password!", data: req.body });
     }
-    return res.status(200).json({ message: "login succesful", data: req.body });
+
+    // ✅ Login Successful
+    console.log("✅ Login successful for:", user.email);
+    return res
+      .status(200)
+      .json({ message: "Login successful", data: req.body });
   } catch (error) {
-    return res.status(500).json({
-      message: "Something went wrong!",
-    });
+    console.error("❌ Backend error:", error);
+    return res.status(500).json({ message: "Something went wrong!" });
   }
 };
 //Register logic
 exports.register = async (req, res) => {
-  console.log(req.body);
+  console.log("Incoming data :", req.body);
 
   const { universityName, email, zipCode } = req.body;
 
   try {
-    const user = await University.findOne({ email });
-    //  if university exist
-    if (user) {
-      return res.json({ message: "University already exists", data: req.body });
+    // Check if university already exists
+    const existingUniversity = await University.findOne({ email });
+    if (existingUniversity) {
+      return res.status(409).json({
+        // Conflict status (409) for already existing university
+        message: "University already exists. Try logging in.",
+      });
     }
-    // if new university
-    // 1.verify university mail using UGC Api
-    // 2.Generate password after verifying university
+
+    // If new university
+    // 1. Verify university email (you can implement this logic later with a real API)
+    // 2. Generate password for the new university
     const password = generatePassword();
-    const newUser = await University.create({
+    const newUniversity = await University.create({
       name: universityName,
       email,
-      zipCode,
+      zipcode: zipCode,
       password,
     });
-    return res.json({
-      message: "University registered Succesfully",
-      data: { email: newUser.email, password: newUser.password },
+
+    return res.status(201).json({
+      // Created status (201) when the registration is successful
+      message: "University registered successfully!",
+      data: { email: newUniversity.email, password: newUniversity.password },
     });
   } catch (error) {
     console.error("Registration error:", error);
-    return res.json({
-      message: "something went wrong!!",
+    return res.status(500).json({
+      // Internal server error (500)
+      message: "Something went wrong! Please try again later.",
     });
   }
 };
