@@ -80,6 +80,9 @@ exports.register = async (req, res) => {
     // 1. Verify university email (you can implement this logic later with a real API)
     // 2. Generate password for the new university
     const password = generatePassword();
+    // const hashedPassword = await bcrypt.hash(password, 10);
+    // console.log("hashed password", hashedPassword);
+
     const newUniversity = await University.create({
       name: universityName,
       email,
