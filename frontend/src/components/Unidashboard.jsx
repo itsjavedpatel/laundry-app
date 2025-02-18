@@ -7,9 +7,10 @@ import { UniversityNavbar } from "./UniversityNavbar";
 
 function Unidashboard() {
   const universityData = {
-    name: "Delhi Technical University",
-    email: "admin@dtu.edu.in",
+    name: "NIMS University",
+    email: "admin@nimsuniversity.edu.in",
     ugcCode: "UGC-123456",
+    address: "NIMS University, Rajasthan India",
     status: "Active",
     validUpto: "2025-12-31",
     totalStudents: 15000,
@@ -22,7 +23,7 @@ function Unidashboard() {
       <UniversityNavbar />
       <main className="p-6 lg:p-8 pt-24">
         {/* Welcome Section */}
-        <div className="mb-8 text-center">
+        <div className="mb-8 mt-14 text-center">
           <h1 className="text-3xl font-bold text-gray-900">
             Welcome to {universityData.name}
           </h1>
@@ -33,14 +34,15 @@ function Unidashboard() {
 
         {/* University Profile Section */}
         <div className="bg-white rounded-xl shadow-sm p-6 mb-8 max-w-3xl mx-auto">
-          <div className="flex flex-col items-center text-center">
-            <div className="w-32 h-32 rounded-lg bg-blue-100 flex items-center justify-center mb-6">
-              <School className="w-16 h-16 text-blue-600" />
-            </div>
-            <div className="w-full">
-              <h2 className="text-2xl font-semibold text-gray-900 mb-6">
+          <div className="flex items-center text-center">
+            <div className="w-40  h-40 rounded-lg  flex flex-col items-center justify-center mb-3 gap-4">
+              <img className=" w-40 h-52 bg-blue-600" />
+              <h2 className="text-xl font-semibold text-gray-900">
                 {universityData.name}
               </h2>
+            </div>
+            <div className="w-full">
+             
               <div className="grid gap-4 max-w-md mx-auto">
                 <div className="flex justify-between items-center py-2 border-b border-gray-100">
                   <span className="text-gray-600">Email:</span>
@@ -52,6 +54,12 @@ function Unidashboard() {
                   <span className="text-gray-600">UGC Code:</span>
                   <span className="text-gray-900 font-medium">
                     {universityData.ugcCode}
+                  </span>
+                </div>
+                <div className="flex justify-between items-center py-2 border-b border-gray-100">
+                  <span className="text-gray-600">Address:</span>
+                  <span className="text-gray-900 font-medium">
+                    {universityData.address}
                   </span>
                 </div>
                 <div className="flex justify-between items-center py-2 border-b border-gray-100">
@@ -72,7 +80,7 @@ function Unidashboard() {
         </div>
 
         {/* Stats Section */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8 mx-8">
           <StatCard
             title="Total Students"
             value={universityData.totalStudents}

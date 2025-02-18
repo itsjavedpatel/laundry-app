@@ -33,6 +33,32 @@ export function UniversityNavbar() {
               <HelpCircle className="w-4 h-4" />
               <span className="hidden md:inline">Help & Support</span>
             </a>
+            <div className="relative group">
+              <button className="flex items-center gap-4 p-2 text-gray-600 hover:text-gray-900">
+                <div className="w-8 h-8 rounded-full  flex items-center justify-center">
+                  Services
+                </div>
+                <ChevronDown className="w-4 h-4" />
+              </button>
+              <div className="absolute right-0 w-48 mt-2 bg-white rounded-md shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 ease-in-out">
+                <div className="py-1">
+                  <a
+                    href="#"
+                    className="flex items-center gap-2 px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                  >
+                    {/* <User className="w-4 h-4" /> */}
+                    <span>Student</span>
+                  </a>
+                  <a
+                    href="#"
+                    className="flex items-center gap-2 px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                  >
+                    {/* <Settings className="w-4 h-4" /> */}
+                    <span>Laundry & Delivery</span>
+                  </a>
+                </div>
+              </div>
+            </div>
 
             {/* Notifications */}
             <button className="p-2 text-gray-600 hover:text-gray-900">

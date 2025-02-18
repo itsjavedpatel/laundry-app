@@ -91,12 +91,12 @@ export function PieChart({ data }) {
         </svg>
 
         {/* Animated ring effect */}
-        <div
+        {/* <div
           className="absolute inset-0 rounded-full animate-pulse opacity-5 bg-blue-200"
           style={{
             animation: "pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite",
           }}
-        ></div>
+        ></div> */}
       </div>
 
       {/* Enhanced Legend */}
@@ -107,7 +107,7 @@ export function PieChart({ data }) {
             Active ({data.activeStudents.toLocaleString()})
           </span>
         </div>
-        <div className="flex items-center gap-3 bg-white px-4 py-2 rounded-full shadow-sm">
+        <div className="flex items-center gap-3  bg-white px-4 py-2 rounded-full shadow-sm">
           <div className="w-3 h-3 rounded-full bg-gray-200"></div>
           <span className="text-gray-700 font-medium">
             Inactive ({data.inactiveStudents.toLocaleString()})
