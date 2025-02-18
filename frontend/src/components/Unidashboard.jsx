@@ -3,6 +3,7 @@ import { School, Users } from "lucide-react";
 import { PieChart } from "./PieChart";
 import { StatCard } from "./StatCard";
 import { UniversityNavbar } from "./UniversityNavbar";
+import profileimage from "../assets/images/pfp.jpg";
 
 function Unidashboard() {
   const universityData = {
@@ -32,11 +33,15 @@ function Unidashboard() {
         </div>
 
         {/* University Profile Section */}
-        <div className="bg-white rounded-xl shadow-sm p-4 sm:p-6 mb-6 max-w-3xl mx-auto">
-          <div className="flex flex-col sm:flex-row items-center text-center sm:text-left">
-            <div className="w-32 h-32 sm:w-40 sm:h-40 rounded-lg flex flex-col items-center justify-center mb-4 sm:mb-0">
-              <img className="w-full h-full object-cover bg-blue-600 rounded-lg" alt="University Logo" />
-              <h2 className="text-lg sm:text-xl font-semibold text-gray-900 mt-2">
+        <div className="bg-white  rounded-xl shadow-sm p-4 sm:p-6 mb-6 max-w-3xl mx-auto">
+          <div className="flex flex-col sm:flex-row gap-6 items-center  justify-between text-center sm:text-left">
+            <div className="pl-3 sm:w-40 sm:h-40 rounded-lg flex flex-col items-center justify-center gap-2 mb-9 sm:mb-0">
+              <img
+                className=" border aspect-auto object-cover bg-blue-600 rounded-lg"
+                src={profileimage}
+                alt="University Logo"
+              />
+              <h2 className="text-xl text-center sm:text-xl font-semibold text-gray-900 mt-2">
                 {universityData.name}
               </h2>
             </div>
@@ -46,14 +51,20 @@ function Unidashboard() {
                   { label: "Email", value: universityData.email },
                   { label: "UGC Code", value: universityData.ugcCode },
                   { label: "Address", value: universityData.address },
-                  { label: "Status", value: universityData.status, isBadge: true },
+                  {
+                    label: "Status",
+                    value: universityData.status,
+                    isBadge: true,
+                  },
                   { label: "Valid Upto", value: universityData.validUpto },
                 ].map((item, index) => (
                   <div
                     key={index}
                     className="flex justify-between items-center py-2 border-b border-gray-100"
                   >
-                    <span className="text-gray-600 text-sm sm:text-base">{item.label}:</span>
+                    <span className="text-gray-600 text-sm sm:text-base">
+                      {item.label}:
+                    </span>
                     {item.isBadge ? (
                       <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
                         {item.value}
