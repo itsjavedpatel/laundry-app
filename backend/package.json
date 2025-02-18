@@ -4,8 +4,13 @@
   "description": "",
   "main": "server.js",
   "scripts": {
+<<<<<<< HEAD
+    "start": "node server.js",
+    "dev": "nodemon server.js"
+=======
     "server": "nodemon server.js",
     "start": "node server.js"
+>>>>>>> 12d9657f6bc1b138632f41c8e58bda297742f4bf
   },
   "keywords": [],
   "author": "",
