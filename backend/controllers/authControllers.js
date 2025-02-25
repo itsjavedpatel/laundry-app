@@ -1,11 +1,12 @@
+const mongoose = require("mongoose");
 const University = require("../models/University");
 const Student = require("../models/Student");
 const Laundry = require("../models/Laundry");
 const Delivery = require("../models/Delivery");
 const Admin = require("../models/Admin");
 const bcrypt = require("bcryptjs");
-
 //login logic
+
 exports.login = async (req, res) => {
   const { email, password, role } = req.body;
 
@@ -68,6 +69,15 @@ exports.register = async (req, res) => {
 
   try {
     // Check if university already exists
+    const db = mongoose.connection.db;
+
+    const uniInfo = db.collection("uniInfo");
+    // const updateData = await uniInfo.updateMany({}, [
+    //   { $set: { uni_name: { $toLower: "$uni_name" } } },
+    // ]);
+
+    console.log(checkData);
+
     const existingUniversity = await University.findOne({ email });
     if (existingUniversity) {
       return res.status(409).json({
@@ -77,8 +87,22 @@ exports.register = async (req, res) => {
     }
 
     // If new university
-    // 1. Verify university email (you can implement this logic later with a real API)
-    // 2. Generate password for the new university
+    // 1. Verify university email by using domain name in our uniInfo collection
+    const domain = email.split("@")[1];
+
+    const university = await uniInfo.findOne({
+      domain,
+      zip: zipCode,
+    });
+    if (!university) {
+      return res.status(400).json({
+        // Bad request status (400) for invalid email
+        message: "Invalid university email or zipcode",
+      });
+    }
+    // 2. Verify university email by using otp verification
+
+    // 3. If otp verification is successful Generate password for the new university and hash it
     const password = generatePassword();
     // const hashedPassword = await bcrypt.hash(password, 10);
     // console.log("hashed password", hashedPassword);
@@ -89,6 +113,7 @@ exports.register = async (req, res) => {
       zipcode: zipCode,
       password,
     });
+    // 4. Send the password to the university email
 
     return res.status(201).json({
       // Created status (201) when the registration is successful
