@@ -8,10 +8,11 @@ import NavBar from "./NavBar";
 function Register() {
   const navigate = useNavigate();
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [openOtpButton, setOpenOtpButton] = useState(false);
   const [formData, setFormData] = useState({
-    universityName: "",
     email: "",
-    zipCode: "",
+    universityName: "",
+    otp: "",
   });
 
   const handleSubmit = async (e) => {
@@ -25,9 +26,10 @@ function Register() {
         formData,
         { headers: { "Content-Type": "application/json" } }
       );
-      toast.success("Registration successful! 🎉");
+      toast.success("OTP sent successfuly! 🎉");
       console.log("response", response.data);
-      navigate("/login");
+      setOpenOtpButton(true);
+      // navigate("/login");
     } catch (error) {
       if (error.response) {
         console.error("Error:", error.response.data);
@@ -40,8 +42,10 @@ function Register() {
           toast.info("University already exists! Try logging in. 🔄");
         } else if (status === 500) {
           toast.error("Server error! Please try again later. 🛑");
+        } else if (status === 402) {
+          toast.error("Invalid domain⚠️");
         } else {
-          toast.error(data.message || "An error occurred. ⚠️");
+          toast.error("An unexpected error occurred. ⚠️");
         }
       } else if (error.request) {
         console.error("No response from server:", error.request);
@@ -132,7 +136,7 @@ function Register() {
               </div>
 
               {/* Zip Code Input */}
-              <div>
+              {/* <div>
                 <label
                   htmlFor="zipCode"
                   className="block text-sm font-medium text-gray-700 mb-2"
@@ -154,7 +158,7 @@ function Register() {
                     required
                   />
                 </div>
-              </div>
+              </div> */}
 
               {/* Submit Button */}
               <button
@@ -168,7 +172,7 @@ function Register() {
                     Processing...
                   </>
                 ) : (
-                  "Request a Service"
+                  "Generate OTP"
                 )}
               </button>
 
