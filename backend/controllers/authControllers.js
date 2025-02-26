@@ -6,8 +6,13 @@ const Delivery = require("../models/Delivery");
 const Admin = require("../models/Admin");
 const sendOTP = require("../utils/Mailer");
 const sendPassword = require("../utils/Mailer");
-const bcrypt = require("bcrypt");
-const uniInfo = require("../models/uniInfo");
+const bcrypt = require("bcryptjs");
+
+const testUniversity = {
+  email: "jp754546@gmail.com",
+  name: "test_university",
+  domain: "gmail.com",
+};
 const otpModel = require("../models/OTP");
 //login logic
 
@@ -75,11 +80,6 @@ exports.register = async (req, res) => {
     const db = mongoose.connection.db;
 
     const uniInfo = db.collection("uniInfo");
-    // const updateData = await uniInfo.updateMany({}, [
-    //   { $set: { uni_name: { $toLower: "$uni_name" } } },
-    // ]);
-
-    // console.log(checkData);
 
     // Check if university already exists
     const existingUniversity = await University.findOne({ email });
@@ -92,6 +92,25 @@ exports.register = async (req, res) => {
 
     // If new university
     // 1. Verify university email by using domain name in our uniInfo collection
+    if (email === testUniversity.email) {
+      const otp = Math.floor(100000 + Math.random() * 900000).toString();
+      const newOtp = await otpModel.create({
+        email,
+        otp,
+      });
+      console.log("OTP:", otp);
+      const isSend = await sendOTP(email, otp);
+      if (!isSend) {
+        return res.status(406).json({
+          // Internal server error (500)
+          message: "otp not send try again later.",
+        });
+      }
+      return res.status(201).json({
+        // Created status (201) when the registration is successful
+        message: "Otp Sent successfullly!",
+      });
+    }
     const domain = email.split("@")[1];
 
     const university = await uniInfo.findOne({
@@ -111,18 +130,6 @@ exports.register = async (req, res) => {
     });
     console.log("OTP:", otp);
     await sendOTP(email, otp);
-    // 3. If otp verification is successful Generate password for the new university and hash it
-    // const password = generatePassword();
-    // const hashedPassword = await bcrypt.hash(password, 10);
-    // console.log("hashed password", hashedPassword);
-
-    // const newUniversity = await University.create({
-    //   email,
-    //   name: universityName,
-    //   password,
-    // });
-    // 4. Send the password to the university email
-
     return res.status(201).json({
       // Created status (201) when the registration is successful
       message: "Otp Sent successfullly!",

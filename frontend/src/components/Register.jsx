@@ -8,14 +8,14 @@ import NavBar from "./NavBar";
 function Register() {
   const navigate = useNavigate();
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [openOtpButton, setOpenOtpButton] = useState(false);
+  const [isOtpSend, setIsOtpSend] = useState(false);
   const [formData, setFormData] = useState({
     email: "",
     universityName: "",
     otp: "",
   });
 
-  const handleSubmit = async (e) => {
+  const handleGenerateOtp = async (e) => {
     e.preventDefault();
     console.log("formData:", formData);
 
@@ -28,7 +28,7 @@ function Register() {
       );
       toast.success("OTP sent successfuly! 🎉");
       console.log("response", response.data);
-      setOpenOtpButton(true);
+      setIsOtpSend(true);
       // navigate("/login");
     } catch (error) {
       if (error.response) {
@@ -44,6 +44,8 @@ function Register() {
           toast.error("Server error! Please try again later. 🛑");
         } else if (status === 402) {
           toast.error("Invalid domain⚠️");
+        } else if (status === 406) {
+          toast.error("OTP not sent. Try again later. ⚠️");
         } else {
           toast.error("An unexpected error occurred. ⚠️");
         }
@@ -60,7 +62,7 @@ function Register() {
       setIsSubmitting(false); // Always reset loading state after API call
     }
   };
-
+  const handleVerifyOtp = async (e) => {};
   const handleChange = (e) => {
     setFormData({
       ...formData,
@@ -85,7 +87,7 @@ function Register() {
 
           {/* Form Section */}
           <div className="bg-white rounded-xl shadow-lg p-8">
-            <form onSubmit={handleSubmit} className="space-y-6">
+            <form className="space-y-6">
               {/* University Name Input */}
               <div>
                 <label
@@ -134,35 +136,10 @@ function Register() {
                   />
                 </div>
               </div>
-
-              {/* Zip Code Input */}
-              {/* <div>
-                <label
-                  htmlFor="zipCode"
-                  className="block text-sm font-medium text-gray-700 mb-2"
-                >
-                  Zip Code
-                </label>
-                <div className="relative">
-                  <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                    <MapPin className="h-5 w-5 text-gray-400" />
-                  </div>
-                  <input
-                    type="text"
-                    id="zipCode"
-                    name="zipCode"
-                    value={formData.zipCode}
-                    onChange={handleChange}
-                    className="block w-full pl-10 pr-3 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white"
-                    placeholder="Enter zip code"
-                    required
-                  />
-                </div>
-              </div> */}
-
               {/* Submit Button */}
               <button
-                type="submit"
+                type="button"
+                onClick={handleGenerateOtp}
                 disabled={isSubmitting}
                 className="w-full bg-blue-600 text-white py-3 px-4 rounded-lg font-medium hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors disabled:opacity-70 flex items-center justify-center"
               >
@@ -175,7 +152,49 @@ function Register() {
                   "Generate OTP"
                 )}
               </button>
-
+              {/* OTP Input */}
+              {isOtpSend && (
+                <div>
+                  <label
+                    htmlFor="otp"
+                    className="block text-sm font-medium text-gray-700 mb-2"
+                  >
+                    Enter OTP
+                  </label>
+                  <div className="relative">
+                    <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                      <Mail className="h-5 w-5 text-gray-400" />
+                    </div>
+                    <input
+                      type="text"
+                      id="otp"
+                      name="otp"
+                      value={formData.otp}
+                      onChange={handleChange}
+                      className="block w-full pl-10 pr-3 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white"
+                      placeholder="Enter OTP"
+                      required
+                    />
+                  </div>
+                </div>
+              )}
+              {isOtpSend && (
+                <button
+                  type="button"
+                  onClick={handleVerifyOtp}
+                  disabled={isSubmitting}
+                  className="w-full bg-blue-600 text-white py-3 px-4 rounded-lg font-medium hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors disabled:opacity-70 flex items-center justify-center"
+                >
+                  {isSubmitting ? (
+                    <>
+                      <Loader2 className="animate-spin -ml-1 mr-2 h-5 w-5" />
+                      Processing...
+                    </>
+                  ) : (
+                    "Verify OTP"
+                  )}
+                </button>
+              )}
               {/* Note */}
               <p className="text-sm text-gray-600 text-center mt-4">
                 Our team will verify your university and get in touch shortly.
