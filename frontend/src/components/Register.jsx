@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Building2, Mail, MapPin, Loader2 } from "lucide-react";
+import { Building2, Mail, MapPin, Loader2, Shield } from "lucide-react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
@@ -163,7 +163,7 @@ function Register() {
                   </label>
                   <div className="relative">
                     <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                      <Mail className="h-5 w-5 text-gray-400" />
+                      <Shield className="h-5 w-5" />
                     </div>
                     <input
                       type="text"
@@ -183,7 +183,7 @@ function Register() {
                   type="button"
                   onClick={handleVerifyOtp}
                   disabled={isSubmitting}
-                  className="w-full bg-blue-600 text-white py-3 px-4 rounded-lg font-medium hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors disabled:opacity-70 flex items-center justify-center"
+                  className="w-full bg-green-600 text-white py-3 px-4 rounded-lg font-medium hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 transition-colors disabled:opacity-70 flex items-center justify-center"
                 >
                   {isSubmitting ? (
                     <>
