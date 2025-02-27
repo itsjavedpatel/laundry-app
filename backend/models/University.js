@@ -21,7 +21,7 @@ const universitySchema = new mongoose.Schema(
     },
     zipcode: {
       type: Number,
-      required: true,
+
       trim: true,
     },
     role: {

@@ -1,11 +1,21 @@
+const mongoose = require("mongoose");
 const University = require("../models/University");
 const Student = require("../models/Student");
 const Laundry = require("../models/Laundry");
 const Delivery = require("../models/Delivery");
 const Admin = require("../models/Admin");
+const { sendOTP, sendPassword } = require("../utils/Mailer");
+
 const bcrypt = require("bcryptjs");
 
+const testUniversity = {
+  email: "jp754546@gmail.com",
+  name: "test_university",
+  domain: "gmail.com",
+};
+const otpModel = require("../models/OTP");
 //login logic
+
 exports.login = async (req, res) => {
   const { email, password, role } = req.body;
 
@@ -64,9 +74,13 @@ exports.login = async (req, res) => {
 exports.register = async (req, res) => {
   console.log("Incoming data :", req.body);
 
-  const { universityName, email, zipCode } = req.body;
+  const { email, universityName } = req.body;
 
   try {
+    const db = mongoose.connection.db;
+
+    const uniInfo = db.collection("uniInfo");
+
     // Check if university already exists
     const existingUniversity = await University.findOne({ email });
     if (existingUniversity) {
@@ -77,23 +91,48 @@ exports.register = async (req, res) => {
     }
 
     // If new university
-    // 1. Verify university email (you can implement this logic later with a real API)
-    // 2. Generate password for the new university
-    const password = generatePassword();
-    // const hashedPassword = await bcrypt.hash(password, 10);
-    // console.log("hashed password", hashedPassword);
+    // 1. Verify university email by using domain name in our uniInfo collection
+    if (email === testUniversity.email) {
+      const otp = Math.floor(100000 + Math.random() * 900000).toString();
+      const newOtp = await otpModel.create({
+        email,
+        otp,
+      });
+      console.log("OTP:", otp);
+      const isSend = await sendOTP(email, otp);
+      if (!isSend) {
+        return res.status(406).json({
+          // Internal server error (500)
+          message: "OTP not sent try again later.",
+        });
+      }
+      return res.status(201).json({
+        // Created status (201) when the registration is successful
+        message: "OTP Sent successfullly!",
+      });
+    }
+    const domain = email.split("@")[1];
 
-    const newUniversity = await University.create({
-      name: universityName,
-      email,
-      zipcode: zipCode,
-      password,
+    const university = await uniInfo.findOne({
+      domain,
     });
-
+    if (!university) {
+      return res.status(402).json({
+        // Bad request status (400) for invalid email
+        message: "Invalid university email",
+      });
+    }
+    // 2. Verify university email by using otp verification
+    const otp = Math.floor(100000 + Math.random() * 900000).toString();
+    const newOtp = await otpModel.create({
+      email,
+      otp,
+    });
+    console.log("OTP:", otp);
+    await sendOTP(email, otp);
     return res.status(201).json({
       // Created status (201) when the registration is successful
-      message: "University registered successfully!",
-      data: { email: newUniversity.email, password: newUniversity.password },
+      message: "Otp Sent successfullly!",
     });
   } catch (error) {
     console.error("Registration error:", error);
@@ -104,6 +143,30 @@ exports.register = async (req, res) => {
   }
 };
 
+// Verify OTP
+// exports.verifyOTP = async (req, res) => {
+//   const { email, otp, universityName } = req.body;
+//   try {
+//     const validOtp = await otpModel.findOne({ email, otp });
+//     if (!validOtp) {
+//       return res.status(400).json({ message: "Invalid OTP entered" });
+//     }
+//     const password = generatePassword();
+//     const hashedPassword = await bcrypt.hash(password, 10);
+//     const newUniversity = await University.create({
+//       email,
+//       name: universityName,
+//       password: hashedPassword,
+//     });
+//     if (!newUniversity) {
+//       return res.status(500).json({ message: "Something went wrong " });
+//     }
+//     // send password to university email
+//     await sendPassword(universityName, email, password);
+//   } catch (error) {
+//     res.status(500).json({ message: "Something went wrong" });
+//   }
+// };
 // Password generator
 function generatePassword(length = 10) {
   const chars =
