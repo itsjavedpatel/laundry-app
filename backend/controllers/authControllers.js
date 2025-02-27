@@ -19,7 +19,7 @@ const testUniversity1 = {
   domain: "gmail.com",
 };
 const otpModel = require("../models/OTP");
-//login logic
+//!login logic
 
 exports.login = async (req, res) => {
   const { email, password, role } = req.body;
@@ -58,7 +58,8 @@ exports.login = async (req, res) => {
     }
 
     // 🛑 Check if the entered password matches the stored password (without bcrypt for now)
-    if (password !== user.password) {
+    const isMatch = await bcrypt.compare(password, user.password);
+    if (!password) {
       console.log("❌ Incorrect password!");
       return res
         .status(400)
@@ -75,8 +76,10 @@ exports.login = async (req, res) => {
     return res.status(500).json({ message: "Something went wrong!" });
   }
 };
-//Register logic
-exports.register = async (req, res) => {
+
+//!Register logic
+// Send OTP
+exports.sendOtp = async (req, res) => {
   console.log("Incoming data :", req.body);
 
   const { email, universityName } = req.body;
@@ -91,7 +94,7 @@ exports.register = async (req, res) => {
     if (existingUniversity) {
       return res.status(409).json({
         // Conflict status (409) for already existing university
-        message: "University already exists. Try logging in.",
+        message: "University already exists! Try logging in. 🔄",
       });
     }
 
@@ -107,13 +110,13 @@ exports.register = async (req, res) => {
       const isSend = await sendOTP(email, otp);
       if (!isSend) {
         return res.status(406).json({
-          // Internal server error (500)
-          message: "OTP not sent try again later.",
+          // Not acceptable status (406) for failed OTP sending
+          message: "OTP not sent. Try again later ⚠️",
         });
       }
       return res.status(201).json({
         // Created status (201) when the registration is successful
-        message: "OTP Sent successfullly!",
+        message: "OTP Sent successfullly! 🎉",
       });
     }
     const domain = email.split("@")[1];
@@ -122,9 +125,9 @@ exports.register = async (req, res) => {
       domain,
     });
     if (!university) {
-      return res.status(402).json({
-        // Bad request status (400) for invalid email
-        message: "Invalid university email",
+      return res.status(405).json({
+        // Method not allowed status (405) for invalid domain
+        message: "Invalid University Email ⚠️",
       });
     }
     // 2. Verify university email by using otp verification
@@ -137,41 +140,49 @@ exports.register = async (req, res) => {
     await sendOTP(email, otp);
     return res.status(201).json({
       // Created status (201) when the registration is successful
-      message: "Otp Sent successfullly!",
+      message: "Otp Sent successfullly! 🎉",
     });
   } catch (error) {
     console.error("Registration error:", error);
     return res.status(500).json({
       // Internal server error (500)
-      message: "Something went wrong! Please try again later.",
+      message: "Something went wrong! Please try again later 🛑",
     });
   }
 };
 
 // Verify OTP
-// exports.verifyOTP = async (req, res) => {
-//   const { email, otp, universityName } = req.body;
-//   try {
-//     const validOtp = await otpModel.findOne({ email, otp });
-//     if (!validOtp) {
-//       return res.status(400).json({ message: "Invalid OTP entered" });
-//     }
-//     const password = generatePassword();
-//     const hashedPassword = await bcrypt.hash(password, 10);
-//     const newUniversity = await University.create({
-//       email,
-//       name: universityName,
-//       password: hashedPassword,
-//     });
-//     if (!newUniversity) {
-//       return res.status(500).json({ message: "Something went wrong " });
-//     }
-//     // send password to university email
-//     await sendPassword(universityName, email, password);
-//   } catch (error) {
-//     res.status(500).json({ message: "Something went wrong" });
-//   }
-// };
+exports.verifyOTP = async (req, res) => {
+  console.log("Incoming data in verify route :", req.body);
+  const { email, otp, universityName } = req.body;
+  try {
+    const validOtp = await otpModel.findOne({ email, otp });
+    console.log(validOtp);
+
+    if (!validOtp) {
+      // status 400 for bad request
+      return res.status(400).json({ message: "Incorrect OTP entered ❌" });
+    }
+
+    const password = generatePassword();
+    console.log(password);
+
+    const hashedPassword = await bcrypt.hash(password, 10);
+    const newUniversity = await University.create({
+      email,
+      name: universityName,
+      password: hashedPassword,
+    });
+    if (!newUniversity) {
+      return res.status(500).json({ message: "Something Went Wrong ❌" });
+    }
+    // send password to university email
+    await sendPassword(universityName, email, password);
+    res.status(201).json({ message: "University registered successfully 🎉" });
+  } catch (error) {
+    res.status(500).json({ message: "Something went wrong ❌" });
+  }
+};
 // Password generator
 function generatePassword(length = 10) {
   const chars =

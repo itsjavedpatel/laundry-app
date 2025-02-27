@@ -24,25 +24,23 @@ const sendOTP = async (email, otp) => {
   }
 };
 const sendPassword = async (name, email, password) => {
+  console.log("Sending password to:", email);
+
   try {
     const mailOptions = {
       from: process.env.EMAIL,
       to: email,
       subject: "Password for E-DHOबी",
-      text: `Welcome to E-DHOबी  🎉
-      
-    Dear ${name},
-
-    Your account has been successfully registered! Below are your login credentials:
-
-    ✉️ Email: ${email}
-    🔑 Password: ${password}
-
-    Please change your password after logging in for security purposes.
-
-    Regards,  
-    E-DHOबी Team
-  `,
+      text: `
+      Welcome to E-DHOबी 🎉
+      Dear ${name},
+      Your account has been successfully registered!
+      Below are your login credentials:
+      ✉️ Email: ${email}
+      🔑 Password: ${password}
+      Please change your password after logging in for security purposes.
+      Regards,  
+      E-DHOबी Team`,
     };
     await transporter.sendMail(mailOptions);
     console.log("Password sent successfully");

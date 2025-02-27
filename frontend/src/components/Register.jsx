@@ -22,30 +22,19 @@ function Register() {
     setIsSubmitting(true);
     try {
       const response = await axios.post(
-        "http://localhost:3000/auth/register",
+        "http://localhost:3000/auth/register/send-otp",
         formData,
         { headers: { "Content-Type": "application/json" } }
       );
       toast.success("OTP sent successfuly! 🎉");
       console.log("response", response.data);
       setIsOtpSend(true);
-      // navigate("/login");
     } catch (error) {
       if (error.response) {
         console.error("Error:", error.response.data);
         const { status, data } = error.response;
-        if (status === 400) {
-          toast.error("Invalid email format or missing fields. ❌");
-        } else if (status === 403) {
-          toast.warn("Unauthorized access! Please check your role. 🚫");
-        } else if (status === 409) {
-          toast.info("University already exists! Try logging in. 🔄");
-        } else if (status === 500) {
-          toast.error("Server error! Please try again later. 🛑");
-        } else if (status === 402) {
-          toast.error("Invalid domain⚠️");
-        } else if (status === 406) {
-          toast.error("OTP not sent. Try again later. ⚠️");
+        if (status) {
+          toast.error(data.message);
         } else {
           toast.error("An unexpected error occurred. ⚠️");
         }
@@ -62,7 +51,31 @@ function Register() {
       setIsSubmitting(false); // Always reset loading state after API call
     }
   };
-  const handleVerifyOtp = async (e) => {};
+  const handleVerifyOtp = async () => {
+    console.log("formData in verify otp:", formData);
+    try {
+      const response = await axios.post(
+        "http://localhost:3000/auth/register/verify-otp",
+        formData,
+        { headers: { "Content-Type": "application/json" } }
+      );
+
+      toast.success("OTP verified successfully! 🎉");
+      navigate("/login");
+    } catch (error) {
+      if (error.response) {
+        const { status, data } = error.response;
+        if (status) toast.error(data.message);
+        else toast.error("An unexpected error occurred. ⚠️");
+      } else if (error.request) {
+        toast.error(
+          "No response from server. Check your internet connection. ❌"
+        );
+      } else {
+        toast.error("An unexpected error occurred. ⚠️");
+      }
+    }
+  };
   const handleChange = (e) => {
     setFormData({
       ...formData,
