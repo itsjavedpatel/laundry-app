@@ -14,7 +14,7 @@ const sendOTP = async (email, otp) => {
       from: process.env.EMAIL,
       to: email,
       subject: "OTP for verification",
-      text: `Your OTP is ${otp} .Valid for 5 minutes`,
+      text: `Your OTP is ${otp} Valid for 5 minutes`,
     };
     await transporter.sendMail(mailOptions);
     console.log("OTP sent successfully");
