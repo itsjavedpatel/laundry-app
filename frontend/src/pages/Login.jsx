@@ -48,7 +48,7 @@ const Login = () => {
 
         // 🎯 Handle specific HTTP error codes
         if (error.response.status === 400) {
-          toast.error("❌ Invalid password. Please try again.");
+          toast.error(error.response.data.message);
         } else if (error.response.status === 403) {
           toast.warn("🚫 Unauthorized access! Please check your role.");
         } else if (error.response.status === 404) {

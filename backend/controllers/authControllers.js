@@ -3,9 +3,10 @@ const University = require("../models/University");
 const Student = require("../models/Student");
 const Laundry = require("../models/Laundry");
 const Delivery = require("../models/Delivery");
+const jwt = require("jsonwebtoken");
 const Admin = require("../models/Admin");
 const { sendOTP, sendPassword } = require("../utils/Mailer");
-
+const blackListTokenModel = require("../models/BlacklistedToken");
 const bcrypt = require("bcryptjs");
 
 const testUniversity = {
@@ -31,15 +32,15 @@ exports.login = async (req, res) => {
 
     // 🔍 Find the user based on their role
     if (role === "Student") {
-      user = await Student.findOne({ email });
+      user = await Student.findOne({ email }).select("+password");
     } else if (role === "Admin") {
-      user = await Admin.findOne({ email });
+      user = await Admin.findOne({ email }).select("+password");
     } else if (role === "University") {
-      user = await University.findOne({ email });
+      user = await University.findOne({ email }).select("+password");
     } else if (role === "Laundry") {
-      user = await Laundry.findOne({ email });
+      user = await Laundry.findOne({ email }).select("+password");
     } else if (role === "Delivery") {
-      user = await Delivery.findOne({ email });
+      user = await Delivery.findOne({ email }).select("+password");
     } else {
       console.log("❌ Role not declared:", role);
       return res
@@ -59,15 +60,21 @@ exports.login = async (req, res) => {
 
     // 🛑 Check if the entered password matches the stored password (without bcrypt for now)
     const isMatch = await bcrypt.compare(password, user.password);
-    if (!password) {
+    if (!isMatch) {
       console.log("❌ Incorrect password!");
       return res
         .status(400)
-        .json({ message: "Incorrect password!", data: req.body });
+        .json({ message: "Invalid email or password!", data: req.body });
     }
 
     // ✅ Login Successful
     console.log("✅ Login successful for:", user.email);
+    // Generate token
+    const token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET, {
+      expiresIn: "24h",
+    });
+    res.cookie("token", token);
+    console.log(token);
     return res
       .status(200)
       .json({ message: "Login successful", data: req.body });
@@ -183,6 +190,20 @@ exports.verifyOTP = async (req, res) => {
     res.status(500).json({ message: "Something went wrong ❌" });
   }
 };
+
+//! Logout user
+exports.logout = async (req, res, next) => {
+  res.clearCookie("token");
+  const token = req.cookies.token || req.headers.authorization?.split(" ")[1];
+  await blackListTokenModel.create({ token });
+  res.status(200).json({ message: "Logged out successfully" });
+};
+
+//! get profile
+exports.getUserProfile = async (req, res, next) => {
+  res.status(201).json({ message: "User profile", data: req.user });
+};
+
 // Password generator
 function generatePassword(length = 10) {
   const chars =

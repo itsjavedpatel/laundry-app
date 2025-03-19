@@ -3,23 +3,22 @@ dotenv.config();
 const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
+const cookieParser = require("cookie-parser");
 const authRouter = require("./routes/authRoutes");
 const app = express();
+
 // Allow frontend request
 app.use(cors());
 // parse JSON requests
 app.use(express.json());
-
+// using cookie parser middleware
+app.use(cookieParser());
 // create PORT
 app.get("/", (req, res) => {
   res.send("Hello");
 });
 const PORT = process.env.PORT || 3000;
-// getting sign in form data
-// app.post("/api/form", (req, res) => {
-//   console.log("Received Form Data:", req.body);
-//   res.json({ message: "Form submitted successfully!", data: req.body });
-// });
+
 //? middleware:passing form data
 app.use(express.urlencoded({ extended: true }));
 mongoose

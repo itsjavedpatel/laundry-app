@@ -14,6 +14,7 @@ const universitySchema = new mongoose.Schema(
     },
     password: {
       type: String,
+      select: true,
       // required: true,
     },
     address: {
