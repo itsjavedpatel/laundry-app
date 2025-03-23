@@ -8,6 +8,7 @@ import Register from "./components/Register";
 import Error from "./components/Error";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import UniStudents from "./components/UniStudents";
 function App() {
   return (
     <>
@@ -26,6 +27,7 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/unidashboard" element={<Unidashboard />} />
+          <Route path="/students" element={<UniStudents />} />
         </Routes>
       </BrowserRouter>
     </>

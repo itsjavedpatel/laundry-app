@@ -19,8 +19,9 @@ const studentSchema = new mongoose.Schema(
       type: String,
     },
 
-    contact: {
+    mobile: {
       type: String,
+      required: true,
     },
     studentId: {
       type: String,
