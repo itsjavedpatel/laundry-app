@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
+
 import {
   Bell,
   ChevronDown,
@@ -40,10 +41,12 @@ export function UniversityNavbar() {
             </button>
             <div className="absolute right-0 w-48 mt-2 bg-white rounded-md shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 ease-in-out">
               <div className="py-1">
-                <Link to="/students" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                <Link
+                  to="/students"
+                  className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                 >
                   Student
-                  </Link>
+                </Link>
                 <a
                   href="#"
                   className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
@@ -67,31 +70,30 @@ export function UniversityNavbar() {
             </button>
             <div className="absolute right-0 w-48 mt-2 bg-white rounded-md shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 ease-in-out">
               <div className="py-1">
-                <a
-                  href="#"
+                <Link
+                  to="/uni-edit-profile"
                   className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                 >
                   Edit Profile
-                </a>
-                <a
-                  href="#"
+                </Link>
+                <Link
+                  to="/uni-privacy"
                   className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                 >
                   Privacy & Security
-                </a>
-                <a
-                  href="#"
+                </Link>
+                <Link
+                  to="/subscription-plan"
                   className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                 >
                   Payment & Subscription
-                </a>
+                </Link>
                 <hr className="my-1" />
                 <a
                   href="#"
                   className="block px-4 py-2 text-sm text-red-600 hover:bg-gray-100"
                 >
                   Logout
-
                 </a>
               </div>
             </div>
@@ -115,21 +117,33 @@ export function UniversityNavbar() {
           <a href="#" className="block text-gray-600 hover:text-gray-900">
             Help & Support
           </a>
-          <a href="#" className="block text-gray-600 hover:text-gray-900">
+          <Link
+            to="/students"
+            className="block text-gray-600 hover:text-gray-900"
+          >
             Student
-          </a>
-          <a href="#" className="block text-gray-600 hover:text-gray-900">
+          </Link>
+          <Link href="#" className="block text-gray-600 hover:text-gray-900">
             Laundry & Delivery
-          </a>
-          <a href="#" className="block text-gray-600 hover:text-gray-900">
+          </Link>
+          <Link
+            to="/uni-edit-profile"
+            className="block text-gray-600 hover:text-gray-900"
+          >
             Edit Profile
-          </a>
-          <a href="#" className="block text-gray-600 hover:text-gray-900">
+          </Link>
+          <Link
+            to="/uni-privacy"
+            className="block text-gray-600 hover:text-gray-900"
+          >
             Privacy & Security
-          </a>
-          <a href="#" className="block text-gray-600 hover:text-gray-900">
+          </Link>
+          <Link
+            to="/subscription-plan"
+            className="block text-gray-600 hover:text-gray-900"
+          >
             Payment & Subscription
-          </a>
+          </Link>
           <a href="#" className="block text-red-600 hover:text-red-800">
             Logout
           </a>

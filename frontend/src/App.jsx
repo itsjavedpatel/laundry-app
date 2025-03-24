@@ -9,6 +9,9 @@ import Error from "./components/Error";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import UniStudents from "./components/UniStudents";
+import PaymentAndSubs from "./components/PaymentAndSubs";
+import UniEditProfile from "./components/UniEditProfile";
+import UniPrivacy from "./components/UniPrivacy";
 function App() {
   return (
     <>
@@ -28,6 +31,10 @@ function App() {
           <Route path="/register" element={<Register />} />
           <Route path="/unidashboard" element={<Unidashboard />} />
           <Route path="/students" element={<UniStudents />} />
+          <Route path="/subscription-plan" element={<PaymentAndSubs />} />
+          <Route path="/uni-edit-profile" element={<UniEditProfile />} />
+          <Route path="/uni-privacy" element={<UniPrivacy />} />
+          <Route path="*" element={<div>Not found!!</div>} />
         </Routes>
       </BrowserRouter>
     </>
