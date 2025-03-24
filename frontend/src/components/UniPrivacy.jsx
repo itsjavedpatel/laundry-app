@@ -45,11 +45,11 @@ const UniPrivacy = () => {
   return (
     <div className="min-h-screen bg-gray-50 py-8">
       <UniversityNavbar />
-      <div className="max-w-3xl mx-auto px-4">
+      <div className="mt-16 max-w-6xl mx-auto px-4">
         <div className="space-y-6">
           {/* Password Change Section */}
-          <div className="bg-white rounded-xl shadow-lg overflow-hidden">
-            <div className="bg-gradient-to-r from-blue-600 to-blue-700 px-6 py-4">
+          <div className="bg-white rounded-xl  shadow-lg overflow-hidden">
+            <div className="bg-gradient-to-r from-gray-400 to-gray-600 px-6 py-4">
               <div className="flex items-center">
                 <Key className="text-white mr-2" size={24} />
                 <h2 className="text-2xl font-bold text-white">
@@ -121,14 +121,14 @@ const UniPrivacy = () => {
                     <button
                       type="button"
                       onClick={sendOTP}
-                      className="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors"
+                      className="bg-gray-400 text-white px-6 py-2 rounded-lg hover:bg-gray-500 transition-colors"
                     >
                       Send OTP
                     </button>
                   ) : (
                     <button
                       type="submit"
-                      className="bg-green-600 text-white px-6 py-2 rounded-lg hover:bg-green-700 transition-colors"
+                      className="bg-green-600 text-white  font-bold px-6 py-2 rounded-lg hover:bg-green-700 transition-colors"
                     >
                       Change Password
                     </button>
@@ -139,8 +139,8 @@ const UniPrivacy = () => {
           </div>
 
           {/* Email Settings Section */}
-          <div className="bg-white rounded-xl shadow-lg overflow-hidden">
-            <div className="bg-gradient-to-r from-blue-600 to-blue-700 px-6 py-4">
+          <div className="bg-white rounded-xl  shadow-lg overflow-hidden">
+            <div className="bg-gradient-to-r from-gray-400 to-gray-600 px-6 py-4">
               <div className="flex items-center">
                 <Mail className="text-white mr-2" size={24} />
                 <h2 className="text-2xl font-bold text-white">
@@ -156,7 +156,7 @@ const UniPrivacy = () => {
               </p>
               <button
                 onClick={requestEmailChange}
-                className="w-full bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors"
+                className="w-full bg-gray-400 text-white px-6 py-3 rounded-lg hover:bg-gray-500 transition-colors"
               >
                 Request Email Change
               </button>
@@ -164,8 +164,8 @@ const UniPrivacy = () => {
           </div>
 
           {/* Danger Zone Section */}
-          <div className="bg-white rounded-xl shadow-lg overflow-hidden">
-            <div className="bg-gradient-to-r from-red-600 to-red-700 px-6 py-4">
+          <div className="bg-white rounded-xl  shadow-lg overflow-hidden">
+            <div className="bg-gradient-to-r from-gray-400 to-gray-600 px-6 py-4">
               <div className="flex items-center">
                 <AlertTriangle className="text-white mr-2" size={24} />
                 <h2 className="text-2xl font-bold text-white">Danger Zone</h2>
@@ -173,10 +173,10 @@ const UniPrivacy = () => {
             </div>
 
             <div className="p-6">
-              <div className="border-2 border-red-100 rounded-xl p-6">
+              <div className="border-2 border-gray-200 rounded-xl p-6">
                 <div className="flex items-center mb-4">
-                  <Shield className="text-red-500 mr-2" size={24} />
-                  <h3 className="text-xl font-semibold text-red-600">
+                  <Shield className="text-gray-300 mr-2" size={24} />
+                  <h3 className="text-xl font-medium text-gray-600">
                     Delete Account
                   </h3>
                 </div>
@@ -186,7 +186,7 @@ const UniPrivacy = () => {
                 </p>
                 <button
                   onClick={requestAccountDeletion}
-                  className="w-full bg-red-600 text-white px-6 py-3 rounded-lg hover:bg-red-700 transition-colors"
+                  className="w-full bg-red-300 text-white px-6 py-3 rounded-lg hover:bg-red-400 transition-colors"
                 >
                   Request Account Deletion
                 </button>

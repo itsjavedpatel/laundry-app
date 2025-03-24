@@ -21,27 +21,27 @@ function Unidashboard() {
   return (
     <div className="min-h-screen bg-gray-50">
       <UniversityNavbar />
-      <main className="p-4 sm:p-6 lg:p-8 pt-24">
+      <main className="mt-12 p-4 sm:p-6 lg:p-8 pt-24">
         {/* Welcome Section */}
-        <div className="text-center mt-12 mb-6">
-          <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">
+        <div className="text-center mt-12 mb-12">
+          <h1 className="text-2xl sm:text-5xl font-bold text-gray-700">
             Welcome to {universityData.name}
           </h1>
-          <p className="text-gray-600 mt-2 text-sm sm:text-base">
+          <p className="text-gray-600 text-sm mt-5 sm:text-base">
             Manage your laundry services efficiently
           </p>
         </div>
 
         {/* University Profile Section */}
-        <div className="bg-white  rounded-xl shadow-sm p-4 sm:p-6 mb-6 max-w-3xl mx-auto">
+        <div className="bg-white  rounded-xl shadow-sm p-4 sm:p-6 mb-6 max-w-6xl mx-auto">
           <div className="flex flex-col sm:flex-row gap-6 items-center  justify-between text-center sm:text-left">
-            <div className="pl-3 sm:w-40 sm:h-40 rounded-lg flex flex-col items-center justify-center gap-2 mb-9 sm:mb-0">
+            <div className="pl-10 sm:w-60 sm:h-40 rounded-lg flex flex-col items-center justify-center gap-2 mb-9 sm:mb-0">
               <img
                 className=" border aspect-auto object-cover bg-blue-600 rounded-lg"
                 src={profileimage}
                 alt="University Logo"
               />
-              <h2 className="text-xl text-center sm:text-xl font-semibold text-gray-900 mt-2">
+              <h2 className="text-xl text-center sm:text-xl font-semibold text-gray-600 mt-2">
                 {universityData.name}
               </h2>
             </div>

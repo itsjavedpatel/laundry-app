@@ -36,13 +36,13 @@ const UniEditProfile = () => {
     setPreviewUrl(url);
   };
 
-  const removePhoto = () => {
-    const defaultPhoto =
-      "https://images.unsplash.com/photo-1579546929518-9e396f3cc809?w=200&h=200&fit=crop&crop=entropy";
-    setPreviewUrl(defaultPhoto);
-    setProfile({ ...profile, photo: null, photoUrl: defaultPhoto });
-    toast.success("Profile photo removed");
-  };
+  // const removePhoto = () => {
+  //   const defaultPhoto =
+  //     "https://images.unsplash.com/photo-1579546929518-9e396f3cc809?w=200&h=200&fit=crop&crop=entropy";
+  //   setPreviewUrl(defaultPhoto);
+  //   setProfile({ ...profile, photo: null, photoUrl: defaultPhoto });
+  //   toast.success("Profile photo removed");
+  // };
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -50,24 +50,19 @@ const UniEditProfile = () => {
     toast.success("Profile updated successfully");
   };
 
-  const requestChange = (field) => {
-    toast.success(
-      `Change request for ${field} has been submitted. We'll contact you soon.`
-    );
-  };
 
   return (
     <div className="min-h-screen bg-gray-50 py-8">
       <UniversityNavbar />
-      <div className="max-w-3xl mx-auto">
+      <div className=" mt-16  max-w-6xl  mx-auto">
         <div className="bg-white rounded-xl shadow-lg overflow-hidden">
-          <div className="bg-gradient-to-r from-blue-600 to-blue-700 px-6 py-4">
+          <div className="bg-gradient-to-r  from-gray-400 to-gray-600 px-6 py-4">
             <h2 className="text-2xl font-bold text-white">
               University Profile
             </h2>
           </div>
 
-          <form onSubmit={handleSubmit} className="p-6">
+          <form onSubmit={handleSubmit} className="p-14">
             <div className="space-y-8">
               {/* Profile Photo Section */}
               <div className="flex flex-col items-center space-y-4">
@@ -77,7 +72,7 @@ const UniEditProfile = () => {
                     alt="Profile"
                     className="w-32 h-32 rounded-full object-cover border-4 border-white shadow-lg"
                   />
-                  {(profile.photo ||
+                  {/* {(profile.photo ||
                     profile.photoUrl !==
                       "https://images.unsplash.com/photo-1579546929518-9e396f3cc809?w=200&h=200&fit=crop&crop=entropy") && (
                     <button
@@ -87,31 +82,11 @@ const UniEditProfile = () => {
                     >
                       <X size={16} />
                     </button>
-                  )}
+                  )} */}
                 </div>
                 <div className="flex flex-col w-full max-w-md space-y-4">
-                  <div className="relative">
-                    <label className="block text-sm font-medium text-gray-700 mb-1">
-                      Photo URL
-                    </label>
-                    <div className="relative">
-                      <input
-                        type="url"
-                        value={profile.photoUrl}
-                        onChange={handlePhotoUrlChange}
-                        className="block w-full rounded-lg border-gray-300 shadow-sm pr-10"
-                        placeholder="Enter image URL"
-                      />
-                      <LinkIcon
-                        className="absolute right-3 top-2.5 text-gray-400"
-                        size={20}
-                      />
-                    </div>
-                  </div>
-                  <div className="flex items-center justify-center">
-                    <span className="px-4 text-gray-500">or</span>
-                  </div>
-                  <label className="cursor-pointer bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors flex items-center justify-center space-x-2">
+                  
+                  <label className="cursor-pointer mt-2 bg-gray-400 font-bold text-white px-4 py-2 rounded-lg hover:bg-gray-500 transition-colors flex items-center justify-center space-x-2">
                     <Upload size={20} />
                     <span>Upload Photo</span>
                     <input
@@ -130,25 +105,19 @@ const UniEditProfile = () => {
                   <label className="block text-sm font-medium text-gray-700">
                     Name
                   </label>
-                  <div className="relative">
+                  <div className="relative ">
                     <input
                       type="text"
                       value={profile.name}
                       disabled
-                      className="block w-full rounded-lg border-gray-300 bg-gray-50 shadow-sm"
+                      className="block w-full p-2 rounded-lg shadow-sm"
                     />
                     <Lock
-                      className="absolute right-3 top-2.5 text-gray-400"
+                      className="absolute right-3 top-2 text-gray-400"
                       size={20}
                     />
                   </div>
-                  <button
-                    type="button"
-                    onClick={() => requestChange("name")}
-                    className="text-sm text-blue-600 hover:text-blue-800"
-                  >
-                    Request Change
-                  </button>
+          
                 </div>
 
                 <div className="space-y-2">
@@ -160,20 +129,13 @@ const UniEditProfile = () => {
                       type="email"
                       value={profile.email}
                       disabled
-                      className="block w-full rounded-lg border-gray-300 bg-gray-50 shadow-sm"
+                      className="block w-full p-2  rounded-lg border-gray-300 bg-gray-50 shadow-sm"
                     />
                     <Mail
-                      className="absolute right-3 top-2.5 text-gray-400"
+                      className="absolute right-3 top-2 text-gray-400"
                       size={20}
                     />
                   </div>
-                  <button
-                    type="button"
-                    onClick={() => requestChange("email")}
-                    className="text-sm text-blue-600 hover:text-blue-800"
-                  >
-                    Request Change
-                  </button>
                 </div>
               </div>
 
@@ -191,7 +153,7 @@ const UniEditProfile = () => {
                         setProfile({ ...profile, address: e.target.value })
                       }
                       disabled={isAddressLocked}
-                      className={`block w-full rounded-lg border-gray-300 shadow-sm ${
+                      className={`block w-auto rounded-lg border-gray-300 shadow-sm ${
                         isAddressLocked ? "bg-gray-50" : ""
                       }`}
                       placeholder="Enter your address"
@@ -226,7 +188,7 @@ const UniEditProfile = () => {
                 <div className="flex justify-end">
                   <button
                     type="submit"
-                    className="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors"
+                    className="bg-gray-400 font-bold text-white px-6 py-2 rounded-lg hover:bg-gray-500 transition-colors"
                   >
                     Save and Submit
                   </button>
@@ -238,7 +200,7 @@ const UniEditProfile = () => {
                   <button
                     type="button"
                     onClick={() => requestChange("address and ZIP code")}
-                    className="text-sm text-blue-600 hover:text-blue-800"
+                    className="text-sm text-gray-400 hover:text-gray-500"
                   >
                     Request Address Change
                   </button>

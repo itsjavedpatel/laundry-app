@@ -70,9 +70,9 @@ const PaymentAndSubs = () => {
   return (
     <div className="min-h-screen bg-gray-50 py-8">
       <UniversityNavbar />
-      <div className="max-w-7xl mx-auto px-4">
+      <div className="mt-16 max-w-7xl mx-auto px-4">
         <div className="bg-white rounded-xl shadow-lg overflow-hidden mb-8">
-          <div className="bg-gradient-to-r from-blue-600 to-blue-700 px-6 py-4">
+          <div className="bg-gradient-to-r from-gray-400 to-gray-600 px-6 py-4">
             <h2 className="text-2xl font-bold text-white">
               Current Subscription
             </h2>
@@ -102,7 +102,7 @@ const PaymentAndSubs = () => {
               </div>
 
               <div className="flex items-center space-x-3">
-                <Calendar className="text-blue-500" size={32} />
+                <Calendar className="text-gray-500" size={32} />
                 <div>
                   <span className="text-lg font-semibold">
                     {currentPlan.validUpto}
@@ -112,7 +112,7 @@ const PaymentAndSubs = () => {
               </div>
 
               <div className="flex items-center space-x-3">
-                <Shield className="text-blue-500" size={32} />
+                <Shield className="text-gray-500" size={32} />
                 <div>
                   <span className="text-lg font-semibold">
                     {currentPlan.plan}
@@ -125,18 +125,18 @@ const PaymentAndSubs = () => {
         </div>
 
         <div className="bg-white rounded-xl shadow-lg overflow-hidden">
-          <div className="bg-gradient-to-r from-blue-600 to-blue-700 px-6 py-4">
+          <div className="bg-gradient-to-r from-gray-400 to-gray-600 px-6 py-4">
             <h2 className="text-2xl font-bold text-white">Available Plans</h2>
           </div>
 
           <div className="p-6">
             <div className="flex justify-center mb-8">
-              <div className="inline-flex rounded-lg border-2 border-blue-200 p-1">
+              <div className="inline-flex rounded-lg border-2 border-black-500 p-1">
                 <button
                   className={`px-6 py-2 rounded-md transition-colors ${
                     selectedPlanType === "6months"
-                      ? "bg-blue-600 text-white"
-                      : "text-blue-600 hover:bg-blue-50"
+                      ? "bg-gray-400 font-bold text-white"
+                      : "text-gray-400 font-bold hover:bg-gray-100"
                   }`}
                   onClick={() => setSelectedPlanType("6months")}
                 >
@@ -145,8 +145,8 @@ const PaymentAndSubs = () => {
                 <button
                   className={`px-6 py-2 rounded-md transition-colors ${
                     selectedPlanType === "annual"
-                      ? "bg-blue-600 text-white"
-                      : "text-blue-600 hover:bg-blue-50"
+                      ? "bg-gray-400 font-bold text-white"
+                      : "text-gray-400 font-bold hover:bg-gray-100"
                   }`}
                   onClick={() => setSelectedPlanType("annual")}
                 >
@@ -159,28 +159,28 @@ const PaymentAndSubs = () => {
               {plans.map((plan) => (
                 <div
                   key={plan.id}
-                  className="border-2 border-gray-100 rounded-xl hover:border-blue-200 transition-colors"
+                  className="border-2 border-black-100 rounded-xl hover:border-blue-200 transition-colors"
                 >
                   <div className="p-6">
                     <div className="flex items-center justify-between mb-4">
                       <h3 className="text-xl font-bold text-gray-900">
                         {plan.name}
                       </h3>
-                      <Gift className="text-blue-500" size={24} />
+                      <Gift className="text-gray-500" size={24} />
                     </div>
                     <p className="text-gray-600 mb-4">{plan.studentRange}</p>
-                    <div className="text-3xl font-bold text-blue-600 mb-6">
+                    <div className="text-3xl font-bold text-gray-600 mb-6">
                       ₹
                       {selectedPlanType === "6months"
                         ? plan.price6Months.toLocaleString()
                         : plan.priceAnnual.toLocaleString()}
-                      <span className="text-sm font-normal text-gray-500">
+                      <span className="text-sm font-normal text-white">
                         /{selectedPlanType === "6months" ? "6mo" : "yr"}
                       </span>
                     </div>
                     <button
                       onClick={() => handlePayment(plan.id)}
-                      className="w-full bg-blue-600 text-white px-4 py-3 rounded-lg hover:bg-blue-700 transition-colors font-medium"
+                      className="w-full bg-gray-600 text-white px-4 py-3 rounded-lg hover:bg-gray-700 transition-colors font-medium"
                     >
                       {currentPlan.plan === plan.name
                         ? "Renew Plan"
