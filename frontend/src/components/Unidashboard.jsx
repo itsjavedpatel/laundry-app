@@ -27,7 +27,7 @@ function Unidashboard() {
         {/* Welcome Section */}
         <div className="text-center mt-12 mb-12">
           <h1 className="text-2xl sm:text-5xl font-bold text-gray-700">
-            Welcome to {university.name}
+            Welcome, {university.name}
           </h1>
           <p className="text-gray-600 text-sm mt-5 sm:text-base">
             Manage your laundry services efficiently
