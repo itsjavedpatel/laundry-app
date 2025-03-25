@@ -23,7 +23,7 @@ module.exports.authUniversity = async (req, res, next) => {
     }
     // find the user using token into db
     const university = await University.findById(decodedToken._id);
-    res.user = university;
+    req.user = university;
     return next();
   } catch (error) {
     return res.status(401).json({ message: "Unauthorized access" });

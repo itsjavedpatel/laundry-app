@@ -15,9 +15,9 @@ authRouter.post("/login", login);
 authRouter.post("/register/send-otp", sendOtp);
 authRouter.post("/register/verify-otp", verifyOTP);
 
-//! user profile
-authRouter.get("/profile", authUniversity, getUserProfile);
-//! logout
-authRouter.get("/logout", authUniversity, logout);
+// //! user profile
+// authRouter.get("/profile", authUniversity, getUserProfile);
+// //! logout
+// authRouter.get("/logout", authUniversity, logout);
 
 module.exports = authRouter;

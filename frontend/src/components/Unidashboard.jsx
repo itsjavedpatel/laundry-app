@@ -1,9 +1,11 @@
-import React from "react";
+import React, { useContext } from "react";
 import { School, Users } from "lucide-react";
 import { PieChart } from "./PieChart";
 import { StatCard } from "./StatCard";
 import { UniversityNavbar } from "./UniversityNavbar";
 import profileimage from "../assets/images/pfp.jpg";
+import { UniversityDataContext } from "../context/UniversityContext";
+import UniPrivacy from "./UniPrivacy";
 
 function Unidashboard() {
   const universityData = {
@@ -17,7 +19,7 @@ function Unidashboard() {
     activeStudents: 12500,
     inactiveStudents: 2500,
   };
-
+  const { university } = useContext(UniversityDataContext);
   return (
     <div className="min-h-screen bg-gray-50">
       <UniversityNavbar />
@@ -25,7 +27,7 @@ function Unidashboard() {
         {/* Welcome Section */}
         <div className="text-center mt-12 mb-12">
           <h1 className="text-2xl sm:text-5xl font-bold text-gray-700">
-            Welcome to {universityData.name}
+            Welcome to {university.name}
           </h1>
           <p className="text-gray-600 text-sm mt-5 sm:text-base">
             Manage your laundry services efficiently
@@ -42,13 +44,13 @@ function Unidashboard() {
                 alt="University Logo"
               />
               <h2 className="text-xl text-center sm:text-xl font-semibold text-gray-600 mt-2">
-                {universityData.name}
+                {university.name}
               </h2>
             </div>
             <div className="w-full">
               <div className="grid gap-3 sm:gap-4 max-w-md mx-auto">
                 {[
-                  { label: "Email", value: universityData.email },
+                  { label: "Email", value: university.email },
                   { label: "UGC Code", value: universityData.ugcCode },
                   { label: "Address", value: universityData.address },
                   {
@@ -85,17 +87,17 @@ function Unidashboard() {
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6 mb-6 mx-4">
           <StatCard
             title="Total Students"
-            value={universityData.totalStudents}
+            value={university.students.length}
             icon={<Users className="w-5 h-5 sm:w-6 sm:h-6 text-blue-600" />}
           />
           <StatCard
             title="Active Students"
-            value={universityData.activeStudents}
+            value={university.students.length}
             icon={<Users className="w-5 h-5 sm:w-6 sm:h-6 text-green-600" />}
           />
           <StatCard
             title="Inactive Students"
-            value={universityData.inactiveStudents}
+            value={university.students.length}
             icon={<Users className="w-5 h-5 sm:w-6 sm:h-6 text-red-600" />}
           />
         </div>

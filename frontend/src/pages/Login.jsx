@@ -1,11 +1,13 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
 import NavBar from "../components/NavBar";
+// import { UniversityDataContext } from "../context/UniversityContext";
 
 const Login = () => {
+  // const { setUniversity } = useContext(UniversityDataContext);
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     email: "",
@@ -27,8 +29,10 @@ const Login = () => {
         formData,
         { headers: { "Content-Type": "application/json" } }
       );
+      const { token, user } = response.data;
+      // setUniversity(user);
+      localStorage.setItem("token", token);
 
-      console.log("✅ Response from backend:", response.data);
       toast.success("🎉 Login successful!");
 
       // 🏆 Redirect user based on role

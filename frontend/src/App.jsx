@@ -12,6 +12,9 @@ import UniStudents from "./components/UniStudents";
 import PaymentAndSubs from "./components/PaymentAndSubs";
 import UniEditProfile from "./components/UniEditProfile";
 import UniPrivacy from "./components/UniPrivacy";
+import UniProtectedWrapper from "./pages/UniProtectedWrapper";
+import UniversityContext from "./context/UniversityContext";
+
 function App() {
   return (
     <>
@@ -24,16 +27,25 @@ function App() {
         draggable={false} // Disable dragging
         style={{ marginTop: "80px" }}
       />
+
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<LandingPage />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
-          <Route path="/unidashboard" element={<Unidashboard />} />
-          <Route path="/students" element={<UniStudents />} />
-          <Route path="/subscription-plan" element={<PaymentAndSubs />} />
-          <Route path="/uni-edit-profile" element={<UniEditProfile />} />
-          <Route path="/uni-privacy" element={<UniPrivacy />} />
+          <Route
+            element={
+              <UniversityContext>
+                <UniProtectedWrapper />
+              </UniversityContext>
+            }
+          >
+            <Route path="/unidashboard" element={<Unidashboard />} />
+            <Route path="/students" element={<UniStudents />} />
+            <Route path="/subscription-plan" element={<PaymentAndSubs />} />
+            <Route path="/uni-edit-profile" element={<UniEditProfile />} />
+            <Route path="/uni-privacy" element={<UniPrivacy />} />
+          </Route>
           <Route path="*" element={<div>Not found!!</div>} />
         </Routes>
       </BrowserRouter>

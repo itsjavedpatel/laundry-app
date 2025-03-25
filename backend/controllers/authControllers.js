@@ -74,10 +74,8 @@ exports.login = async (req, res) => {
       expiresIn: "24h",
     });
     res.cookie("token", token);
-    console.log(token);
-    return res
-      .status(200)
-      .json({ message: "Login successful", data: req.body });
+
+    return res.status(200).json({ message: "Login successful", token, user });
   } catch (error) {
     console.error("❌ Backend error:", error);
     return res.status(500).json({ message: "Something went wrong!" });

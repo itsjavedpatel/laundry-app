@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import {
   Search,
   Filter,
@@ -10,6 +10,7 @@ import {
   X as Close,
 } from "lucide-react";
 import { UniversityNavbar } from "./UniversityNavbar";
+import { UniversityDataContext } from "../context/UniversityContext";
 
 const initialStudents = [
   {
@@ -35,6 +36,8 @@ const initialStudents = [
 ];
 
 function UniStudents() {
+  const { university } = useContext(UniversityDataContext);
+  const studentList = university.students;
   const [students, setStudents] = useState(initialStudents);
   const [searchTerm, setSearchTerm] = useState("");
   const [statusFilter, setStatusFilter] = useState("all");

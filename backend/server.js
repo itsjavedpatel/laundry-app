@@ -5,6 +5,8 @@ const mongoose = require("mongoose");
 const cors = require("cors");
 const cookieParser = require("cookie-parser");
 const authRouter = require("./routes/authRoutes");
+const universityRouter = require("./routes/universityRoutes");
+
 const app = express();
 
 // Allow frontend request
@@ -34,3 +36,4 @@ mongoose
   });
 
 app.use("/auth", authRouter);
+app.use("/university", universityRouter);
