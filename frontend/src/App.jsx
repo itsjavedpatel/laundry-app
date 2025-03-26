@@ -14,6 +14,7 @@ import UniEditProfile from "./components/UniEditProfile";
 import UniPrivacy from "./components/UniPrivacy";
 import UniProtectedWrapper from "./pages/UniProtectedWrapper";
 import UniversityContext from "./context/UniversityContext";
+import ForgetPassword from "./components/ForgetPassword";
 
 function App() {
   return (
@@ -46,7 +47,8 @@ function App() {
             <Route path="/uni-edit-profile" element={<UniEditProfile />} />
             <Route path="/uni-privacy" element={<UniPrivacy />} />
           </Route>
-          <Route path="*" element={<div>Not found!!</div>} />
+          <Route path="*" element={<Error />} />
+          <Route path="/forget-password" element={<ForgetPassword />} />
         </Routes>
       </BrowserRouter>
     </>

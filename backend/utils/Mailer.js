@@ -24,7 +24,7 @@ const sendOTP = async (email, otp) => {
   }
 };
 const sendPassword = async (name, email, password) => {
-  console.log("Sending password to:", email);
+  // console.log("Sending password to:", email);
 
   try {
     const mailOptions = {
@@ -43,9 +43,11 @@ const sendPassword = async (name, email, password) => {
       E-DHOबी Team`,
     };
     await transporter.sendMail(mailOptions);
-    console.log("Password sent successfully");
+    // console.log("Password sent successfully");
+    return true;
   } catch (error) {
-    console.error("Error sending password:", error);
+    // console.error("Error sending password:", error);
+    return false;
   }
 };
 module.exports = { sendOTP, sendPassword };

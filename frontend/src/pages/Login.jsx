@@ -1,13 +1,11 @@
 import React, { useContext, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
 import NavBar from "../components/NavBar";
-// import { UniversityDataContext } from "../context/UniversityContext";
 
 const Login = () => {
-  // const { setUniversity } = useContext(UniversityDataContext);
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     email: "",
@@ -145,12 +143,12 @@ const Login = () => {
                   />
                 </div>
                 <div className="flex items-center justify-between">
-                  <a
-                    href="#"
+                  <Link
+                    to="/forget-password"
                     className="text-sm font-medium text-primary-600 hover:underline dark:text-primary-500 pl-2"
                   >
                     Forgot password?
-                  </a>
+                  </Link>
                 </div>
                 <button
                   type="submit"

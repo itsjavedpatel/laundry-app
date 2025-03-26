@@ -2,7 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-
 @layer utilities {
   .perspective {
     perspective: 1000px;
@@ -30,7 +29,6 @@
   box-sizing: border-box;
 }
 .container {
-  width: 100%;
+  width: 50%;
   margin: auto;
 }
-

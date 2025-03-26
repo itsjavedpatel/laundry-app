@@ -3,21 +3,26 @@ const authRouter = express.Router();
 const { authUniversity } = require("../middlewares/authentication");
 const {
   login,
-  sendOtp,
-  verifyOTP,
   logout,
   getUserProfile,
+  registerSendOTP,
+  registerVerifyOTP,
+  forgotPassSendOTP,
+  forgotPassVerifyOTP,
 } = require("../controllers/authControllers");
 //! login
 authRouter.post("/login", login);
 
 //!register
-authRouter.post("/register/send-otp", sendOtp);
-authRouter.post("/register/verify-otp", verifyOTP);
+authRouter.post("/register/send-otp", registerSendOTP);
+authRouter.post("/register/verify-otp", registerVerifyOTP);
 
-// //! user profile
+//! user profile
 // authRouter.get("/profile", authUniversity, getUserProfile);
-// //! logout
-// authRouter.get("/logout", authUniversity, logout);
+//! logout
+authRouter.get("/logout", authUniversity, logout);
 
+//! Forget password
+authRouter.post("/forgotpass/send-otp", forgotPassSendOTP);
+authRouter.post("/forgotpass/verify-otp", forgotPassVerifyOTP);
 module.exports = authRouter;

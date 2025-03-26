@@ -8,7 +8,7 @@ const Admin = require("../models/Admin");
 const { sendOTP, sendPassword } = require("../utils/Mailer");
 const blackListTokenModel = require("../models/BlacklistedToken");
 const bcrypt = require("bcryptjs");
-
+const otpModel = require("../models/OTP");
 const testUniversity = {
   email: "jp754546@gmail.com",
   name: "test_university",
@@ -19,7 +19,7 @@ const testUniversity1 = {
   name: "IIT Bombay",
   domain: "gmail.com",
 };
-const otpModel = require("../models/OTP");
+
 //!login logic
 
 exports.login = async (req, res) => {
@@ -84,7 +84,7 @@ exports.login = async (req, res) => {
 
 //!Register logic
 // Send OTP
-exports.sendOtp = async (req, res) => {
+exports.registerSendOTP = async (req, res) => {
   console.log("Incoming data :", req.body);
 
   const { email, universityName } = req.body;
@@ -156,8 +156,8 @@ exports.sendOtp = async (req, res) => {
   }
 };
 
-// Verify OTP
-exports.verifyOTP = async (req, res) => {
+// Verify OTP and send password
+exports.registerVerifyOTP = async (req, res) => {
   console.log("Incoming data in verify route :", req.body);
   const { email, otp, universityName } = req.body;
   try {
@@ -200,6 +200,99 @@ exports.logout = async (req, res, next) => {
 //! get profile
 exports.getUserProfile = async (req, res, next) => {
   res.status(201).json({ message: "User profile", data: req.user });
+};
+
+//! Forgot Password
+
+// SendOTP
+exports.forgotPassSendOTP = async (req, res, next) => {
+  const { email, role } = req.body;
+  try {
+    // First find user in database
+    let user;
+    if (role === "Student") {
+      user = await Student.findOne({ email }).select("+password");
+    } else if (role === "Admin") {
+      user = await Admin.findOne({ email }).select("+password");
+    } else if (role === "University") {
+      user = await University.findOne({ email }).select("+password");
+    } else if (role === "Laundry") {
+      user = await Laundry.findOne({ email }).select("+password");
+    } else if (role === "Delivery") {
+      user = await Delivery.findOne({ email }).select("+password");
+    } else {
+      console.log("❌ Role not declared:", role);
+      return res
+        .status(403)
+        .json({ message: "Role is not declared", data: req.body });
+    }
+    if (!user) {
+      return res
+        .status(404)
+        .json({ message: "User not found", data: req.body });
+    }
+    const otp = Math.floor(100000 + Math.random() * 900000).toString();
+    const newOtp = await otpModel.create({
+      email,
+      otp,
+    });
+    await sendOTP(email, otp);
+    return res.status(201).json({
+      // Created status (201) when the registration is successful
+      message: "Otp Sent successfullly! 🎉",
+    });
+  } catch (error) {
+    return res
+      .status(500)
+      .json({ message: "Something went wrong! Please try again later 🛑" });
+  }
+};
+
+// Verify OTP and send password
+
+exports.forgotPassVerifyOTP = async (req, res, next) => {
+  const { email, otp, role } = req.body;
+  try {
+    // find otp in the OTP model
+    const verifyOtp = await otpModel.findOne({ email, otp });
+    if (!verifyOtp) {
+      return res.status(400).json({ message: "Incorrect OTP entered ❌" });
+    }
+    // find user
+    let user;
+    if (role === "Student") {
+      user = await Student.findOne({ email }).select("+password");
+    } else if (role === "Admin") {
+      user = await Admin.findOne({ email }).select("+password");
+    } else if (role === "University") {
+      user = await University.findOne({ email }).select("+password");
+    } else if (role === "Laundry") {
+      user = await Laundry.findOne({ email }).select("+password");
+    } else if (role === "Delivery") {
+      user = await Delivery.findOne({ email }).select("+password");
+    }
+    // generate new password
+    const newPassword = generatePassword();
+    // Send this password to the user
+    const response = await sendPassword(user.name, email, newPassword);
+    if (!response) {
+      return res
+        .status(500)
+        .json({ message: "Something went wrong! Try again later🛑" });
+    }
+
+    // save passsword into the user by hashing it
+    const hashedpass = await bcrypt.hash(newPassword, 10);
+    user.password = hashedpass;
+    await user.save();
+    return res
+      .status(200)
+      .json({ message: "Password sent to your registered email 🎉" });
+  } catch (error) {
+    return res
+      .status(500)
+      .json({ message: "Something went wrong! Try again later🛑" });
+  }
 };
 
 // Password generator
