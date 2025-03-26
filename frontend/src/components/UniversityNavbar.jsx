@@ -18,28 +18,23 @@ export function UniversityNavbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   return (
-    <nav className="fixed top-0 left-0 right-0 bg-white border-b border-gray-200 z-50">
+    <nav className="bg-gray-800  border-black border-b-[1px] sticky top-0 z-50 p-4 text-white">
       <div className="px-4 md:px-6 flex items-center justify-between h-16">
         <Link to="/">
           <div className="flex items-center">
-            <Shirt className="w-6 h-6 text-blue-600" />
-            <span className="ml-2 text-xl font-bold text-gray-900">
-              E-Dhobi
-            </span>
+            <Shirt className="w-6 h-6 " />
+            <span className="ml-2 text-xl font-bold ">E-Dhobi</span>
           </div>
         </Link>
 
         <div className="hidden md:flex items-center gap-4">
-          <a
-            href="#"
-            className="flex items-center gap-2 text-gray-600 hover:text-gray-900"
-          >
+          <a href="#" className="flex items-center gap-2 hover:text-gray-300 ">
             <HelpCircle className="w-4 h-4" />
             <span>Help & Support</span>
           </a>
 
           <div className="relative group">
-            <button className="flex items-center gap-2 text-gray-600 hover:text-gray-900">
+            <button className="flex items-center gap-2  hover:text-gray-300">
               <span>Services</span>
               <ChevronDown className="w-4 h-4" />
             </button>
@@ -61,14 +56,14 @@ export function UniversityNavbar() {
             </div>
           </div>
 
-          <button className="p-2 text-gray-600 hover:text-gray-900">
+          <button className="p-2 text-[#dad4b8] hover:text-gray-300">
             <Bell className="w-6 h-6" />
           </button>
 
           <div className="relative group">
-            <button className="flex items-center gap-2 text-gray-600 hover:text-gray-900">
+            <button className="flex items-center gap-2  hover:text-gray-300">
               <div className="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center">
-                <User className="w-5 h-5 text-blue-600" />
+                <User className="w-5 h-5 text-black" />
               </div>
               <ChevronDown className="w-4 h-4" />
             </button>

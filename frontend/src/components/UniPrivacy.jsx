@@ -43,7 +43,7 @@ const UniPrivacy = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 py-8">
+    <div className="min-h-screen bg-gradient-to-r from-[#eeaeca] to-[#94bbe9] ">
       <UniversityNavbar />
       <div className="mt-16 max-w-6xl mx-auto px-4">
         <div className="space-y-6">

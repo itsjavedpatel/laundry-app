@@ -16,7 +16,7 @@ const initialStudents = [
   {
     id: "1",
     name: "Javed",
-    contact: "++91-1234567890",
+    contact: "+91-1234567890",
     laundryId: "LD001",
     email: "john.smith@university.edu",
     studentId: "STU2024001",
@@ -25,6 +25,66 @@ const initialStudents = [
   },
   {
     id: "2",
+    name: "Akshay ",
+    contact: "+91-1234567890",
+    laundryId: "LD002",
+    email: "emma.wilson@university.edu",
+    studentId: "STU2024002",
+    course: "Business Administration",
+    status: "inactive",
+  },
+  {
+    id: "3",
+    name: "Javed",
+    contact: "+91-1234567890",
+    laundryId: "LD001",
+    email: "john.smith@university.edu",
+    studentId: "STU2024001",
+    course: "Computer Science",
+    status: "active",
+  },
+  {
+    id: "4",
+    name: "Akshay ",
+    contact: "+91-1234567890",
+    laundryId: "LD002",
+    email: "emma.wilson@university.edu",
+    studentId: "STU2024002",
+    course: "Business Administration",
+    status: "inactive",
+  },
+  {
+    id: "5",
+    name: "Javed",
+    contact: "+91-1234567890",
+    laundryId: "LD001",
+    email: "john.smith@university.edu",
+    studentId: "STU2024001",
+    course: "Computer Science",
+    status: "active",
+  },
+  {
+    id: "6",
+    name: "Akshay ",
+    contact: "+91-1234567890",
+    laundryId: "LD002",
+    email: "emma.wilson@university.edu",
+    studentId: "STU2024002",
+    course: "Business Administration",
+    status: "inactive",
+  },
+  {
+    id: "7",
+    name: "Javed",
+    contact: "+91-1234567890",
+    laundryId: "LD001",
+    email: "john.smith@university.edu",
+    studentId: "STU2024001",
+    course: "Computer Science",
+    status: "active",
+  },
+  {
+    id: "8",
     name: "Akshay ",
     contact: "+91-1234567890",
     laundryId: "LD002",
@@ -135,28 +195,28 @@ function UniStudents() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gradient-to-r from-[#eeaeca] to-[#94bbe9]">
       {/* Header */}
       <UniversityNavbar />
 
       {/* Main Content */}
-      <main className="max-w-full mx-auto px-4 sm:px-6 lg:px-8 mt-8 py-16">
+      <main className="max-w-full mx-auto px-4 sm:px-6 lg:px-8 mt-8 py-16 ">
         {/* Search, Filter, and Export Bar */}
-        <div className="flex flex-col sm:flex-row gap-4 mb-6">
+        <div className="flex flex-col sm:flex-row gap-4 mb-6  ">
           <div className="relative flex-1">
             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-5 w-5" />
             <input
               type="text"
               placeholder="Search by name or student ID or laundry ID"
-              className="pl-10 pr-4 py-2 w-full rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="pl-10 pr-4 py-2 w-full rounded-lg border bg-[#ebe7e7] border-gray-900 focus:outline-none focus:ring-1 focus:ring-black"
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
             />
           </div>
-          <div className="flex items-center gap-2">
-            <Filter className="text-gray-400 h-5 w-5" />
+          <div className="flex items-center gap-2 ">
+            <Filter className="text-gray-600 h-5 w-5" />
             <select
-              className="px-4 py-2 rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="px-4 py-2 rounded-lg border bg-[#ebe7e7] border-gray-900 focus:outline-none focus:ring-1 focus:ring-black"
               value={statusFilter}
               onChange={(e) => setStatusFilter(e.target.value)}
             >
@@ -175,42 +235,42 @@ function UniStudents() {
         </div>
 
         {/* Data Table */}
-        <div className="bg-white rounded-lg shadow overflow-x-auto">
-          <table className="w-full table-auto">
-            <thead className="bg-gray-50">
+        <div className=" bg-[#ebe7e7] border-gray-900 focus:outline-none focus:ring-1 focus:ring-black rounded-lg shadow overflow-x-auto ">
+          <table className="w-full table-auto rounded-sm">
+            <thead className="bg-gradient-to-r from-gray-400 to-gray-600 border border-[#bfbcbc] text-[#fff] font-semibold">
               <tr>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th className="px-6 py-3 text-left text-s font-medium  uppercase tracking-wider">
                   S.No
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th className="px-6 py-3 text-left text-s font-medium  uppercase tracking-wider">
                   Name
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th className="px-6 py-3 text-left text-s font-medium  uppercase tracking-wider">
                   Contact
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th className="px-6 py-3 text-left text-s font-medium  uppercase tracking-wider">
                   Laundry ID
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th className="px-6 py-3 text-left text-s font-medium  uppercase tracking-wider">
                   Email
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th className="px-6 py-3 text-left text-s font-medium  uppercase tracking-wider">
                   Student ID
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th className="px-6 py-3 text-left text-s font-medium  uppercase tracking-wider">
                   Course
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th className="px-6 py-3 text-left text-s font-medium  uppercase tracking-wider">
                   Status
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th className="px-6 py-3 text-left text-s font-medium  uppercase tracking-wider">
                   Actions
                 </th>
               </tr>
             </thead>
-            <tbody className="bg-white divide-y divide-gray-200">
+            <tbody className="text-gray-700">
               {filteredStudents.map((student, index) => (
-                <tr key={student.id} className="hover:bg-gray-50">
+                <tr key={student.id} className="">
                   <td className="px-6 py-4 whitespace-nowrap">{index + 1}</td>
                   <td className="px-6 py-4 whitespace-nowrap">
                     {student.name}
@@ -270,7 +330,7 @@ function UniStudents() {
         {/* Floating Add Button */}
         <button
           onClick={() => setShowAddModal(true)}
-          className="fixed bottom-8 right-8 bg-blue-600 text-white rounded-full p-4 shadow-lg hover:bg-blue-700 transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+          className="fixed bottom-8 right-8 bg-green-600 text-white rounded-full p-4 shadow-lg hover:bg-green-700 transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
           aria-label="Add new student"
         >
           <Plus className="h-6 w-6" />
@@ -403,7 +463,7 @@ function UniStudents() {
                   </button>
                   <button
                     type="submit"
-                    className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+                    className="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
                   >
                     Add Student
                   </button>
