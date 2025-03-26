@@ -78,7 +78,12 @@ const Login = () => {
     <>
       <NavBar />
       <section className=" bg-gradient-to-r from-[#eeaeca] to-[#94bbe9] ">
-        <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
+        <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen  lg:py-0">
+          <div className="text-center mb-10">
+            <h1 className="text-3xl  font-bold text-black-600 mb-3">
+              Welcome Back! Please log in to continue
+            </h1>
+          </div>
           <div className="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0">
             <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
               <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl  dark:text-gray-800">
@@ -142,12 +147,14 @@ const Login = () => {
                     required
                   />
                 </div>
-                <div className="flex items-center justify-between">
+                <div className="flex items-center  justify-start">
+                  <span className="text-sm font-medium pl-2"
+                  > Forgot password?</span>
                   <Link
                     to="/forget-password"
                     className="text-sm font-medium text-primary-600 hover:underline dark:text-primary-500 pl-2"
                   >
-                    Forgot password?
+                    Reset Now
                   </Link>
                 </div>
                 <button
