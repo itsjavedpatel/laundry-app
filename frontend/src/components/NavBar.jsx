@@ -1,11 +1,19 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { WashingMachine, Menu, X, LogIn } from "lucide-react";
+import {
+  WashingMachine,
+  User,
+  CircleUserRound,
+  Menu,
+  X,
+  LogIn,
+} from "lucide-react";
 import { FaUniversity } from "react-icons/fa";
 import IconButton from "@mui/material/IconButton";
 import Tooltip from "@mui/material/Tooltip";
 
 const Navbar = () => {
+  const token = localStorage.getItem("token");
   const [isOpen, setIsOpen] = useState(false);
   const navigate = useNavigate();
 
@@ -82,23 +90,35 @@ const Navbar = () => {
             >
               Contact
             </button>
-            <Link
-              to="/login"
-              className=" text-white px-4 py-2 rounded-md hover:bg-[#94bbe9] hover:text-black hover:border-0 transition-colors "
-            >
-              <Tooltip title="Login">
-                <IconButton>
-                  <LogIn className="text-white" />
-                </IconButton>
-              </Tooltip>
-            </Link>
-            <Link
-              to="/register"
-              className="border border-white-[1px] text-white px-4 py-2 rounded-md hover:bg-[#94bbe9] hover:text-black hover:border-0 transition-colors flex  items-center gap-2"
-            >
-              <FaUniversity />
-              Register
-            </Link>
+            {!token ? (
+              <>
+                <Link
+                  to="/login"
+                  className=" text-white px-4 py-2 rounded-md hover:bg-[#94bbe9] hover:text-black hover:border-0 transition-colors "
+                >
+                  <Tooltip title="Login">
+                    <IconButton>
+                      <LogIn className="text-white" />
+                    </IconButton>
+                  </Tooltip>
+                </Link>
+                <Link
+                  to="/register"
+                  className="border border-white-[1px] text-white px-4 py-2 rounded-md hover:bg-[#94bbe9] hover:text-black hover:border-0 transition-colors flex  items-center gap-2"
+                >
+                  <FaUniversity />
+                  Register
+                </Link>
+              </>
+            ) : (
+              <Link
+                to="/unidashboard"
+                className=" text-white px-4 py-2 rounded-md hover:bg-white hover:text-black hover:border-0 transition-colors flex  items-center gap-2"
+              >
+                <CircleUserRound />
+                Profile
+              </Link>
+            )}
           </div>
         </div>
 
@@ -133,21 +153,35 @@ const Navbar = () => {
             >
               Contact
             </button>
-            <Link
-              to="/login"
-              className="block border border-white-1 px-3 py-2 rounded-md text-white text-center  hover:bg-[#94bbe9] hover:text-black hover:border-0 transition-colors"
-              onClick={() => setIsOpen(false)}
-            >
-              Login
-            </Link>
-            <Link
-              to="/register"
-              className=" border border-white-1 px-3 py-2 rounded-md text-white text-center  hover:bg-[#94bbe9] hover:text-black hover:border-0 transition-colors flex items-center justify-center gap-2"
-              onClick={() => setIsOpen(false)}
-            >
-              <FaUniversity />
-              Register
-            </Link>
+            {!token ? (
+              <>
+                {" "}
+                <Link
+                  to="/login"
+                  className="block border border-white-1 px-3 py-2 rounded-md text-white text-center  hover:bg-[#94bbe9] hover:text-black hover:border-0 transition-colors"
+                  onClick={() => setIsOpen(false)}
+                >
+                  Login
+                </Link>
+                <Link
+                  to="/register"
+                  className=" border border-white-1 px-3 py-2 rounded-md text-white text-center  hover:bg-[#94bbe9] hover:text-black hover:border-0 transition-colors flex items-center justify-center gap-2"
+                  onClick={() => setIsOpen(false)}
+                >
+                  <FaUniversity />
+                  Register
+                </Link>
+              </>
+            ) : (
+              <Link
+                to="unidashboard"
+                className=" border border-white-1 px-3 py-2 rounded-md text-white text-center  hover:bg-white hover:text-black hover:border-0 transition-colors flex items-center justify-center gap-2"
+                onClick={() => setIsOpen(false)}
+              >
+                <CircleUserRound />
+                Profile
+              </Link>
+            )}
           </div>
         </div>
       </div>

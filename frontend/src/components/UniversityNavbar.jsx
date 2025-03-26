@@ -20,10 +20,14 @@ export function UniversityNavbar() {
   return (
     <nav className="fixed top-0 left-0 right-0 bg-white border-b border-gray-200 z-50">
       <div className="px-4 md:px-6 flex items-center justify-between h-16">
-        <div className="flex items-center">
-          <Shirt className="w-6 h-6 text-blue-600" />
-          <span className="ml-2 text-xl font-bold text-gray-900">E-Dhobi</span>
-        </div>
+        <Link to="/">
+          <div className="flex items-center">
+            <Shirt className="w-6 h-6 text-blue-600" />
+            <span className="ml-2 text-xl font-bold text-gray-900">
+              E-Dhobi
+            </span>
+          </div>
+        </Link>
 
         <div className="hidden md:flex items-center gap-4">
           <a
