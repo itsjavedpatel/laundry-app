@@ -22,7 +22,6 @@ const universitySchema = new mongoose.Schema(
     },
     zipcode: {
       type: Number,
-
       trim: true,
     },
     role: {
@@ -51,6 +50,17 @@ const universitySchema = new mongoose.Schema(
     isSubscribed: {
       type: Boolean,
       default: false,
+    },
+    validUpto: {
+      type: Date,
+      default: Date.now(),
+    },
+    status: {
+      type: String,
+      default: true,
+    },
+    UGCcode: {
+      type: String,
     },
   },
   { timestamps: true }
