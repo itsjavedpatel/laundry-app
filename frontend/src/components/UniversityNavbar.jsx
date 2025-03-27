@@ -16,7 +16,7 @@ import {
 
 export function UniversityNavbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-
+  const handleLogout = () => {};
   return (
     <nav className="bg-gray-800  border-black border-b-[1px] sticky top-0 z-50 p-4 text-white">
       <div className="px-4 md:px-6 flex items-center justify-between h-16">
@@ -28,10 +28,10 @@ export function UniversityNavbar() {
         </Link>
 
         <div className="hidden md:flex items-center gap-4">
-          <a href="#" className="flex items-center gap-2 hover:text-gray-300 ">
+          <Link to="#" className="flex items-center gap-2 hover:text-gray-300 ">
             <HelpCircle className="w-4 h-4" />
             <span>Help & Support</span>
-          </a>
+          </Link>
 
           <div className="relative group">
             <button className="flex items-center gap-2  hover:text-gray-300">
@@ -46,12 +46,12 @@ export function UniversityNavbar() {
                 >
                   Student
                 </Link>
-                <a
-                  href="#"
+                <Link
+                  to="#"
                   className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                 >
                   Laundry & Delivery
-                </a>
+                </Link>
               </div>
             </div>
           </div>
@@ -88,12 +88,12 @@ export function UniversityNavbar() {
                   Payment & Subscription
                 </Link>
                 <hr className="my-1" />
-                <a
-                  href="#"
+                <button
+                  onClick={handleLogout}
                   className="block px-4 py-2 text-sm text-red-600 hover:bg-gray-100"
                 >
                   Logout
-                </a>
+                </button>
               </div>
             </div>
           </div>
@@ -113,16 +113,16 @@ export function UniversityNavbar() {
 
       {isMenuOpen && (
         <div className="md:hidden bg-white shadow-md p-4 space-y-4">
-          <a href="#" className="block text-gray-600 hover:text-gray-900">
+          <Link to="#" className="block text-gray-600 hover:text-gray-900">
             Help & Support
-          </a>
+          </Link>
           <Link
             to="/students"
             className="block text-gray-600 hover:text-gray-900"
           >
             Student
           </Link>
-          <Link href="#" className="block text-gray-600 hover:text-gray-900">
+          <Link to="#" className="block text-gray-600 hover:text-gray-900">
             Laundry & Delivery
           </Link>
           <Link
@@ -143,9 +143,12 @@ export function UniversityNavbar() {
           >
             Payment & Subscription
           </Link>
-          <a href="#" className="block text-red-600 hover:text-red-800">
+          <button
+            onClick={handleLogout}
+            className="block text-red-600 hover:text-red-800"
+          >
             Logout
-          </a>
+          </button>
         </div>
       )}
     </nav>
