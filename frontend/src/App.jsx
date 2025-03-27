@@ -4,6 +4,7 @@ import "./index.css";
 import Unidashboard from "./components/Unidashboard";
 import LandingPage from "./pages/LandingPage";
 import Login from "./pages/Login";
+import Student from "./pages/Student";
 import Register from "./components/Register";
 import Error from "./components/Error";
 import { ToastContainer } from "react-toastify";
@@ -34,6 +35,7 @@ function App() {
           <Route path="/" element={<LandingPage />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
+          <Route path="/studentprofile" element={<Student />} />
           <Route
             element={
               <UniversityContext>

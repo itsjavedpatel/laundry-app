@@ -8,7 +8,6 @@ const UniversityContext = ({ children }) => {
   const [university, setUniversity] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const token = localStorage.getItem("token");
-
   useEffect(() => {
     const fetchUniversityData = async () => {
       if (!token) {

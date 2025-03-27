@@ -24,16 +24,14 @@ const Home = () => {
       <div className="relative text-black bg-gradient-to-r from-[#eeaeca] to-[#94bbe9]">
         <div className="max-w-7xl mx-auto px-4 py-24 flex flex-col lg:flex-row items-center">
           <div className="lg:w-1/2 space-y-8">
-            <h1 className="text-5xl font-bold leading-tight">
+            <h1 className="lg:text-5xl text-3xl  font-bold  leading-tight">
               Effortless Laundry Services at Your Fingertips
             </h1>
             <p className="text-xl text-grey-600">
               Experience the convenience of modern laundry management with our
               smart solutions.
             </p>
-            <button className=" border-[1px] border-black text-black px-8 py-3 rounded-md font-semibold hover:bg-[#eeeaea] hover:text-[#956161] transition-colors">
-              Schedule a Pickup
-            </button>
+            
           </div>
           {/* src="https://images.unsplash.com/photo-1545173168-9f1947eebb7f?auto=format&fit=crop&q=80&w=2971&ixlib=rb-4.0.3" */}
           <div className="lg:w-1/2 mt-12 lg:mt-0 perspective">

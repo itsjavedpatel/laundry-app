@@ -18,16 +18,19 @@ export function UniversityNavbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const handleLogout = () => {};
   return (
-    <nav className="bg-gray-800  border-black border-b-[1px] sticky top-0 z-50 p-4 text-white">
+    <nav className="bg-white border-black border-b-[1px] text-lg sticky top-0 z-50 p-4 ">
       <div className="px-4 md:px-6 flex items-center justify-between h-16">
-        <Link to="/">
-          <div className="flex items-center">
-            <Shirt className="w-6 h-6 " />
-            <span className="ml-2 text-xl font-bold ">E-Dhobi</span>
-          </div>
-        </Link>
+        <div className="flex items-center gap-2">
+          <Shirt className="w-8 h-8 text-indigo-600" />
+          <Link
+            to="/"
+            className="text-xl font-bold bg-gradient-to-r from-indigo-600 to-purple-600 text-transparent bg-clip-text"
+          >
+            E-DHOBI
+          </Link>
+        </div>
 
-        <div className="hidden md:flex items-center gap-4">
+        <div className="hidden md:flex items-center  gap-6">
           <Link to="#" className="flex items-center gap-2 hover:text-gray-300 ">
             <HelpCircle className="w-4 h-4" />
             <span>Help & Support</span>
