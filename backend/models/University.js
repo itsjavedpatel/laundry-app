@@ -56,11 +56,14 @@ const universitySchema = new mongoose.Schema(
       default: Date.now(),
     },
     status: {
-      type: String,
-      default: true,
+      type: Boolean,
+      default: false,
     },
     UGCcode: {
       type: String,
+    },
+    maxWash: {
+      type: Number,
     },
   },
   { timestamps: true }

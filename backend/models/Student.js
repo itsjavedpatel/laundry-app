@@ -3,7 +3,7 @@ const University = require("./University");
 
 const studentSchema = new mongoose.Schema(
   {
-    userName: {
+    name: {
       type: String,
       required: true,
       trim: true,
@@ -52,6 +52,16 @@ const studentSchema = new mongoose.Schema(
       type: String,
       default: "student",
       immutable: true,
+    },
+    status: {
+      type: Boolean,
+      default: false,
+    },
+    validUpto: {
+      type: Date,
+    },
+    wash: {
+      type: Number,
     },
   },
   { timestamps: true }
