@@ -191,10 +191,14 @@ exports.registerVerifyOTP = async (req, res) => {
 
 //! Logout user
 exports.logout = async (req, res, next) => {
-  res.clearCookie("token");
   const token = req.cookies.token || req.headers.authorization?.split(" ")[1];
-  await blackListTokenModel.create({ token });
-  res.status(200).json({ message: "Logged out successfully" });
+  try {
+    res.clearCookie("token");
+    await blackListTokenModel.create({ token });
+    return res.status(200).json({ message: "🎉Logged out Successfully" });
+  } catch (error) {
+    return res.status(500).json({ message: "🛑 Something Went Wrong!!" });
+  }
 };
 
 //! get profile

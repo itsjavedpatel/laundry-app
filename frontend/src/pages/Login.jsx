@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -148,8 +148,10 @@ const Login = () => {
                   />
                 </div>
                 <div className="flex items-center  justify-start">
-                  <span className="text-sm font-medium pl-2"
-                  > Forgot password?</span>
+                  <span className="text-sm font-medium pl-2">
+                    {" "}
+                    Forgot password?
+                  </span>
                   <Link
                     to="/forget-password"
                     className="text-sm font-medium text-primary-600 hover:underline dark:text-primary-500 pl-2"

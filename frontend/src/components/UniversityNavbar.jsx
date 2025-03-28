@@ -1,5 +1,10 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+
+import axios from "axios";
+
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 import {
   Bell,
@@ -16,7 +21,22 @@ import {
 
 export function UniversityNavbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const handleLogout = () => {};
+  const navigate = useNavigate();
+  const handleLogout = async () => {
+    const token = localStorage.getItem("token");
+    try {
+      const response = await axios.get("http://localhost:3000/auth/logout", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      toast.success(response.data.message);
+      localStorage.removeItem("token");
+      navigate("/");
+    } catch (error) {
+      toast.error(response.data.message);
+    }
+  };
   return (
     <nav className="bg-white border-black border-b-[1px] text-lg sticky top-0 z-50 p-4 ">
       <div className="px-4 md:px-6 flex items-center justify-between h-16">
