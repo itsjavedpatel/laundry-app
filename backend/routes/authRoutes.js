@@ -20,7 +20,7 @@ authRouter.post("/register/verify-otp", registerVerifyOTP);
 //! user profile
 // authRouter.get("/profile", authUniversity, getUserProfile);
 //! logout
-authRouter.get("/logout", authUser, logout);
+authRouter.get("/logout", logout);
 
 //! Forget password
 authRouter.post("/forgotpass/send-otp", forgotPassSendOTP);
