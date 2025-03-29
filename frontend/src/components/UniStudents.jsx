@@ -1,4 +1,7 @@
 import React, { useContext, useState } from "react";
+import axios from "axios";
+import {toast} from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import {
   Search,
   Filter,
@@ -12,89 +15,6 @@ import {
 import { UniversityNavbar } from "./UniversityNavbar";
 import { UniversityDataContext } from "../context/UniversityContext";
 import AddStudent from "./AddStudent";
-
-const initialStudents = [
-  {
-    id: "1",
-    name: "Javed",
-    contact: "+91-1234567890",
-    laundryId: "LD001",
-    email: "john.smith@university.edu",
-    studentId: "STU2024001",
-    course: "Computer Science",
-    status: "active",
-  },
-  {
-    id: "2",
-    name: "Akshay ",
-    contact: "+91-1234567890",
-    laundryId: "LD002",
-    email: "emma.wilson@university.edu",
-    studentId: "STU2024002",
-    course: "Business Administration",
-    status: "inactive",
-  },
-  {
-    id: "3",
-    name: "Javed",
-    contact: "+91-1234567890",
-    laundryId: "LD001",
-    email: "john.smith@university.edu",
-    studentId: "STU2024001",
-    course: "Computer Science",
-    status: "active",
-  },
-  {
-    id: "4",
-    name: "Akshay ",
-    contact: "+91-1234567890",
-    laundryId: "LD002",
-    email: "emma.wilson@university.edu",
-    studentId: "STU2024002",
-    course: "Business Administration",
-    status: "inactive",
-  },
-  {
-    id: "5",
-    name: "Javed",
-    contact: "+91-1234567890",
-    laundryId: "LD001",
-    email: "john.smith@university.edu",
-    studentId: "STU2024001",
-    course: "Computer Science",
-    status: "active",
-  },
-  {
-    id: "6",
-    name: "Akshay ",
-    contact: "+91-1234567890",
-    laundryId: "LD002",
-    email: "emma.wilson@university.edu",
-    studentId: "STU2024002",
-    course: "Business Administration",
-    status: "inactive",
-  },
-  {
-    id: "7",
-    name: "Javed",
-    contact: "+91-1234567890",
-    laundryId: "LD001",
-    email: "john.smith@university.edu",
-    studentId: "STU2024001",
-    course: "Computer Science",
-    status: "active",
-  },
-  {
-    id: "8",
-    name: "Akshay ",
-    contact: "+91-1234567890",
-    laundryId: "LD002",
-    email: "emma.wilson@university.edu",
-    studentId: "STU2024002",
-    course: "Business Administration",
-    status: "inactive",
-  },
-];
 
 function UniStudents() {
   const { university } = useContext(UniversityDataContext);
@@ -122,22 +42,38 @@ function UniStudents() {
       statusFilter === "all" ? true : student.status === statusFilter
     );
 
-  const toggleStatus = (studentId) => {
-    setStudents(
-      students.map((student) =>
-        student.laundryId === studentId
-          ? {
-              ...student,
-              status: student.status === "active" ? "inactive" : "active",
-            }
-          : student
-      )
-    );
+  const toggleStatus = async (studentId, id) => {
+    try {
+      const response = await axios.put(
+        `http://localhost:3000/university/update-student`,{id}
+        
+      );
+      setStudents(
+        students.map((student) =>
+          student.laundryId === studentId
+            ? {
+                ...student,
+                status: student.status === "active" ? "inactive" : "active",
+              }
+            : student
+        )
+      );
+      toast.success(response.data.message)
+    } catch (error) {
+      toast.error("Error updating student status");
+      console.log("error", error);
+    }
   };
 
-  const deleteStudent = (studentId) => {
-    if (window.confirm("Are you sure you want to delete this student?")) {
-      setStudents(students.filter((student) => student.id !== studentId));
+  const deleteStudent = async (studentId) => {
+    const token = localStorage.getItem("token");
+    try {
+      const response = await axios.delete(`http://localhost:3000/university/delete-student/${studentId}`, {headers : { Authorization : `Bearer ${token}`}})
+      setStudents(students.filter((student) => student._id !== studentId));
+      toast.success(response.data.message);
+
+    } catch (error) {
+      toast.error("Error deleting student");
     }
   };
 
@@ -279,7 +215,9 @@ function UniStudents() {
                   <td className="px-6 py-4 whitespace-nowrap">
                     <div className="flex items-center gap-6">
                       <button
-                        onClick={() => toggleStatus(student.laundryId)}
+                        onClick={() =>
+                          toggleStatus(student.laundryId, student._id)
+                        }
                         className="text-blue-600 hover:text-blue-900"
                       >
                         {student.status === "active" ? (
@@ -289,7 +227,7 @@ function UniStudents() {
                         )}
                       </button>
                       <button
-                        onClick={() => deleteStudent(student.id)}
+                        onClick={() => deleteStudent(student._id)}
                         className="text-red-600 hover:text-red-900"
                       >
                         <Trash2 className="h-5 w-5" />

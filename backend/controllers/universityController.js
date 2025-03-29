@@ -5,6 +5,7 @@ const jwt = require("jsonwebtoken");
 const generatePassword = require("../utils/generatePassword");
 const bcrypt = require("bcryptjs/dist/bcrypt");
 const { sendPassword } = require("../utils/Mailer");
+const { authUser } = require("../middlewares/authentication");
 
 // Sending university data
 module.exports.getUnidata = async (req, res, next) => {
@@ -71,5 +72,60 @@ module.exports.addStudent = async (req, res, next) => {
     return res
       .status(500)
       .json({ message: "Something Went Wrong !! Try again later" });
+  }
+};
+
+module.exports.updateStudent = async (req, res, next) => {
+  try {
+    const { id } = req.body;
+    console.log(id);
+    const student = await Student.findById(id);
+    if (!student) {
+      return res.status(404).json({ message: "Student not found" });
+    }
+    student.status === "active"
+      ? (student.status = "inactive")
+      : (student.status = "active");
+    await student.save();
+    return res
+      .status(200)
+      .json({ message: "Student status updated successfully" });
+  } catch (error) {
+    return res.status(500).json({ message: "Something went wrong" });
+  }
+};
+
+//delete student
+
+module.exports.deleteStudent = async (req, res, next) => {
+  const decodedToken = req.decodedToken;
+  console.log(decodedToken._id);
+  const id = req.params.studentId;
+  try {
+    const student = await Student.findByIdAndDelete(id);
+    // const updatedUniversity = await University.findByIdAndUpdate(
+    //   decodedToken._id,
+    //   {
+    //     $pull: { students: { _id: id } }, // Remove student with matching ID
+    //   },
+    //   { new: true }
+    // );
+    const university = await University.findById(decodedToken._id);
+    if (!university) {
+      console.log("University not found");
+      return;
+    }
+
+    // Filter out the student with the given ID
+    university.students = university.students.filter(
+      (student) => student._id.toString() !== id.toString()
+    );
+
+    // Save the updated document
+    const updatedUniversity = await university.save();
+    return res.status(200).json({ message: "Student deleted successfully" });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ message: "Something went wrong" });
   }
 };

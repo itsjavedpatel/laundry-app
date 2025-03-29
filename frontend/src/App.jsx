@@ -22,7 +22,7 @@ function App() {
     <>
       <ToastContainer
         position="top-right"
-        autoClose={3000} // Toast auto-close time (3 seconds)
+        autoClose={1000} // Toast auto-close time (3 seconds)
         hideProgressBar={false} // Hide progress bar
         closeOnClick={true} // Close on click
         pauseOnHover={true} // Pause on hover
