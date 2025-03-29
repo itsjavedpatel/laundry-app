@@ -26,12 +26,10 @@ const studentSchema = new mongoose.Schema(
     },
     studentId: {
       type: String,
-      unique: true,
       required: true,
     },
     laundryId: {
       type: String,
-      unique: true,
       required: true,
     },
     hostel: {

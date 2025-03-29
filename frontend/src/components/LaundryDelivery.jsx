@@ -7,7 +7,6 @@ function LaundryDelivery() {
   const [agentType, setAgentType] = useState("laundry");
   const [laundryAgents, setLaundryAgents] = useState([]);
   const [deliveryAgents, setDeliveryAgents] = useState([]);
-  
 
   // Form states
   const [formData, setFormData] = useState({
@@ -75,7 +74,6 @@ function LaundryDelivery() {
       <UniversityNavbar />
 
       {/* Top Section */}
-      
 
       {/* Navigation Tabs */}
       <div className="flex border-b border-gray-200 bg-white sticky top-0 shadow-sm">
