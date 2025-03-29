@@ -4,8 +4,8 @@ export function PieChart({ data }) {
   const chartRef = useRef(null);
 
   useEffect(() => {
-    const total = data.activeStudents + data.inactiveStudents;
-    const activePercentage = (data.activeStudents / total) * 100;
+    const total = data.active + data.inactive;
+    const activePercentage = (data.active / total) * 100;
 
     if (chartRef.current) {
       const circle = chartRef.current.querySelector(".progress-ring");
@@ -36,8 +36,8 @@ export function PieChart({ data }) {
               x2="100%"
               y2="100%"
             >
-              <stop offset="0%" style={{ stopColor: "#60A5FA" }} />
-              <stop offset="100%" style={{ stopColor: "#3B82F6" }} />
+              <stop offset="0%" style={{ stopColor: "#48A6A7" }} />
+              <stop offset="100%" style={{ stopColor: "#48A6A7" }} />
             </linearGradient>
           </defs>
 
@@ -47,7 +47,7 @@ export function PieChart({ data }) {
             cy="50"
             r="40"
             fill="transparent"
-            stroke="#E5E7EB"
+            stroke="#DBDBDB"
             strokeWidth="20"
             className="transition-all duration-1000 ease-in-out"
           />
@@ -70,47 +70,34 @@ export function PieChart({ data }) {
               x="50"
               y="45"
               textAnchor="middle"
-              className="text-3xl font-bold fill-gray-900"
+              className="text-sm font-bold fill-gray-500"
             >
-              {Math.round(
-                (data.activeStudents /
-                  (data.activeStudents + data.inactiveStudents)) *
-                  100
-              )}
-              %
+              {Math.round((data.active / (data.active + data.inactive)) * 100)}%
             </text>
             <text
               x="50"
               y="65"
               textAnchor="middle"
-              className="text-sm fill-gray-600"
+              className="text-sm fill-gray-500"
             >
               Active
             </text>
           </g>
         </svg>
-
-        {/* Animated ring effect */}
-        {/* <div
-          className="absolute inset-0 rounded-full animate-pulse opacity-5 bg-blue-200"
-          style={{
-            animation: "pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite",
-          }}
-        ></div> */}
       </div>
 
       {/* Enhanced Legend */}
-      <div className="absolute bottom-0 left-0 right-0 flex justify-center gap-8 text-sm p-4">
+      <div className="absolute -bottom-4 left-0 right-0 flex justify-center gap-8 text-sm  p-4 ">
         <div className="flex items-center gap-3 bg-white px-4 py-2 rounded-full shadow-sm">
-          <div className="w-3 h-3 rounded-full bg-gradient-to-br from-blue-400 to-blue-600"></div>
+          <div className="w-3 h-3 rounded-full bg-[#48A6A7]"></div>
           <span className="text-gray-700 font-medium">
-            Active ({data.activeStudents.toLocaleString()})
+            Active ({data.active.toLocaleString()})
           </span>
         </div>
         <div className="flex items-center gap-3  bg-white px-4 py-2 rounded-full shadow-sm">
-          <div className="w-3 h-3 rounded-full bg-gray-200"></div>
+          <div className="w-3 h-3 rounded-full bg-[#DBDBDB]"></div>
           <span className="text-gray-700 font-medium">
-            Inactive ({data.inactiveStudents.toLocaleString()})
+            Inactive ({data.inactive.toLocaleString()})
           </span>
         </div>
       </div>

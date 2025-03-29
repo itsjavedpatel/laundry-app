@@ -1,8 +1,9 @@
 import axios from "axios";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { X as Close } from "lucide-react";
 import "react-toastify/dist/ReactToastify.css";
 import { toast } from "react-toastify";
+
 const AddStudent = ({ setShowAddModal }) => {
   const [formData, setFormData] = useState({
     username: "",
@@ -28,7 +29,9 @@ const AddStudent = ({ setShowAddModal }) => {
           },
         }
       );
+
       toast.success(response.data.message);
+
       setShowAddModal(false);
     } catch (error) {
       // console.error(error);

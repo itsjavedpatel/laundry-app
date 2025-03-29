@@ -1,6 +1,6 @@
 import React, { useContext, useState } from "react";
 import axios from "axios";
-import {toast} from "react-toastify";
+import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import {
   Search,
@@ -23,7 +23,6 @@ function UniStudents() {
   const [searchTerm, setSearchTerm] = useState("");
   const [statusFilter, setStatusFilter] = useState("all");
   const [showAddModal, setShowAddModal] = useState(false);
-  
 
   const filteredStudents = students
     .filter(
@@ -39,8 +38,8 @@ function UniStudents() {
   const toggleStatus = async (studentId, id) => {
     try {
       const response = await axios.put(
-        `http://localhost:3000/university/update-student`,{id}
-        
+        `http://localhost:3000/university/update-student`,
+        { id }
       );
       setStudents(
         students.map((student) =>
@@ -52,7 +51,7 @@ function UniStudents() {
             : student
         )
       );
-      toast.success(response.data.message)
+      toast.success(response.data.message);
     } catch (error) {
       toast.error("Error updating student status");
       console.log("error", error);
@@ -60,12 +59,18 @@ function UniStudents() {
   };
 
   const deleteStudent = async (studentId) => {
-    const token = localStorage.getItem("token");
     try {
-      const response = await axios.delete(`http://localhost:3000/university/delete-student/${studentId}`, {headers : { Authorization : `Bearer ${token}`}})
+      const confirmDelete = window.confirm(
+        "Are you sure you want to delete this student?"
+      );
+      if (!confirmDelete) return;
+      const token = localStorage.getItem("token");
+      const response = await axios.delete(
+        `http://localhost:3000/university/delete-student/${studentId}`,
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
       setStudents(students.filter((student) => student._id !== studentId));
       toast.success(response.data.message);
-
     } catch (error) {
       toast.error("Error deleting student");
     }
@@ -246,7 +251,10 @@ function UniStudents() {
         {/* Add Student Modal */}
         {showAddModal && (
           <>
-            <AddStudent setShowAddModal={setShowAddModal} />
+            <AddStudent
+              setShowAddModal={setShowAddModal}
+              setStudents={setStudents}
+            />
           </>
         )}
       </main>
