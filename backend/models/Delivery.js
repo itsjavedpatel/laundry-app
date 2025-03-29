@@ -23,17 +23,15 @@ const deliverySchema = new mongoose.Schema({
   orders: [
     {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "Student",
+      ref: "Order",
     },
   ],
   role: {
     type: String,
-    default: "delivry",
+    default: "delivery",
     immutable: true,
   },
-
 });
 
-const delivery = mongoose.model("Delivery",deliverySchema);
-module.exports = delivery;
-
+const Delivery = mongoose.model("Delivery", deliverySchema);
+module.exports = Delivery;
