@@ -24,7 +24,7 @@ const Home = () => {
       <div className="relative text-black bg-gradient-to-r from-[#eeaeca] to-[#94bbe9]">
         <div className="max-w-7xl mx-auto px-4 py-24 flex flex-col lg:flex-row items-center">
           <div className="lg:w-1/2 space-y-8">
-            <h1 className="lg:text-5xl text-3xl  font-bold  leading-tight">
+            <h1 className="lg:text-5xl text-3xl lh font-bold  leading-tight">
               Effortless Laundry Services at Your Fingertips
             </h1>
             <p className="text-xl text-grey-600">

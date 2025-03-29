@@ -16,6 +16,7 @@ import UniPrivacy from "./components/UniPrivacy";
 import UniProtectedWrapper from "./pages/UniProtectedWrapper";
 import UniversityContext from "./context/UniversityContext";
 import ForgetPassword from "./components/ForgetPassword";
+import LaundryDelivery from "./components/LaundryDelivery";
 
 function App() {
   return (
@@ -48,6 +49,7 @@ function App() {
             <Route path="/subscription-plan" element={<PaymentAndSubs />} />
             <Route path="/uni-edit-profile" element={<UniEditProfile />} />
             <Route path="/uni-privacy" element={<UniPrivacy />} />
+            <Route path ="/laundry-delivery" element= {<LaundryDelivery/>}/>
           </Route>
           <Route path="*" element={<Error />} />
           <Route path="/forget-password" element={<ForgetPassword />} />

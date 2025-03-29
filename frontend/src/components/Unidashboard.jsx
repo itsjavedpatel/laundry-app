@@ -26,7 +26,7 @@ function Unidashboard() {
       <main className="mt-6 p-4 sm:p-6 lg:p-8 pt-24">
         {/* Welcome Section */}
         <div className="text-center mt-12 mb-12">
-          <h1 className="text-2xl sm:text-5xl font-bold text-[#5e5c5c]">
+          <h1 className="text-2xl  sm:text-5xl font-bold text-gray-900">
             Welcome, {university.name}
           </h1>
           <p className="text-gray-600 text-sm mt-5 sm:text-base">
