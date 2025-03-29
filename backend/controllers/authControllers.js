@@ -27,7 +27,7 @@ const testUniversity1 = {
 exports.login = async (req, res) => {
   const { email, password, role } = req.body;
 
-  console.log("🟢 Data received at backend:", req.body);
+  // console.log("🟢 Data received at backend:", req.body);
 
   try {
     let user;
@@ -44,17 +44,17 @@ exports.login = async (req, res) => {
     } else if (role === "Delivery") {
       user = await Delivery.findOne({ email }).select("+password");
     } else {
-      console.log("❌ Role not declared:", role);
+      // console.log("❌ Role not declared:", role);
       return res
         .status(403)
         .json({ message: "Role is not declared", data: req.body });
     }
 
-    console.log("🟢 User found in database:", user);
+    // console.log("🟢 User found in database:", user);
 
     // 🔍 If user is not found, return 404 error
     if (!user) {
-      console.log("❌ User not found!");
+      // console.log("❌ User not found!");
       return res
         .status(404)
         .json({ message: "User not Found!", data: req.body });
@@ -63,14 +63,14 @@ exports.login = async (req, res) => {
     // 🛑 Check if the entered password matches the stored password (without bcrypt for now)
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
-      console.log("❌ Incorrect password!");
+      // console.log("❌ Incorrect password!");
       return res
         .status(400)
         .json({ message: "Invalid email or password!", data: req.body });
     }
 
     // ✅ Login Successful
-    console.log("✅ Login successful for:", user.email);
+    // console.log("✅ Login successful for:", user.email);
     // Generate token
     const token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET, {
       expiresIn: "24h",
@@ -79,7 +79,7 @@ exports.login = async (req, res) => {
 
     return res.status(200).json({ message: "Login successful", token, user });
   } catch (error) {
-    console.error("❌ Backend error:", error);
+    // console.error("❌ Backend error:", error);
     return res.status(500).json({ message: "Something went wrong!" });
   }
 };
@@ -87,7 +87,7 @@ exports.login = async (req, res) => {
 //!Register logic
 // Send OTP
 exports.registerSendOTP = async (req, res) => {
-  console.log("Incoming data :", req.body);
+  // console.log("Incoming data :", req.body);
 
   const { email, universityName } = req.body;
 
@@ -160,11 +160,11 @@ exports.registerSendOTP = async (req, res) => {
 
 // Verify OTP and send password
 exports.registerVerifyOTP = async (req, res) => {
-  console.log("Incoming data in verify route :", req.body);
+  // console.log("Incoming data in verify route :", req.body);
   const { email, otp, universityName } = req.body;
   try {
     const validOtp = await otpModel.findOne({ email, otp });
-    console.log(validOtp);
+    // console.log(validOtp);
 
     if (!validOtp) {
       // status 400 for bad request
@@ -172,7 +172,7 @@ exports.registerVerifyOTP = async (req, res) => {
     }
 
     const password = generatePassword();
-    console.log(password);
+    // console.log(password);
 
     const hashedPassword = await bcrypt.hash(password, 10);
     const newUniversity = await University.create({
@@ -227,7 +227,7 @@ exports.forgotPassSendOTP = async (req, res, next) => {
     } else if (role === "Delivery") {
       user = await Delivery.findOne({ email }).select("+password");
     } else {
-      console.log("❌ Role not declared:", role);
+      // console.log("❌ Role not declared:", role);
       return res
         .status(403)
         .json({ message: "Role is not declared", data: req.body });

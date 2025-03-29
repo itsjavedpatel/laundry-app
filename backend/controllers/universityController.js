@@ -29,7 +29,7 @@ module.exports.getUnidata = async (req, res, next) => {
 
     return res.status(200).json({ uniData });
   } catch (error) {
-    console.log(error);
+    // console.log(error);
 
     return res.status(401).json({ message: "Unauthorized access" });
   }
@@ -40,7 +40,7 @@ module.exports.addStudent = async (req, res, next) => {
   const { username, email, laundryId, studentId, mobile } = req.body;
   const decodedToken = req.decodedToken;
   try {
-    const studentExist = await Student.findOne({ studentId });
+    const studentExist = await Student.findOne({ email });
     if (studentExist) {
       return res.status(409).json({ message: "Student Already exists" });
     }
