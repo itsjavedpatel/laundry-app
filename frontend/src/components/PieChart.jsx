@@ -70,7 +70,7 @@ export function PieChart({ data }) {
               x="50"
               y="45"
               textAnchor="middle"
-              className="text-xl font-bold fill-gray-500"
+              className="text-sm font-bold fill-gray-500"
             >
               {Math.round((data.active / (data.active + data.inactive)) * 100)}%
             </text>
@@ -84,14 +84,6 @@ export function PieChart({ data }) {
             </text>
           </g>
         </svg>
-
-        {/* Animated ring effect */}
-        {/* <div
-          className="absolute inset-0 rounded-full animate-pulse opacity-5 bg-blue-200"
-          style={{
-            animation: "pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite",
-          }}
-        ></div> */}
       </div>
 
       {/* Enhanced Legend */}

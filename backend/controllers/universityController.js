@@ -1,11 +1,10 @@
-const BlacklistTokenModel = require("../models/BlacklistedToken");
 const Student = require("../models/Student");
 const University = require("../models/University");
 const jwt = require("jsonwebtoken");
 const generatePassword = require("../utils/generatePassword");
 const bcrypt = require("bcryptjs/dist/bcrypt");
-const { sendPassword } = require("../utils/Mailer");
-const { authUser } = require("../middlewares/authentication");
+const { sendPassword, sendOTP } = require("../utils/Mailer");
+const otpModel = require("../models/OTP");
 
 // Sending university data
 module.exports.getUnidata = async (req, res, next) => {
@@ -26,7 +25,7 @@ module.exports.getUnidata = async (req, res, next) => {
     if (uniData.delivery.length > 0) {
       uniData = await uniData.populate("delivery");
     }
-    console.log(uniData);
+    // console.log(uniData);
 
     return res.status(200).json({ uniData });
   } catch (error) {
@@ -41,7 +40,7 @@ module.exports.addStudent = async (req, res, next) => {
   const { username, email, laundryId, studentId, mobile } = req.body;
   const decodedToken = req.decodedToken;
   try {
-    const studentExist = await Student.findOne({ email });
+    const studentExist = await Student.findOne({ studentId });
     if (studentExist) {
       return res.status(409).json({ message: "Student Already exists" });
     }
@@ -75,6 +74,7 @@ module.exports.addStudent = async (req, res, next) => {
   }
 };
 
+// updating student status
 module.exports.updateStudent = async (req, res, next) => {
   try {
     const { id } = req.body;
@@ -89,26 +89,24 @@ module.exports.updateStudent = async (req, res, next) => {
     await student.save();
     return res
       .status(200)
-      .json({ message: "Student status updated successfully" });
+      .json({ message: "Student status updated successfully", student });
   } catch (error) {
     return res.status(500).json({ message: "Something went wrong" });
   }
 };
 
 //delete student
-
 module.exports.deleteStudent = async (req, res, next) => {
   const decodedToken = req.decodedToken;
   console.log(decodedToken._id);
   const id = req.params.studentId;
   try {
     const student = await Student.findByIdAndDelete(id);
-    // const updatedUniversity = await University.findByIdAndUpdate(
-    //   decodedToken._id,
+    // const updatedUniversity = await University.updateOne(
+    //   { _id: decodedToken._id },
     //   {
     //     $pull: { students: { _id: id } }, // Remove student with matching ID
-    //   },
-    //   { new: true }
+    //   }
     // );
     const university = await University.findById(decodedToken._id);
     if (!university) {
@@ -127,5 +125,59 @@ module.exports.deleteStudent = async (req, res, next) => {
   } catch (error) {
     console.log(error);
     return res.status(500).json({ message: "Something went wrong" });
+  }
+};
+
+// change password
+
+module.exports.otpForPassChange = async (req, res, next) => {
+  try {
+    const decodedToken = req.decodedToken;
+    console.log(decodedToken._id);
+
+    const { oldPassword, newPassword } = req.body;
+    console.log(req.body);
+
+    const university = await University.findById(decodedToken._id).select(
+      "+password"
+    );
+
+    if (!university) {
+      return res.status(401).json({ message: "Unauthorized access" });
+    }
+    const isMatch = await bcrypt.compare(oldPassword, university.password);
+    if (!isMatch) {
+      return res.status(401).json({ message: "Incorrect Old Password" });
+    }
+    const otp = Math.floor(100000 + Math.random() * 900000).toString();
+
+    await sendOTP(university.email, otp);
+    const newOtp = await otpModel.create({ otp, email: university.email });
+    res.status(201).json({ message: "OTP sent to your registered email" });
+  } catch (error) {
+    return res
+      .status(500)
+      .json({ message: "Something Went Wrong !! try again later" });
+  }
+};
+module.exports.changePassword = async (req, res, next) => {
+  try {
+    const decodedToken = req.decodedToken;
+    const { newPassword, otp } = req.body;
+    const univeristy = await University.findById(decodedToken._id).select(
+      "+password"
+    );
+    // verify otp
+    const checkOtp = await otpModel.findOne({ otp, email: univeristy.email });
+    if (!checkOtp) {
+      return res.status(405).json({ message: "Incorrect Otp" });
+    }
+    const hashPass = await bcrypt.hash(newPassword, 10);
+    univeristy.password = hashPass;
+    await univeristy.save();
+    res.status(201).json({ message: "Password changed Successfully" });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ message: "Something went wrong" });
   }
 };

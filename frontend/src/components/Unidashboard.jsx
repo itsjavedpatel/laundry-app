@@ -5,7 +5,6 @@ import { StatCard } from "./StatCard";
 import { UniversityNavbar } from "./UniversityNavbar";
 import profileimage from "../assets/images/pfp.jpg";
 import { UniversityDataContext } from "../context/UniversityContext";
-import UniPrivacy from "./UniPrivacy";
 
 const Unidashboard = () => {
   const { university } = useContext(UniversityDataContext);
@@ -82,7 +81,7 @@ const Unidashboard = () => {
         </div>
 
         {/* Stats Section */}
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6 mb-6 mx-4">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6 mb-6 max-w-6xl mx-auto ">
           <StatCard
             title="Total Students"
             value={totalStudents}

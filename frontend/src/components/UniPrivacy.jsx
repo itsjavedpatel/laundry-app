@@ -1,9 +1,15 @@
 import React, { useState } from "react";
-import { toast } from "react-hot-toast";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 import { Lock, Mail, AlertTriangle, Shield, Key } from "lucide-react";
 import { UniversityNavbar } from "./UniversityNavbar";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const UniPrivacy = () => {
+  const navigate = useNavigate();
+  const token = localStorage.getItem("token");
   const [passwordForm, setPasswordForm] = useState({
     oldPassword: "",
     newPassword: "",
@@ -11,23 +17,58 @@ const UniPrivacy = () => {
   });
   const [otpSent, setOtpSent] = useState(false);
 
-  const handlePasswordChange = (e) => {
+  const handlePasswordChange = async (e) => {
     e.preventDefault();
     // Here you would verify OTP and update password
-    toast.success(
-      "Password changed successfully! Check your email for confirmation."
-    );
-    setPasswordForm({ oldPassword: "", newPassword: "", otp: "" });
-    setOtpSent(false);
+    try {
+      const response = await axios.put(
+        "http://localhost:3000/university/update-password",
+        passwordForm,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      toast.success(response.data.message);
+      setPasswordForm({ oldPassword: "", newPassword: "", otp: "" });
+      setOtpSent(false);
+      navigate("/");
+    } catch (error) {
+      if (error.response) toast.error(error.response.data.message);
+      else {
+        toast.error("Something went wrong");
+      }
+    }
   };
 
-  const sendOTP = () => {
-    if (!passwordForm.oldPassword || !passwordForm.newPassword) {
-      toast.error("Please enter both old and new passwords");
-      return;
+  const sendOTP = async () => {
+    try {
+      if (passwordForm.oldPassword === passwordForm.newPassword) {
+        toast.error("Old and New Password cannot be same");
+        return;
+      }
+      if (!passwordForm.oldPassword || !passwordForm.newPassword) {
+        toast.error("Please enter both old and new passwords");
+        return;
+      }
+      const response = await axios.post(
+        "http://localhost:3000/university/update-password",
+        passwordForm,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      setOtpSent(true);
+      toast.success("OTP sent to your registered email");
+    } catch (error) {
+      if (error.response) toast.error(error.response.data.message);
+      else {
+        toast.error("Something Went Wrong");
+      }
     }
-    setOtpSent(true);
-    toast.success("OTP sent to your registered email");
   };
 
   const requestEmailChange = () => {
