@@ -1,6 +1,6 @@
 const express = require("express");
 const authRouter = express.Router();
-const { authUniversity } = require("../middlewares/authentication");
+const { authUniversity, authUser } = require("../middlewares/authentication");
 const {
   login,
   logout,
@@ -20,7 +20,7 @@ authRouter.post("/register/verify-otp", registerVerifyOTP);
 //! user profile
 // authRouter.get("/profile", authUniversity, getUserProfile);
 //! logout
-authRouter.get("/logout", authUniversity, logout);
+authRouter.get("/logout", authUser, logout);
 
 //! Forget password
 authRouter.post("/forgotpass/send-otp", forgotPassSendOTP);

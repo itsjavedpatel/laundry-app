@@ -9,6 +9,8 @@ const { sendOTP, sendPassword } = require("../utils/Mailer");
 const blackListTokenModel = require("../models/BlacklistedToken");
 const bcrypt = require("bcryptjs");
 const otpModel = require("../models/OTP");
+const generatePassword = require("../utils/generatePassword");
+
 const testUniversity = {
   email: "jp754546@gmail.com",
   name: "test_university",
@@ -298,17 +300,3 @@ exports.forgotPassVerifyOTP = async (req, res, next) => {
       .json({ message: "Something went wrong! Try again later🛑" });
   }
 };
-
-// Password generator
-function generatePassword(length = 10) {
-  const chars =
-    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*";
-  let password = "";
-
-  for (let i = 0; i < length; i++) {
-    const randomIndex = Math.floor(Math.random() * chars.length);
-    password += chars[randomIndex];
-  }
-
-  return password;
-}

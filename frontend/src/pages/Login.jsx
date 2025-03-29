@@ -18,7 +18,7 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    console.log("🟢 Form data being sent:", formData); // Debugging log
+    // console.log("🟢 Form data being sent:", formData); // Debugging log
 
     try {
       // Send POST request to backend

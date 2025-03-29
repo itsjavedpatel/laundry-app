@@ -11,6 +11,7 @@ import {
 } from "lucide-react";
 import { UniversityNavbar } from "./UniversityNavbar";
 import { UniversityDataContext } from "../context/UniversityContext";
+import AddStudent from "./AddStudent";
 
 const initialStudents = [
   {
@@ -98,7 +99,7 @@ const initialStudents = [
 function UniStudents() {
   const { university } = useContext(UniversityDataContext);
   const studentList = university.students;
-  const [students, setStudents] = useState(initialStudents);
+  const [students, setStudents] = useState(studentList);
   const [searchTerm, setSearchTerm] = useState("");
   const [statusFilter, setStatusFilter] = useState("all");
   const [showAddModal, setShowAddModal] = useState(false);
@@ -108,7 +109,6 @@ function UniStudents() {
     contact: "",
     laundryId: "",
     studentId: "",
-    course: "",
   });
 
   const filteredStudents = students
@@ -125,7 +125,7 @@ function UniStudents() {
   const toggleStatus = (studentId) => {
     setStudents(
       students.map((student) =>
-        student.id === studentId
+        student.laundryId === studentId
           ? {
               ...student,
               status: student.status === "active" ? "inactive" : "active",
@@ -141,25 +141,6 @@ function UniStudents() {
     }
   };
 
-  const handleAddStudent = (e) => {
-    e.preventDefault();
-    const newStudentData = {
-      id: Date.now().toString(),
-      ...newStudent,
-      status: "active",
-    };
-    setStudents([...students, newStudentData]);
-    setNewStudent({
-      name: "",
-      email: "",
-      contact: "",
-      laundryId: "",
-      studentId: "",
-      course: "",
-    });
-    setShowAddModal(false);
-  };
-
   const exportToCSV = () => {
     const headers = [
       "S.No",
@@ -168,7 +149,6 @@ function UniStudents() {
       "Laundry ID",
       "Email",
       "Student ID",
-      "Course",
       "Status",
     ];
     const csvData = filteredStudents.map((student, index) =>
@@ -179,7 +159,6 @@ function UniStudents() {
         student.laundryId,
         student.email,
         student.studentId,
-        student.course,
         student.status,
       ].join(",")
     );
@@ -257,9 +236,7 @@ function UniStudents() {
                 <th className="px-6 py-3 text-left text-s font-medium  uppercase tracking-wider">
                   Student ID
                 </th>
-                <th className="px-6 py-3 text-left text-s font-medium  uppercase tracking-wider">
-                  Course
-                </th>
+
                 <th className="px-6 py-3 text-left text-s font-medium  uppercase tracking-wider">
                   Status
                 </th>
@@ -270,13 +247,13 @@ function UniStudents() {
             </thead>
             <tbody className="text-gray-700">
               {filteredStudents.map((student, index) => (
-                <tr key={student.id} className="">
+                <tr key={student.laundryId} className="">
                   <td className="px-6 py-4 whitespace-nowrap">{index + 1}</td>
                   <td className="px-6 py-4 whitespace-nowrap">
                     {student.name}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
-                    {student.contact}
+                    {student.mobile}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
                     {student.laundryId}
@@ -287,13 +264,11 @@ function UniStudents() {
                   <td className="px-6 py-4 whitespace-nowrap">
                     {student.studentId}
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    {student.course}
-                  </td>
+
                   <td className="px-6 py-4 whitespace-nowrap">
                     <span
                       className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${
-                        student.status === "active"
+                        student.status == "active"
                           ? "bg-green-100 text-green-800"
                           : "bg-red-100 text-red-800"
                       }`}
@@ -304,7 +279,7 @@ function UniStudents() {
                   <td className="px-6 py-4 whitespace-nowrap">
                     <div className="flex items-center gap-6">
                       <button
-                        onClick={() => toggleStatus(student.id)}
+                        onClick={() => toggleStatus(student.laundryId)}
                         className="text-blue-600 hover:text-blue-900"
                       >
                         {student.status === "active" ? (
@@ -338,139 +313,9 @@ function UniStudents() {
 
         {/* Add Student Modal */}
         {showAddModal && (
-          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
-            <div className="bg-white rounded-lg shadow-xl w-full max-w-md mx-4">
-              <div className="flex justify-between items-center p-6 border-b">
-                <h2 className="text-xl font-semibold text-gray-900">
-                  Add New Student
-                </h2>
-                <button
-                  onClick={() => setShowAddModal(false)}
-                  className="text-gray-400 hover:text-gray-600 focus:outline-none"
-                >
-                  <Close className="h-6 w-6" />
-                </button>
-              </div>
-              <form onSubmit={handleAddStudent} className="p-6">
-                <div className="space-y-4">
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700">
-                      Name
-                    </label>
-                    <input
-                      type="text"
-                      required
-                      className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
-                      value={newStudent.name}
-                      onChange={(e) =>
-                        setNewStudent({ ...newStudent, name: e.target.value })
-                      }
-                      placeholder="Enter student name"
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700">
-                      Email
-                    </label>
-                    <input
-                      type="email"
-                      required
-                      className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
-                      value={newStudent.email}
-                      onChange={(e) =>
-                        setNewStudent({ ...newStudent, email: e.target.value })
-                      }
-                      placeholder="Enter email address"
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700">
-                      Mobile Number
-                    </label>
-                    <input
-                      type="tel"
-                      required
-                      className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
-                      value={newStudent.contact}
-                      onChange={(e) =>
-                        setNewStudent({
-                          ...newStudent,
-                          contact: e.target.value,
-                        })
-                      }
-                      placeholder="Enter mobile number"
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700">
-                      Laundry ID
-                    </label>
-                    <input
-                      type="text"
-                      required
-                      className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
-                      value={newStudent.laundryId}
-                      onChange={(e) =>
-                        setNewStudent({
-                          ...newStudent,
-                          laundryId: e.target.value,
-                        })
-                      }
-                      placeholder="Enter laundry ID"
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700">
-                      Student ID
-                    </label>
-                    <input
-                      type="text"
-                      required
-                      className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
-                      value={newStudent.studentId}
-                      onChange={(e) =>
-                        setNewStudent({
-                          ...newStudent,
-                          studentId: e.target.value,
-                        })
-                      }
-                      placeholder="Enter student ID"
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700">
-                      Course
-                    </label>
-                    <input
-                      type="text"
-                      required
-                      className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
-                      value={newStudent.course}
-                      onChange={(e) =>
-                        setNewStudent({ ...newStudent, course: e.target.value })
-                      }
-                      placeholder="Enter course name"
-                    />
-                  </div>
-                </div>
-                <div className="mt-6 flex justify-end gap-3">
-                  <button
-                    type="button"
-                    onClick={() => setShowAddModal(false)}
-                    className="px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500"
-                  >
-                    Cancel
-                  </button>
-                  <button
-                    type="submit"
-                    className="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
-                  >
-                    Add Student
-                  </button>
-                </div>
-              </form>
-            </div>
-          </div>
+          <>
+            <AddStudent setShowAddModal={setShowAddModal} />
+          </>
         )}
       </main>
     </div>

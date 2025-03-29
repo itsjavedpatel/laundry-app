@@ -1,5 +1,4 @@
 const mongoose = require("mongoose");
-const University = require("./University");
 
 const studentSchema = new mongoose.Schema(
   {
@@ -22,14 +21,17 @@ const studentSchema = new mongoose.Schema(
 
     mobile: {
       type: String,
+      unique: true,
       required: true,
     },
     studentId: {
       type: String,
+      unique: true,
       required: true,
     },
     laundryId: {
       type: String,
+      unique: true,
       required: true,
     },
     hostel: {
@@ -54,8 +56,8 @@ const studentSchema = new mongoose.Schema(
       immutable: true,
     },
     status: {
-      type: Boolean,
-      default: false,
+      type: String,
+      default: "inactive",
     },
     validUpto: {
       type: Date,
