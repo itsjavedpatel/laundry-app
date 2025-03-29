@@ -1,6 +1,6 @@
 const Student = require("../models/Student");
 const University = require("../models/University");
-const jwt = require("jsonwebtoken");
+
 const generatePassword = require("../utils/generatePassword");
 const bcrypt = require("bcryptjs/dist/bcrypt");
 const { sendPassword, sendOTP } = require("../utils/Mailer");
@@ -133,8 +133,6 @@ module.exports.deleteStudent = async (req, res, next) => {
 module.exports.otpForPassChange = async (req, res, next) => {
   try {
     const decodedToken = req.decodedToken;
-    console.log(decodedToken._id);
-
     const { oldPassword, newPassword } = req.body;
     console.log(req.body);
 
@@ -163,21 +161,21 @@ module.exports.otpForPassChange = async (req, res, next) => {
 module.exports.changePassword = async (req, res, next) => {
   try {
     const decodedToken = req.decodedToken;
-    const { newPassword, otp } = req.body;
-    const univeristy = await University.findById(decodedToken._id).select(
+    const { newPassword, otp } = req.body.passwordForm;
+    const university = await University.findById(decodedToken._id).select(
       "+password"
     );
+    const email = university.email;
     // verify otp
-    const checkOtp = await otpModel.findOne({ otp, email: univeristy.email });
+    const checkOtp = await otpModel.findOne({ otp, email });
     if (!checkOtp) {
-      return res.status(405).json({ message: "Incorrect Otp" });
+      return res.status(402).json({ message: "Incorrect Otp" });
     }
     const hashPass = await bcrypt.hash(newPassword, 10);
-    univeristy.password = hashPass;
-    await univeristy.save();
+    university.password = hashPass;
+    await university.save();
     res.status(201).json({ message: "Password changed Successfully" });
   } catch (error) {
-    console.log(error);
     res.status(500).json({ message: "Something went wrong" });
   }
 };

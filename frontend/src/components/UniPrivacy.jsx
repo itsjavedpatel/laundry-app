@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import axios from "axios";
 
 import { Lock, Mail, AlertTriangle, Shield, Key } from "lucide-react";
 import { UniversityNavbar } from "./UniversityNavbar";
-import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
 const UniPrivacy = () => {
@@ -23,7 +23,7 @@ const UniPrivacy = () => {
     try {
       const response = await axios.put(
         "http://localhost:3000/university/update-password",
-        passwordForm,
+        { passwordForm },
         {
           headers: {
             Authorization: `Bearer ${token}`,

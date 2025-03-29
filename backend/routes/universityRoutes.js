@@ -25,6 +25,6 @@ universityRouter.delete("/delete-student/:studentId", authUser, deleteStudent);
 // update pass
 // sendOtp
 universityRouter.post("/update-password", authUser, otpForPassChange);
-universityRouter.put("/update-passwrod", authUser, changePassword);
+universityRouter.put("/update-password", authUser, changePassword);
 
 module.exports = universityRouter;
