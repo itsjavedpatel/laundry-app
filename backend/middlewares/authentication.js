@@ -15,7 +15,7 @@ module.exports.authUser = async (req, res, next) => {
       jwt.verify(token, process.env.JWT_SECRET),
     ]);
 
-    if (isBlackListed || !decodedToken) {
+    if (isBlackListed) {
       return res.status(401).json({ message: "Unauthorized access" });
     }
     if (!decodedToken) {

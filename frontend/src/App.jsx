@@ -35,7 +35,7 @@ function App() {
           <Route path="/" element={<LandingPage />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
-          <Route path="/studentprofile" element={<Student />} />
+
           <Route
             element={
               <UniversityContext>
@@ -51,6 +51,7 @@ function App() {
           </Route>
           <Route path="*" element={<Error />} />
           <Route path="/forget-password" element={<ForgetPassword />} />
+          <Route path="student-dashboard" element={<Student />} />
         </Routes>
       </BrowserRouter>
     </>

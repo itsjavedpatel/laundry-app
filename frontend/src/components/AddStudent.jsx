@@ -1,7 +1,6 @@
 import axios from "axios";
 import { useState } from "react";
 import { X as Close } from "lucide-react";
-
 import "react-toastify/dist/ReactToastify.css";
 import { toast } from "react-toastify";
 const AddStudent = ({ setShowAddModal }) => {

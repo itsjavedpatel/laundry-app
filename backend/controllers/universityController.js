@@ -8,24 +8,9 @@ const { sendPassword } = require("../utils/Mailer");
 
 // Sending university data
 module.exports.getUnidata = async (req, res, next) => {
-  const token = req.cookies.token || req.headers.authorization?.split(" ")[1];
+  const decodedToken = req.decodedToken;
 
   try {
-    if (!token) {
-      console.log("token not found");
-      return res.status(401).json({ message: "Unauthorized access" });
-    }
-
-    const isBlackListed = await BlacklistTokenModel.findOne({ token });
-    if (isBlackListed) {
-      return res.status(401).json({ message: "Unauthorized access" });
-    }
-
-    const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
-    if (!decodedToken) {
-      return res.status(401).json({ message: "Unauthorized access" });
-    }
-
     let uniData = await University.findById(decodedToken._id);
 
     if (!uniData) {
@@ -62,7 +47,7 @@ module.exports.addStudent = async (req, res, next) => {
 
     const uni = await University.findById(decodedToken._id);
     if (!uni) {
-      return res.status(401).json({ message: "Unauthorized" });
+      return res.status(401).json({ message: "Unauthorized access" });
     }
     const password = generatePassword();
     const hashedpass = await bcrypt.hash(password, 10);
