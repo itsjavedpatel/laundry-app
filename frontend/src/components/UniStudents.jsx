@@ -23,13 +23,7 @@ function UniStudents() {
   const [searchTerm, setSearchTerm] = useState("");
   const [statusFilter, setStatusFilter] = useState("all");
   const [showAddModal, setShowAddModal] = useState(false);
-  const [newStudent, setNewStudent] = useState({
-    name: "",
-    email: "",
-    contact: "",
-    laundryId: "",
-    studentId: "",
-  });
+  
 
   const filteredStudents = students
     .filter(
