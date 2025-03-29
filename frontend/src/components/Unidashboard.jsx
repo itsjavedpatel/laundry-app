@@ -7,19 +7,17 @@ import profileimage from "../assets/images/pfp.jpg";
 import { UniversityDataContext } from "../context/UniversityContext";
 import UniPrivacy from "./UniPrivacy";
 
-function Unidashboard() {
-  const universityData = {
-    name: "NIMS University",
-    email: "admin@nimsuniversity.edu.in",
-    ugcCode: "UGC-123456",
-    address: "NIMS University, Rajasthan India",
-    status: "Active",
-    validUpto: "2025-12-31",
-    totalStudents: 15000,
-    activeStudents: 12500,
-    inactiveStudents: 2500,
-  };
+const Unidashboard = () => {
   const { university } = useContext(UniversityDataContext);
+  const totalStudents = university.students.length;
+  const activeStudents = university.students.filter(
+    (student) => student.status === "active"
+  ).length;
+  const inactiveStudents = totalStudents - activeStudents;
+  const data = {
+    active: activeStudents,
+    inactive: inactiveStudents,
+  };
   return (
     <div className="min-h-screen bg-gradient-to-r from-[#eeaeca] to-[#94bbe9]">
       <UniversityNavbar />
@@ -51,14 +49,14 @@ function Unidashboard() {
               <div className="grid gap-3 sm:gap-4 max-w-md mx-auto">
                 {[
                   { label: "Email", value: university.email },
-                  { label: "UGC Code", value: universityData.ugcCode },
-                  { label: "Address", value: universityData.address },
+                  { label: "UGC Code", value: university.ugcCode },
+                  { label: "Address", value: university.address },
                   {
                     label: "Status",
-                    value: universityData.status,
+                    value: university.status,
                     isBadge: true,
                   },
-                  { label: "Valid Upto", value: universityData.validUpto },
+                  { label: "Valid Upto", value: university.validUpto },
                 ].map((item, index) => (
                   <div
                     key={index}
@@ -87,17 +85,17 @@ function Unidashboard() {
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6 mb-6 mx-4">
           <StatCard
             title="Total Students"
-            value={university.students.length}
+            value={totalStudents}
             icon={<Users className="w-5 h-5 sm:w-6 sm:h-6 text-blue-600" />}
           />
           <StatCard
             title="Active Students"
-            value={university.students.length}
+            value={activeStudents}
             icon={<Users className="w-5 h-5 sm:w-6 sm:h-6 text-green-600" />}
           />
           <StatCard
             title="Inactive Students"
-            value={university.students.length}
+            value={inactiveStudents}
             icon={<Users className="w-5 h-5 sm:w-6 sm:h-6 text-red-600" />}
           />
         </div>
@@ -108,12 +106,12 @@ function Unidashboard() {
             Student Distribution
           </h3>
           <div className="h-72 sm:h-96">
-            <PieChart data={universityData} />
+            <PieChart data={data} />
           </div>
         </div>
       </main>
     </div>
   );
-}
+};
 
 export default Unidashboard;
