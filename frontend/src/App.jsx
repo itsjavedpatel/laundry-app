@@ -17,6 +17,8 @@ import UniProtectedWrapper from "./pages/UniProtectedWrapper";
 import UniversityContext from "./context/UniversityContext";
 import ForgetPassword from "./components/ForgetPassword";
 import LaundryDelivery from "./components/LaundryDelivery";
+import StudentContext from "./context/StudentContext";
+import IsStudentWrapper from "./protected/IsStudentWrapper";
 
 function App() {
   return (
@@ -49,11 +51,19 @@ function App() {
             <Route path="/subscription-plan" element={<PaymentAndSubs />} />
             <Route path="/uni-edit-profile" element={<UniEditProfile />} />
             <Route path="/uni-privacy" element={<UniPrivacy />} />
-            <Route path ="/laundry-delivery" element= {<LaundryDelivery/>}/>
+            <Route path="/laundry-delivery" element={<LaundryDelivery />} />
           </Route>
           <Route path="*" element={<Error />} />
           <Route path="/forget-password" element={<ForgetPassword />} />
-          <Route path="student-dashboard" element={<Student />} />
+          <Route
+            element={
+              <StudentContext>
+                <IsStudentWrapper />
+              </StudentContext>
+            }
+          >
+            <Route path="student-dashboard" element={<Student />} />
+          </Route>
         </Routes>
       </BrowserRouter>
     </>

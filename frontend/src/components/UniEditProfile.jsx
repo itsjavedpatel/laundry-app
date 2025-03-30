@@ -1,9 +1,11 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { toast } from "react-hot-toast";
 import { Lock, Mail, MapPin, Upload, X, Link as LinkIcon } from "lucide-react";
 import { UniversityNavbar } from "./UniversityNavbar";
+import { UniversityDataContext } from "./../context/UniversityContext";
 
 const UniEditProfile = () => {
+  const { university } = useContext(UniversityDataContext);
   const [profile, setProfile] = useState({
     name: "University Name",
     email: "university@example.com",
@@ -50,7 +52,6 @@ const UniEditProfile = () => {
     toast.success("Profile updated successfully");
   };
 
-
   return (
     <div className="min-h-screen bg-gray-50 ">
       <UniversityNavbar />
@@ -72,20 +73,8 @@ const UniEditProfile = () => {
                     alt="Profile"
                     className="w-32 h-32 rounded-full object-cover border-4 border-white shadow-lg"
                   />
-                  {/* {(profile.photo ||
-                    profile.photoUrl !==
-                      "https://images.unsplash.com/photo-1579546929518-9e396f3cc809?w=200&h=200&fit=crop&crop=entropy") && (
-                    <button
-                      type="button"
-                      onClick={removePhoto}
-                      className="absolute top-0 right-0 bg-red-500 text-white p-1 rounded-full hover:bg-red-600 transition-colors"
-                    >
-                      <X size={16} />
-                    </button>
-                  )} */}
                 </div>
                 <div className="flex flex-col w-full max-w-md space-y-4">
-                  
                   <label className="cursor-pointer mt-2 bg-gray-400 font-bold text-white px-4 py-2 rounded-lg hover:bg-gray-500 transition-colors flex items-center justify-center space-x-2">
                     <Upload size={20} />
                     <span>Upload Photo</span>
@@ -108,7 +97,7 @@ const UniEditProfile = () => {
                   <div className="relative ">
                     <input
                       type="text"
-                      value={profile.name}
+                      value={university.name}
                       disabled
                       className="block w-full p-2 rounded-lg shadow-sm"
                     />
@@ -117,7 +106,6 @@ const UniEditProfile = () => {
                       size={20}
                     />
                   </div>
-          
                 </div>
 
                 <div className="space-y-2">
@@ -127,7 +115,7 @@ const UniEditProfile = () => {
                   <div className="relative">
                     <input
                       type="email"
-                      value={profile.email}
+                      value={university.email}
                       disabled
                       className="block w-full p-2  rounded-lg border-gray-300 bg-gray-50 shadow-sm"
                     />
@@ -148,7 +136,7 @@ const UniEditProfile = () => {
                   <div className="relative">
                     <input
                       type="text"
-                      value={profile.address}
+                      value={setProfile.address}
                       onChange={(e) =>
                         setProfile({ ...profile, address: e.target.value })
                       }
@@ -182,6 +170,23 @@ const UniEditProfile = () => {
                     placeholder="Enter ZIP code"
                   />
                 </div>
+                <div className="space-y-2">
+                  <label className="block text-sm font-medium text-gray-700">
+                    UGC Code
+                  </label>
+                  <input
+                    type="text"
+                    value={profile.zipCode}
+                    onChange={(e) =>
+                      setProfile({ ...profile, zipCode: e.target.value })
+                    }
+                    disabled={isAddressLocked}
+                    className={`block w-full rounded-lg border-gray-300 shadow-sm ${
+                      isAddressLocked ? "bg-gray-50" : ""
+                    }`}
+                    placeholder="Enter UGC code"
+                  />
+                </div>
               </div>
 
               {!isAddressLocked && (
@@ -200,9 +205,9 @@ const UniEditProfile = () => {
                   <button
                     type="button"
                     onClick={() => requestChange("address and ZIP code")}
-                    className="text-sm text-gray-400 hover:text-gray-500"
+                    className="bg-gray-400 font-bold text-white px-6 py-2 rounded-lg hover:bg-gray-500 transition-colors"
                   >
-                    Request Address Change
+                    Updating...
                   </button>
                 </div>
               )}

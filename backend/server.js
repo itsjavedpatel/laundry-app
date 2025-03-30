@@ -6,6 +6,7 @@ const cors = require("cors");
 const cookieParser = require("cookie-parser");
 const authRouter = require("./routes/authRoutes");
 const universityRouter = require("./routes/universityRoutes");
+const studentRouter = require("./routes/studentRoutes");
 
 const app = express();
 
@@ -37,3 +38,4 @@ mongoose
 
 app.use("/auth", authRouter);
 app.use("/university", universityRouter);
+app.use("/student", studentRouter);

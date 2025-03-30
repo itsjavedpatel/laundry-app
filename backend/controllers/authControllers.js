@@ -72,9 +72,13 @@ exports.login = async (req, res) => {
     // ✅ Login Successful
     // console.log("✅ Login successful for:", user.email);
     // Generate token
-    const token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET, {
-      expiresIn: "24h",
-    });
+    const token = jwt.sign(
+      { _id: user._id, role: user.role },
+      process.env.JWT_SECRET,
+      {
+        expiresIn: "24h",
+      }
+    );
     res.cookie("token", token);
 
     return res.status(200).json({ message: "Login successful", token, user });
