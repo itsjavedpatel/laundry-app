@@ -1,4 +1,4 @@
-import { Waves, Plus, Users, Truck, Trash2 } from "lucide-react";
+import { Waves, Plus, Users, Truck, Trash2, Edit } from "lucide-react";
 import React, { useContext, useState } from "react";
 import { UniversityNavbar } from "./UniversityNavbar";
 
@@ -80,7 +80,7 @@ function LaundryDelivery() {
         <button
           className={`flex-1 py-4 px-6 focus:outline-none transition-all duration-200 ${
             activeTab === "add"
-              ? "border-b-2 border-gray-500 text-gray-600 bg-gray-50"
+              ? "border-b-2 border-gray-500 text-gray-600 bg-[#94bbe9]"
               : "text-gray-500 hover:bg-gray-50"
           }`}
           onClick={() => setActiveTab("add")}
@@ -93,7 +93,7 @@ function LaundryDelivery() {
         <button
           className={`flex-1 py-4 px-6 focus:outline-none transition-all duration-200 ${
             activeTab === "view"
-              ? "border-b-2 border-gray-500 text-gray-600 bg-gray-50"
+              ? "border-b-2 border-gray-500 text-gray-600 bg-[#eeaeca]"
               : "text-gray-500 hover:bg-gray-50"
           }`}
           onClick={() => setActiveTab("view")}
@@ -105,7 +105,7 @@ function LaundryDelivery() {
         </button>
       </div>
 
-      <div className="container mx-auto px-4 py-6">
+      <div className=" mx-auto px-4 py-6">
         {activeTab === "add" ? (
           <div className="max-w-md mx-auto">
             {/* Agent Type Selection */}
@@ -215,14 +215,14 @@ function LaundryDelivery() {
               )}
               <button
                 type="submit"
-                className="w-full bg-gray-300 text-white py-3 px-4 rounded-lg hover:bg-gray-400 transition-all duration-200 transform hover:scale-[1.02] active:scale-[0.98] shadow-md hover:shadow-lg"
+                className="w-full bg-green-600 text-white py-3 px-4 rounded-lg hover:bg-gray-400 transition-all duration-200 transform hover:scale-[1.02] active:scale-[0.98] shadow-md hover:shadow-lg"
               >
                 Add {agentType === "laundry" ? "Laundry" : "Delivery"} Agent
               </button>
             </form>
           </div>
         ) : (
-          <div className="space-y-6">
+          <div className="space-y-6 md:w-3/5 mx-auto">
             {/* Laundry Agents List */}
             <div className="bg-white rounded-lg shadow-lg overflow-hidden">
               <div className="p-4 bg-gradient-to-r from-blue-50 to-blue-100 border-b border-blue-200">
@@ -245,12 +245,17 @@ function LaundryDelivery() {
                         ID: {agent.laundryId}
                       </p>
                     </div>
-                    <button
-                      onClick={() => removeAgent(agent.id, "laundry")}
-                      className="text-red-600 hover:text-red-800 p-2 hover:bg-red-50 rounded-full transition-colors"
-                    >
-                      <Trash2 size={20} />
-                    </button>
+                    <div className="flex gap-2 ">
+                      <button className="text-yellow-600 flex items-center  hover:text-yellow-800 p-2 hover:bg-red-50 rounded-full transition-colors">
+                        <Edit size={20} /> <span>Edit </span>
+                      </button>
+                      <button
+                        onClick={() => removeAgent(agent.id, "laundry")}
+                        className="text-red-600 flex items-center hover:text-red-800 p-2 hover:bg-red-50 rounded-full transition-colors"
+                      >
+                        <Trash2 size={20} /> <span>Delete</span>
+                      </button>
+                    </div>
                   </div>
                 ))}
                 {laundryAgents.length === 0 && (
@@ -286,12 +291,17 @@ function LaundryDelivery() {
                         Phone: {agent.phoneNumber}
                       </p>
                     </div>
-                    <button
-                      onClick={() => removeAgent(agent.id, "delivery")}
-                      className="text-red-600 hover:text-red-800 p-2 hover:bg-red-50 rounded-full transition-colors"
-                    >
-                      <Trash2 size={20} />
-                    </button>
+                    <div className="flex gap-2 ">
+                      <button className="text-yellow-600 flex items-center  hover:text-yellow-800 p-2 hover:bg-red-50 rounded-full transition-colors">
+                        <Edit size={20} /> <span>Edit </span>
+                      </button>
+                      <button
+                        onClick={() => removeAgent(agent.id, "delivery")}
+                        className="text-red-600 flex items-center hover:text-red-800 p-2 hover:bg-red-50 rounded-full transition-colors"
+                      >
+                        <Trash2 size={20} /> <span>Delete</span>
+                      </button>
+                    </div>
                   </div>
                 ))}
                 {deliveryAgents.length === 0 && (

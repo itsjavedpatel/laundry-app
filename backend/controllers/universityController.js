@@ -179,3 +179,30 @@ module.exports.changePassword = async (req, res, next) => {
     res.status(500).json({ message: "Something went wrong" });
   }
 };
+
+// update university profile details
+
+module.exports.updateProfile = async (req, res, next) => {
+  try {
+    const { _id, role } = req.decodedToken;
+    const { email, name, UGCcode, address, zipCode } = req.body;
+    if (role !== "university") {
+      return res.status(401).json({ message: "Unauthorized Access" });
+    }
+
+    const updatedUni = await University.findOneAndUpdate(
+      { _id, email },
+      { UGCcode, address, zipcode: zipCode },
+      { new: true }
+    );
+
+    if (!updatedUni) {
+      return res.status(404).json({ message: "User Not Found" });
+    }
+    return res
+      .status(201)
+      .json({ message: "Profile Updated Successfully", updatedUni });
+  } catch (error) {
+    res.status(400).json({ message: "Internal Server Error" });
+  }
+};

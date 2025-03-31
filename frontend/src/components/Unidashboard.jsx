@@ -48,12 +48,13 @@ const Unidashboard = () => {
               <div className="grid gap-3 sm:gap-4 max-w-md mx-auto">
                 {[
                   { label: "Email", value: university.email },
-                  { label: "UGC Code", value: university.ugcCode },
+                  { label: "UGC Code", value: university.UGCcode },
                   { label: "Address", value: university.address },
+                  { label: "Zip Code", value: university.zipcode },
                   {
                     label: "Status",
-                    value: university.status,
-                    isBadge: true,
+                    value: university.status ? "Subscribed" : "Unsubscribed",
+                    isBadge: university.status ? true : false,
                   },
                   { label: "Valid Upto", value: university.validUpto },
                 ].map((item, index) => (

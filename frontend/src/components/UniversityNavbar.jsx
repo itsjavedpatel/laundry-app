@@ -10,9 +10,7 @@ import {
   Bell,
   ChevronDown,
   User,
-  LogOut,
-  Settings,
-  CreditCard,
+  Home,
   Shirt,
   HelpCircle,
   Menu,
@@ -51,6 +49,13 @@ export function UniversityNavbar() {
         </div>
 
         <div className="hidden md:flex items-center  gap-6">
+          <Link
+            to="/unidashboard"
+            className="flex items-center gap-2 hover:text-gray-300 "
+          >
+            <Home className="w-4 h-4" />
+            <span>Home</span>
+          </Link>
           <Link to="#" className="flex items-center gap-2 hover:text-gray-300 ">
             <HelpCircle className="w-4 h-4" />
             <span>Help & Support</span>
@@ -136,6 +141,12 @@ export function UniversityNavbar() {
 
       {isMenuOpen && (
         <div className="md:hidden bg-white shadow-md p-4 space-y-4">
+          <Link
+            to="/unidashboard"
+            className="flex items-center gap-2 hover:text-gray-300 "
+          >
+            <span>Home</span>
+          </Link>
           <Link to="#" className="block text-gray-600 hover:text-gray-900">
             Help & Support
           </Link>
@@ -145,7 +156,10 @@ export function UniversityNavbar() {
           >
             Student
           </Link>
-          <Link to="#" className="block text-gray-600 hover:text-gray-900">
+          <Link
+            to="/Laundry-delivery"
+            className="block text-gray-600 hover:text-gray-900"
+          >
             Laundry & Delivery
           </Link>
           <Link

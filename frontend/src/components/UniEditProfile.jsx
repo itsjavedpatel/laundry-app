@@ -1,61 +1,67 @@
 import React, { useContext, useState } from "react";
-import { toast } from "react-hot-toast";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import { Lock, Mail, MapPin, Upload, X, Link as LinkIcon } from "lucide-react";
 import { UniversityNavbar } from "./UniversityNavbar";
 import { UniversityDataContext } from "./../context/UniversityContext";
+import axios from "axios";
 
 const UniEditProfile = () => {
-  const { university } = useContext(UniversityDataContext);
+  const { university, setUniversity } = useContext(UniversityDataContext);
   const [profile, setProfile] = useState({
-    name: "University Name",
-    email: "university@example.com",
-    address: "",
-    zipCode: "",
-    photo: null,
-    photoUrl:
-      "https://images.unsplash.com/photo-1579546929518-9e396f3cc809?w=200&h=200&fit=crop&crop=entropy",
+    name: university.name,
+    email: university.email,
+    address: university.address,
+    zipCode: university.zipcode,
+    UGCcode: university.UGCcode,
   });
 
-  const [isAddressLocked, setIsAddressLocked] = useState(false);
-  const [previewUrl, setPreviewUrl] = useState(profile.photoUrl);
+  const [isUpdating, setIsUpdating] = useState(false);
+  const handleChange = (e) => {
+    setProfile({ ...profile, [e.target.name]: e.target.value });
+  };
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      setIsUpdating(true);
+      if (
+        profile.address === "" &&
+        profile.UGCcode === "" &&
+        !profile.zipCode
+      ) {
+        toast.warn("Atleast One field need to be filled");
+        return;
+      }
+      const token = localStorage.getItem("token");
 
-  const handlePhotoChange = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setPreviewUrl(reader.result);
-        setProfile({ ...profile, photo: file });
-      };
-      reader.readAsDataURL(file);
-      toast.success("Profile photo updated");
+      const response = await axios.put(
+        "http://localhost:3000/university/update-profile",
+        profile,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      setUniversity(response.data.updatedUni);
+      setProfile(response.data.updatedUni);
+      toast.success(response.data.message);
+    } catch (error) {
+      if (error.response) {
+        toast.error(error.response.data.message);
+      } else {
+        toast.error("Something Went Wrong");
+      }
+    } finally {
+      setIsUpdating(false);
     }
   };
 
-  const handlePhotoUrlChange = (e) => {
-    const url = e.target.value;
-    setProfile({ ...profile, photoUrl: url });
-    setPreviewUrl(url);
-  };
-
-  // const removePhoto = () => {
-  //   const defaultPhoto =
-  //     "https://images.unsplash.com/photo-1579546929518-9e396f3cc809?w=200&h=200&fit=crop&crop=entropy";
-  //   setPreviewUrl(defaultPhoto);
-  //   setProfile({ ...profile, photo: null, photoUrl: defaultPhoto });
-  //   toast.success("Profile photo removed");
-  // };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    setIsAddressLocked(true);
-    toast.success("Profile updated successfully");
-  };
-
   return (
-    <div className="min-h-screen bg-gray-50 ">
+    <div className="min-h-screen bg-gradient-to-r from-[#eeaeca] to-[#94bbe9] ">
       <UniversityNavbar />
-      <div className=" mt-16  max-w-6xl  mx-auto">
+      <div className=" mt-16  max-w-6xl mx-auto">
         <div className="bg-white rounded-xl shadow-lg overflow-hidden">
           <div className="bg-gradient-to-r  from-gray-400 to-gray-600 px-6 py-4">
             <h2 className="text-2xl font-bold text-white">
@@ -65,29 +71,6 @@ const UniEditProfile = () => {
 
           <form onSubmit={handleSubmit} className="p-14">
             <div className="space-y-8">
-              {/* Profile Photo Section */}
-              <div className="flex flex-col items-center space-y-4">
-                <div className="relative">
-                  <img
-                    src={previewUrl}
-                    alt="Profile"
-                    className="w-32 h-32 rounded-full object-cover border-4 border-white shadow-lg"
-                  />
-                </div>
-                <div className="flex flex-col w-full max-w-md space-y-4">
-                  <label className="cursor-pointer mt-2 bg-gray-400 font-bold text-white px-4 py-2 rounded-lg hover:bg-gray-500 transition-colors flex items-center justify-center space-x-2">
-                    <Upload size={20} />
-                    <span>Upload Photo</span>
-                    <input
-                      type="file"
-                      accept="image/*"
-                      onChange={handlePhotoChange}
-                      className="hidden"
-                    />
-                  </label>
-                </div>
-              </div>
-
               {/* Non-editable fields */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="space-y-2">
@@ -97,7 +80,7 @@ const UniEditProfile = () => {
                   <div className="relative ">
                     <input
                       type="text"
-                      value={university.name}
+                      value={profile.name}
                       disabled
                       className="block w-full p-2 rounded-lg shadow-sm"
                     />
@@ -115,7 +98,7 @@ const UniEditProfile = () => {
                   <div className="relative">
                     <input
                       type="email"
-                      value={university.email}
+                      value={profile.email}
                       disabled
                       className="block w-full p-2  rounded-lg border-gray-300 bg-gray-50 shadow-sm"
                     />
@@ -128,26 +111,22 @@ const UniEditProfile = () => {
               </div>
 
               {/* Editable fields */}
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div className="space-y-2">
+              <div className="grid grid-cols-1 md:grid-cols-2 bg- gap-6">
+                <div className="space-y-2 ">
                   <label className="block text-sm font-medium text-gray-700">
                     Address
                   </label>
-                  <div className="relative">
+                  <div className="relative w-full ">
                     <input
                       type="text"
-                      value={setProfile.address}
-                      onChange={(e) =>
-                        setProfile({ ...profile, address: e.target.value })
-                      }
-                      disabled={isAddressLocked}
-                      className={`block w-auto rounded-lg border-gray-300 shadow-sm ${
-                        isAddressLocked ? "bg-gray-50" : ""
-                      }`}
+                      value={profile.address}
+                      onChange={handleChange}
+                      name="address"
+                      className="block rounded-lg w-[100%] bg-gray-100 p-1 shadow-sm"
                       placeholder="Enter your address"
                     />
                     <MapPin
-                      className="absolute right-3 top-2.5 text-gray-400"
+                      className="absolute right-3 top-2 text-gray-400"
                       size={20}
                     />
                   </div>
@@ -158,15 +137,11 @@ const UniEditProfile = () => {
                     ZIP Code
                   </label>
                   <input
-                    type="text"
+                    type="number"
+                    name="zipCode"
                     value={profile.zipCode}
-                    onChange={(e) =>
-                      setProfile({ ...profile, zipCode: e.target.value })
-                    }
-                    disabled={isAddressLocked}
-                    className={`block w-full rounded-lg border-gray-300 shadow-sm ${
-                      isAddressLocked ? "bg-gray-50" : ""
-                    }`}
+                    onChange={handleChange}
+                    className="block w-full rounded-lg bg-gray-100 p-1 border-gray-300 shadow-sm "
                     placeholder="Enter ZIP code"
                   />
                 </div>
@@ -176,20 +151,16 @@ const UniEditProfile = () => {
                   </label>
                   <input
                     type="text"
-                    value={profile.zipCode}
-                    onChange={(e) =>
-                      setProfile({ ...profile, zipCode: e.target.value })
-                    }
-                    disabled={isAddressLocked}
-                    className={`block w-full rounded-lg border-gray-300 shadow-sm ${
-                      isAddressLocked ? "bg-gray-50" : ""
-                    }`}
+                    name="UGCcode"
+                    value={profile.UGCcode}
+                    onChange={handleChange}
+                    className="block w-full rounded-lg border-gray-300 bg-gray-100 p-1 shadow-sm "
                     placeholder="Enter UGC code"
                   />
                 </div>
               </div>
 
-              {!isAddressLocked && (
+              {!isUpdating && (
                 <div className="flex justify-end">
                   <button
                     type="submit"
@@ -200,11 +171,10 @@ const UniEditProfile = () => {
                 </div>
               )}
 
-              {isAddressLocked && (
+              {isUpdating && (
                 <div className="flex justify-end">
                   <button
                     type="button"
-                    onClick={() => requestChange("address and ZIP code")}
                     className="bg-gray-400 font-bold text-white px-6 py-2 rounded-lg hover:bg-gray-500 transition-colors"
                   >
                     Updating...

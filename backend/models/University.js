@@ -19,9 +19,11 @@ const universitySchema = new mongoose.Schema(
     },
     address: {
       type: String,
+      default: "",
     },
     zipcode: {
       type: Number,
+      default: 0,
       trim: true,
     },
     role: {
@@ -61,6 +63,8 @@ const universitySchema = new mongoose.Schema(
     },
     UGCcode: {
       type: String,
+      default: "",
+      unique: true,
     },
     maxWash: {
       type: Number,

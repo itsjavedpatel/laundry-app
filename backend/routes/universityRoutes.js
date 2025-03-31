@@ -6,6 +6,7 @@ const {
   deleteStudent,
   changePassword,
   otpForPassChange,
+  updateProfile,
 } = require("../controllers/universityController");
 const { authUser } = require("../middlewares/authentication");
 const universityRouter = express.Router();
@@ -27,4 +28,6 @@ universityRouter.delete("/delete-student/:studentId", authUser, deleteStudent);
 universityRouter.post("/update-password", authUser, otpForPassChange);
 universityRouter.put("/update-password", authUser, changePassword);
 
+// update profile
+universityRouter.put("/update-profile", authUser, updateProfile);
 module.exports = universityRouter;
