@@ -45,7 +45,7 @@ export function UniversityNavbar() {
 
         <div className="hidden md:flex items-center  gap-6">
           <Link
-            to="/unidashboard"
+            to="/university-dashboard"
             className="flex items-center gap-2 hover:text-gray-300 "
           >
             <Home className="w-4 h-4" />
@@ -137,7 +137,7 @@ export function UniversityNavbar() {
       {isMenuOpen && (
         <div className="md:hidden bg-white shadow-md p-4 space-y-4">
           <Link
-            to="/unidashboard"
+            to="/university-dashboard"
             className="flex items-center gap-2 hover:text-gray-300 "
           >
             <span>Home</span>
