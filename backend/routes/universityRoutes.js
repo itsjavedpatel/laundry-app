@@ -18,7 +18,7 @@ universityRouter.get("/get-data", authUser, getUnidata);
 universityRouter.post("/add-student", authUser, addStudent);
 
 // update student status
-universityRouter.put("/update-student", updateStudent);
+universityRouter.put("/update-student", authUser, updateStudent);
 
 //delete student
 universityRouter.delete("/delete-student/:studentId", authUser, deleteStudent);

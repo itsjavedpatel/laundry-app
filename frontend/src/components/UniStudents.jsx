@@ -17,7 +17,7 @@ import { UniversityDataContext } from "../context/UniversityContext";
 import AddStudent from "./AddStudent";
 
 function UniStudents() {
-  const { university } = useContext(UniversityDataContext);
+  const { university, setUniversity } = useContext(UniversityDataContext);
   const studentList = university.students;
   const [students, setStudents] = useState(studentList);
   const [searchTerm, setSearchTerm] = useState("");
@@ -37,9 +37,15 @@ function UniStudents() {
 
   const toggleStatus = async (studentId, id) => {
     try {
+      const token = localStorage.getItem("token");
       const response = await axios.put(
         `http://localhost:3000/university/update-student`,
-        { id }
+        { id },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
       );
       setStudents(
         students.map((student) =>
@@ -51,10 +57,10 @@ function UniStudents() {
             : student
         )
       );
+      setUniversity(response.data.uni);
       toast.success(response.data.message);
     } catch (error) {
       toast.error("Error updating student status");
-      console.log("error", error);
     }
   };
 
@@ -70,6 +76,7 @@ function UniStudents() {
         { headers: { Authorization: `Bearer ${token}` } }
       );
       setStudents(students.filter((student) => student._id !== studentId));
+
       toast.success(response.data.message);
     } catch (error) {
       toast.error("Error deleting student");

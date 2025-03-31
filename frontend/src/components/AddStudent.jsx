@@ -3,8 +3,10 @@ import { useContext, useState } from "react";
 import { X as Close } from "lucide-react";
 import "react-toastify/dist/ReactToastify.css";
 import { toast } from "react-toastify";
+import { UniversityDataContext } from "./../context/UniversityContext";
 
 const AddStudent = ({ setShowAddModal }) => {
+  const { setUniversity } = useContext(UniversityDataContext);
   const [formData, setFormData] = useState({
     username: "",
     email: "",
@@ -31,7 +33,7 @@ const AddStudent = ({ setShowAddModal }) => {
       );
 
       toast.success(response.data.message);
-
+      setUniversity(response.data.uni);
       setShowAddModal(false);
     } catch (error) {
       // console.error(error);

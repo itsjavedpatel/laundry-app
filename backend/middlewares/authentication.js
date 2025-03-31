@@ -7,6 +7,7 @@ module.exports.authUser = async (req, res, next) => {
     const token = req.cookies.token || req.headers.authorization?.split(" ")[1];
     // if token is not available
     if (!token) {
+      console.log("No token");
       return res.status(401).json({ message: "Unauthorized access" });
     }
     // Verify token and check blacklist in parallel
@@ -16,9 +17,11 @@ module.exports.authUser = async (req, res, next) => {
     ]);
 
     if (isBlackListed) {
+      console.log("in blacklist");
       return res.status(401).json({ message: "Unauthorized access" });
     }
     if (!decodedToken) {
+      console.log("in decodedtoken");
       return res.status(401).json({ message: "Unauthorized access" });
     }
 

@@ -65,8 +65,9 @@ module.exports.addStudent = async (req, res, next) => {
       password: hashedpass,
     });
     uni.students.push(newStudent._id);
+    await uni.populate("students");
     await uni.save();
-    return res.status(201).json({ message: "Student added successfully" });
+    return res.status(201).json({ message: "Student added successfully", uni });
   } catch (error) {
     return res
       .status(500)
@@ -78,7 +79,9 @@ module.exports.addStudent = async (req, res, next) => {
 module.exports.updateStudent = async (req, res, next) => {
   try {
     const { id } = req.body;
-    console.log(id);
+
+    const { _id } = req.decodedToken;
+
     const student = await Student.findById(id);
     if (!student) {
       return res.status(404).json({ message: "Student not found" });
@@ -87,9 +90,10 @@ module.exports.updateStudent = async (req, res, next) => {
       ? (student.status = "inactive")
       : (student.status = "active");
     await student.save();
+    const uni = await University.findById(_id).populate("students");
     return res
       .status(200)
-      .json({ message: "Student status updated successfully", student });
+      .json({ message: "Student status updated successfully", uni });
   } catch (error) {
     return res.status(500).json({ message: "Something went wrong" });
   }
