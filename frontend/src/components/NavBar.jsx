@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import {jwtDecode} from "jwt-decode";
 import {
   WashingMachine,
   User,
@@ -15,6 +16,12 @@ import Tooltip from "@mui/material/Tooltip";
 
 const Navbar = () => {
   const token = localStorage.getItem("token");
+  let tokenContent;
+  if(token){
+     tokenContent = jwtDecode(token);
+    
+  }
+  
   const [isOpen, setIsOpen] = useState(false);
   const navigate = useNavigate();
 
@@ -114,7 +121,7 @@ const Navbar = () => {
               </>
             ) : (
               <Link
-                to="/unidashboard"
+                to={`/${tokenContent.role}-dashboard`}
                 className="text-gray-700 text-lg px-4 py-2 rounded-md hover:bg-white hover:text-black hover:border-0 transition-colors flex  items-center gap-2"
               >
                 <CircleUserRound />
@@ -176,8 +183,7 @@ const Navbar = () => {
               </>
             ) : (
               <Link
-                to="unidashboard"
-                className=" border border-white-1 px-3 py-2 rounded-md text-gray-700 text-lg text-center  hover:bg-white hover:text-black hover:border-0 transition-colors flex items-center justify-center gap-2"
+                to={`/${tokenContent.role}-dashboard`}                className=" border border-white-1 px-3 py-2 rounded-md text-gray-700 text-lg text-center  hover:bg-white hover:text-black hover:border-0 transition-colors flex items-center justify-center gap-2"
                 onClick={() => setIsOpen(false)}
               >
                 <CircleUserRound />

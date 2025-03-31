@@ -19,6 +19,7 @@ import ForgetPassword from "./components/ForgetPassword";
 import LaundryDelivery from "./components/LaundryDelivery";
 import StudentContext from "./context/StudentContext";
 import IsStudentWrapper from "./protected/IsStudentWrapper";
+import StudentEditProfile from "./components/StudentEditProfile";
 
 function App() {
   return (
@@ -46,7 +47,7 @@ function App() {
               </UniversityContext>
             }
           >
-            <Route path="/unidashboard" element={<Unidashboard />} />
+            <Route path="/university-dashboard" element={<Unidashboard />} />
             <Route path="/students" element={<UniStudents />} />
             <Route path="/subscription-plan" element={<PaymentAndSubs />} />
             <Route path="/uni-edit-profile" element={<UniEditProfile />} />
@@ -63,6 +64,10 @@ function App() {
             }
           >
             <Route path="student-dashboard" element={<Student />} />
+            <Route
+              path="student-edit-profile"
+              element={<StudentEditProfile />}
+            />
           </Route>
         </Routes>
       </BrowserRouter>

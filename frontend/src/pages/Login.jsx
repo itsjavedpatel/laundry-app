@@ -39,7 +39,7 @@ const Login = () => {
       } else if (formData.role === "Admin") {
         navigate("/admin-dashboard");
       } else if (formData.role === "University") {
-        navigate("/unidashboard");
+        navigate("/university-dashboard");
       }
     } catch (error) {
       console.error("❌ Login failed:", error);

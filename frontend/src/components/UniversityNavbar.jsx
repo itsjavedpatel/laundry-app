@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import logoutHandler from "../utils/logoutHandler";
 
 import axios from "axios";
 
@@ -21,18 +22,12 @@ export function UniversityNavbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const navigate = useNavigate();
   const handleLogout = async () => {
-    const token = localStorage.getItem("token");
     try {
-      const response = await axios.get("http://localhost:3000/auth/logout", {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      toast.success(response.data.message);
-      localStorage.removeItem("token");
+      await logoutHandler();
+      toast.success("Logout successfully");
       navigate("/");
     } catch (error) {
-      toast.error(response.data.message);
+      toast.error("Something went wrong");
     }
   };
   return (
