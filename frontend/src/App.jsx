@@ -20,6 +20,8 @@ import LaundryDelivery from "./components/LaundryDelivery";
 import StudentContext from "./context/StudentContext";
 import IsStudentWrapper from "./protected/IsStudentWrapper";
 import StudentEditProfile from "./components/StudentEditProfile";
+import LaundryAndDelivery from "./pages/LaundryAndDelivery";
+import StudentChangePass from "./components/StudentChangePass";
 
 function App() {
   return (
@@ -36,6 +38,7 @@ function App() {
 
       <BrowserRouter>
         <Routes>
+          <Route path="/laundryanddelivery" element={<LaundryAndDelivery />} />
           <Route path="/" element={<LandingPage />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
@@ -67,6 +70,10 @@ function App() {
             <Route
               path="student-edit-profile"
               element={<StudentEditProfile />}
+            />
+            <Route
+              path="student-password-change"
+              element={<StudentChangePass />}
             />
           </Route>
         </Routes>

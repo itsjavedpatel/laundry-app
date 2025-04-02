@@ -7,6 +7,7 @@ const { sendPassword, sendOTP } = require("../utils/Mailer");
 const otpModel = require("../models/OTP");
 const Laundry = require("../models/Laundry");
 const Delivery = require("../models/Delivery");
+const BlacklistTokenModel = require("../models/BlacklistedToken");
 
 // Sending university data
 module.exports.getUnidata = async (req, res, next) => {
@@ -166,6 +167,7 @@ module.exports.otpForPassChange = async (req, res, next) => {
 };
 module.exports.changePassword = async (req, res, next) => {
   try {
+    const token = req.cookies.token || req.headers.authorization?.split(" ")[1];
     const decodedToken = req.decodedToken;
     const { newPassword, otp } = req.body.passwordForm;
     const university = await University.findById(decodedToken._id).select(
@@ -178,10 +180,13 @@ module.exports.changePassword = async (req, res, next) => {
       return res.status(402).json({ message: "Incorrect Otp" });
     }
     const hashPass = await bcrypt.hash(newPassword, 10);
+    res.clearCookie("token");
+    await BlacklistTokenModel.create({ token });
     university.password = hashPass;
     await university.save();
     res.status(201).json({ message: "Password changed Successfully" });
   } catch (error) {
+    console.log("error:", error);
     res.status(500).json({ message: "Something went wrong" });
   }
 };

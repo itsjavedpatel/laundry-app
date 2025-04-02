@@ -6,7 +6,7 @@ import axios from "axios";
 import NavBar from "../components/NavBar";
 import { StudentDataContext } from "../context/StudentContext";
 import StudentEditProfile from "../components/StudentEditProfile";
-import logoutHandler  from "../utils/logoutHandler";
+import logoutHandler from "../utils/logoutHandler";
 
 import {
   User,
@@ -155,13 +155,13 @@ function Student() {
             <FileText className="w-4 h-4" />
             Terms of Use
           </a>
-          <a
-            href="#"
+          <Link
+            to="/student-password-change"
             className="flex items-center gap-2 hover:text-indigo-600 transition-colors p-2 hover:bg-indigo-50 rounded-lg"
           >
             <Shield className="w-4 h-4" />
-            Privacy Policy
-          </a>
+            Change Password
+          </Link>
           <a
             href="#"
             className="flex items-center gap-2 hover:text-indigo-600 transition-colors p-2 hover:bg-indigo-50 rounded-lg"

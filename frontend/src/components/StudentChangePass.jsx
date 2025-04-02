@@ -4,10 +4,10 @@ import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
 
 import { Lock, Mail, AlertTriangle, Shield, Key } from "lucide-react";
-import { UniversityNavbar } from "./UniversityNavbar";
 import { useNavigate } from "react-router-dom";
+import Navbar from "./NavBar";
 
-const UniPrivacy = () => {
+const StudentChangePass = () => {
   const navigate = useNavigate();
   const token = localStorage.getItem("token");
   const [passwordForm, setPasswordForm] = useState({
@@ -22,7 +22,7 @@ const UniPrivacy = () => {
     // Here you would verify OTP and update password
     try {
       const response = await axios.put(
-        "http://localhost:3000/university/update-password",
+        "http://localhost:3000/student/update-password",
         { passwordForm },
         {
           headers: {
@@ -56,7 +56,7 @@ const UniPrivacy = () => {
         return;
       }
       const response = await axios.post(
-        "http://localhost:3000/university/update-password",
+        "http://localhost:3000/student/update-password",
         passwordForm,
         {
           headers: {
@@ -74,21 +74,9 @@ const UniPrivacy = () => {
     }
   };
 
-  const requestEmailChange = () => {
-    toast.success(
-      "Email change request submitted. You will receive updates on your registered email."
-    );
-  };
-
-  const requestAccountDeletion = () => {
-    toast.success(
-      "Account deletion request submitted. Our team will contact you shortly."
-    );
-  };
-
   return (
     <div className="min-h-screen bg-gradient-to-r from-[#eeaeca] to-[#94bbe9] ">
-      <UniversityNavbar />
+      <Navbar />
       <div className="mt-16 max-w-6xl mx-auto px-4">
         <div className="space-y-6">
           {/* Password Change Section */}
@@ -181,66 +169,10 @@ const UniPrivacy = () => {
               </div>
             </form>
           </div>
-
-          {/* Email Settings Section */}
-          <div className="bg-white rounded-xl  shadow-lg overflow-hidden">
-            <div className="bg-gradient-to-r from-gray-400 to-gray-600 px-6 py-4">
-              <div className="flex items-center">
-                <Mail className="text-white mr-2" size={24} />
-                <h2 className="text-2xl font-bold text-white">
-                  Email Settings
-                </h2>
-              </div>
-            </div>
-
-            <div className="p-6">
-              <p className="text-gray-600 mb-4">
-                Request to change your registered email address. Our team will
-                verify and process your request.
-              </p>
-              <button
-                onClick={requestEmailChange}
-                className="w-full bg-gray-400 text-white px-6 py-3 rounded-lg hover:bg-gray-500 transition-colors"
-              >
-                Request Email Change
-              </button>
-            </div>
-          </div>
-
-          {/* Danger Zone Section */}
-          <div className="bg-white rounded-xl  shadow-lg overflow-hidden">
-            <div className="bg-gradient-to-r from-gray-400 to-gray-600 px-6 py-4">
-              <div className="flex items-center">
-                <AlertTriangle className="text-white mr-2" size={24} />
-                <h2 className="text-2xl font-bold text-white">Danger Zone</h2>
-              </div>
-            </div>
-
-            <div className="p-6">
-              <div className="border-2 border-gray-200 rounded-xl p-6">
-                <div className="flex items-center mb-4">
-                  <Shield className="text-gray-300 mr-2" size={24} />
-                  <h3 className="text-xl font-medium text-gray-600">
-                    Delete Account
-                  </h3>
-                </div>
-                <p className="text-gray-600 mb-6">
-                  This action cannot be undone. This will permanently delete
-                  your university account and remove all access to services.
-                </p>
-                <button
-                  onClick={requestAccountDeletion}
-                  className="w-full bg-red-300 text-white px-6 py-3 rounded-lg hover:bg-red-400 transition-colors"
-                >
-                  Request Account Deletion
-                </button>
-              </div>
-            </div>
-          </div>
         </div>
       </div>
     </div>
   );
 };
 
-export default UniPrivacy;
+export default StudentChangePass;

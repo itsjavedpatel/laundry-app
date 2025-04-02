@@ -6,7 +6,7 @@ const Delivery = require("../models/Delivery");
 const jwt = require("jsonwebtoken");
 const Admin = require("../models/Admin");
 const { sendOTP, sendPassword } = require("../utils/Mailer");
-const blackListTokenModel = require("../models/BlacklistedToken");
+const BlacklistTokenModel = require("../models/BlacklistedToken");
 const bcrypt = require("bcryptjs");
 const otpModel = require("../models/OTP");
 const generatePassword = require("../utils/generatePassword");
@@ -200,7 +200,7 @@ exports.logout = async (req, res, next) => {
   const token = req.cookies.token || req.headers.authorization?.split(" ")[1];
   try {
     res.clearCookie("token");
-    await blackListTokenModel.create({ token });
+    await BlacklistTokenModel.create({ token });
     return res.status(200).json({ message: "🎉Logged out Successfully" });
   } catch (error) {
     return res.status(500).json({ message: "🛑 Something Went Wrong!!" });

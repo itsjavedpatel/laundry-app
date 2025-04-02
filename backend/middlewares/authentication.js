@@ -28,6 +28,7 @@ module.exports.authUser = async (req, res, next) => {
     req.decodedToken = decodedToken;
     return next();
   } catch (error) {
+    console.log("bhai:", error);
     return res.status(401).json({ message: "Unauthorized access" });
   }
 };
