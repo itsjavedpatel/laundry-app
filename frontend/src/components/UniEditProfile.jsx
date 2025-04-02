@@ -44,8 +44,8 @@ const UniEditProfile = () => {
         }
       );
 
-      setUniversity(response.data.updatedUni);
-      setProfile(response.data.updatedUni);
+      // setUniversity(response.data.updatedUni);
+      // setProfile(response.data.updatedUni);
       toast.success(response.data.message);
     } catch (error) {
       if (error.response) {

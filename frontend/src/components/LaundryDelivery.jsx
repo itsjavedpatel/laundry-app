@@ -1,11 +1,16 @@
 import { Waves, Plus, Users, Truck, Trash2, Edit } from "lucide-react";
 import React, { useContext, useState } from "react";
 import { UniversityNavbar } from "./UniversityNavbar";
+import { UniversityDataContext } from "../context/UniversityContext";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import axios from "axios";
 
 function LaundryDelivery() {
+  const { university, setUniversity } = useContext(UniversityDataContext);
   const [activeTab, setActiveTab] = useState("add");
   const [agentType, setAgentType] = useState("laundry");
-  const [laundryAgents, setLaundryAgents] = useState([]);
+  const [laundryAgents, setLaundryAgents] = useState(university.laundries);
   const [deliveryAgents, setDeliveryAgents] = useState([]);
 
   // Form states
@@ -17,6 +22,8 @@ function LaundryDelivery() {
     phoneNumber: "",
   });
 
+  const handleDeliverySubmit = async (e) => {};
+
   const handleInputChange = (e) => {
     setFormData({
       ...formData,
@@ -24,47 +31,83 @@ function LaundryDelivery() {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    const token = localStorage.getItem("token");
+    try {
+      const response = await axios.post(
+        "http://localhost:3000/university/add-laundry",
+        formData,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-type": "application/json",
+          },
+        }
+      );
+      setUniversity(response.data.uni);
+      setLaundryAgents(university.laundries);
+      toast.success("Laundry added successfully");
 
-    if (agentType === "laundry") {
-      setLaundryAgents([
-        ...laundryAgents,
-        {
-          id: Date.now().toString(),
-          name: formData.name,
-          email: formData.email,
-          laundryId: formData.laundryId,
-        },
-      ]);
-    } else {
-      setDeliveryAgents([
-        ...deliveryAgents,
-        {
-          id: Date.now().toString(),
-          name: formData.name,
-          email: formData.email,
-          employeeId: formData.employeeId,
-          phoneNumber: formData.phoneNumber,
-        },
-      ]);
+      //   setLaundryAgents([
+      //     ...laundryAgents,
+      //     {
+      //       id: Date.now().toString(),
+      //       name: formData.name,
+      //       email: formData.email,
+      //       laundryId: formData.laundryId,
+      //     },
+      //   ]);
+      // } else {
+      //   setDeliveryAgents([
+      //     ...deliveryAgents,
+      //     {
+      //       id: Date.now().toString(),
+      //       name: formData.name,
+      //       email: formData.email,
+      //       employeeId: formData.employeeId,
+      //       phoneNumber: formData.phoneNumber,
+      //     },
+      //   ]);
+      // }
+      // Reset form
+      setFormData({
+        name: "",
+        email: "",
+        laundryId: "",
+        employeeId: "",
+        phoneNumber: "",
+      });
+    } catch (error) {
+      console.log(error);
+      if (error.response) {
+        toast.error(error.response.data.message);
+      } else {
+        toast.error("Something went wrong");
+      }
     }
-
-    // Reset form
-    setFormData({
-      name: "",
-      email: "",
-      laundryId: "",
-      employeeId: "",
-      phoneNumber: "",
-    });
   };
 
-  const removeAgent = (id, type) => {
-    if (type === "laundry") {
-      setLaundryAgents(laundryAgents.filter((agent) => agent.id !== id));
-    } else {
-      setDeliveryAgents(deliveryAgents.filter((agent) => agent.id !== id));
+  const deleteLaundry = async (laundryId) => {
+    console.log(laundryId);
+    try {
+      const confirmDelete = window.confirm(
+        "Are you sure you want to delete laundry"
+      );
+      if (!confirmDelete) return;
+      const token = localStorage.getItem("token");
+      const response = await axios.delete(
+        `http://localhost:3000/university/delete-laundry/${laundryId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-type": "application/json",
+          },
+        }
+      );
+      toast.success(response.data.message);
+    } catch (error) {
+      toast.error("Error deleting laundry");
     }
   };
 
@@ -214,6 +257,9 @@ function LaundryDelivery() {
                 </>
               )}
               <button
+                onClick={
+                  agentType === "laundry" ? handleSubmit : handleDeliverySubmit
+                }
                 type="submit"
                 className="w-full bg-green-600 text-white py-3 px-4 rounded-lg hover:bg-gray-400 transition-all duration-200 transform hover:scale-[1.02] active:scale-[0.98] shadow-md hover:shadow-lg"
               >
@@ -233,11 +279,11 @@ function LaundryDelivery() {
               <div className="divide-y divide-gray-200">
                 {laundryAgents.map((agent) => (
                   <div
-                    key={agent.id}
+                    key={agent._id}
                     className="p-4 flex items-center justify-between hover:bg-gray-50 transition-colors"
                   >
-                    <div>
-                      <h3 className="font-medium text-gray-900">
+                    <div className="flex flex-col gap-4">
+                      <h3 className="font-medium text-lg text-gray-900">
                         {agent.name}
                       </h3>
                       <p className="text-sm text-gray-500">{agent.email}</p>
@@ -245,17 +291,13 @@ function LaundryDelivery() {
                         ID: {agent.laundryId}
                       </p>
                     </div>
-                    <div className="flex gap-2 ">
-                      <button className="text-yellow-600 flex items-center  hover:text-yellow-800 p-2 hover:bg-red-50 rounded-full transition-colors">
-                        <Edit size={20} /> <span>Edit </span>
-                      </button>
-                      <button
-                        onClick={() => removeAgent(agent.id, "laundry")}
-                        className="text-red-600 flex items-center hover:text-red-800 p-2 hover:bg-red-50 rounded-full transition-colors"
-                      >
-                        <Trash2 size={20} /> <span>Delete</span>
-                      </button>
-                    </div>
+
+                    <button
+                      onClick={() => deleteLaundry(agent._id)}
+                      className="text-red-600 flex items-center hover:text-red-800 p-2 hover:bg-red-50 rounded-full transition-colors"
+                    >
+                      <Trash2 size={20} /> <span className="mr-">Delete</span>
+                    </button>
                   </div>
                 ))}
                 {laundryAgents.length === 0 && (

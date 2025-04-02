@@ -5,6 +5,8 @@ const generatePassword = require("../utils/generatePassword");
 const bcrypt = require("bcryptjs/dist/bcrypt");
 const { sendPassword, sendOTP } = require("../utils/Mailer");
 const otpModel = require("../models/OTP");
+const Laundry = require("../models/Laundry");
+const Delivery = require("../models/Delivery");
 
 // Sending university data
 module.exports.getUnidata = async (req, res, next) => {
@@ -66,6 +68,9 @@ module.exports.addStudent = async (req, res, next) => {
     });
     uni.students.push(newStudent._id);
     await uni.populate("students");
+    if (uni.laundries.length > 0) {
+      await uni.populate("laundries");
+    }
     await uni.save();
     return res.status(201).json({ message: "Student added successfully", uni });
   } catch (error) {
@@ -90,7 +95,12 @@ module.exports.updateStudent = async (req, res, next) => {
       ? (student.status = "inactive")
       : (student.status = "active");
     await student.save();
-    const uni = await University.findById(_id).populate("students");
+
+    let uni = await University.findById(_id).populate("students");
+    if (uni.laundries.length > 0) {
+      uni.populate("laundries");
+    }
+
     return res
       .status(200)
       .json({ message: "Student status updated successfully", uni });
@@ -99,39 +109,31 @@ module.exports.updateStudent = async (req, res, next) => {
   }
 };
 
-//delete student
-module.exports.deleteStudent = async (req, res, next) => {
+// delete laundry
+
+module.exports.deleteLaundry = async (req, res, next) => {
   const decodedToken = req.decodedToken;
   console.log(decodedToken._id);
-  const id = req.params.studentId;
+  const id = req.params.laundryId;
+  console.log("id:", id);
+
   try {
-    const student = await Student.findByIdAndDelete(id);
-    // const updatedUniversity = await University.updateOne(
-    //   { _id: decodedToken._id },
-    //   {
-    //     $pull: { students: { _id: id } }, // Remove student with matching ID
-    //   }
-    // );
+    const laundry = await Laundry.findByIdAndDelete(id);
     const university = await University.findById(decodedToken._id);
     if (!university) {
       console.log("University not found");
-      return;
     }
 
-    // Filter out the student with the given ID
-    university.students = university.students.filter(
-      (student) => student._id.toString() !== id.toString()
+    university.laundries = university.laundries.filter(
+      (laundry) => laundry._id.toString() !== id.toString()
     );
-
-    // Save the updated document
-    const updatedUniversity = await university.save();
-    return res.status(200).json({ message: "Student deleted successfully" });
+    await university.save();
+    return res.status(200).json({ message: "Laundry deleted successfully" });
   } catch (error) {
     console.log(error);
     return res.status(500).json({ message: "Something went wrong" });
   }
 };
-
 // change password
 
 module.exports.otpForPassChange = async (req, res, next) => {
@@ -215,9 +217,119 @@ module.exports.updateProfile = async (req, res, next) => {
 module.exports.addLaundry = async (req, res, next) => {
   try {
     const { name, email, laundryId } = req.body;
+    console.log(req.body);
     const { _id, role } = req.decodedToken;
+    console.log(req.decodedToken);
+
     if (role !== "university") {
       return res.status(401).json({ message: "Unauthorized Acess" });
     }
-  } catch (error) {}
+    const laundryExist = await Laundry.findOne({ email });
+    if (laundryExist) {
+      return res.status(409).json({ message: "Laundry Already exists" });
+    }
+    const uni = await University.findById(_id);
+    console.log(uni);
+    if (!uni) {
+      return res.status(401).json({ message: "Unauthorized access" });
+    }
+    const password = generatePassword();
+    const hashedpass = await bcrypt.hash(password, 10);
+    const response = await sendPassword(name, email, password);
+    if (!response) {
+      return res.status(424).json({ message: "Laundry addition failed" });
+    }
+    const newLaundry = await Laundry.create({
+      name,
+      email,
+      laundryId,
+      university: uni._id,
+      password: hashedpass,
+    });
+    uni.laundries.push(newLaundry._id);
+    await uni.populate("laundries");
+    if (uni.students.length > 0) {
+      await uni.populate("students");
+    }
+    await uni.save();
+    return res.status(201).json({ message: "Laundry added successfully", uni });
+  } catch (error) {
+    return res
+      .status(500)
+      .json({ message: "Internal server error!! Try again later" });
+  }
+};
+
+// add delivery
+module.exports.addDelivery = async (req, res, next) => {
+  try {
+    const { name, email, empId, mobile } = req.body;
+    const { _id, role } = req.decodedToken;
+    if (role !== "university") {
+      return res.status(401).json({ message: "Unauthorized Access" });
+    }
+    const deliveryExist = await deliveryId.findOne({ email });
+    if (deliveryExist) {
+      return res.status(409).json({ message: "Delivery agent already exist " });
+    }
+    const password = generatePassword();
+    const hashedpass = await bcrypt.hash(password, 10);
+    const response = await sendPassword(username, email, password);
+    if (!response) {
+      return res.status(424).json({ message: "Delivery addition failed" });
+    }
+
+    const newDelivery = await Delivery.create({
+      name,
+      email,
+      empId,
+      mobile,
+      university: uni._id,
+      password: hashedpass,
+    });
+    uni.delivery.push(newDelivery._id);
+    await uni.populate("delivery");
+    await uni.save();
+    return res
+      .status(201)
+      .json({ message: "Delivery added successfully", uni });
+  } catch (error) {
+    return res
+      .status(500)
+      .json({ message: "Something Went Wrong !! Try again later" });
+  }
+};
+
+//delete student
+module.exports.deleteStudent = async (req, res, next) => {
+  const decodedToken = req.decodedToken;
+  console.log(decodedToken._id);
+
+  console.log("id :", id);
+  try {
+    const student = await Student.findByIdAndDelete(id);
+    // const updatedUniversity = await University.updateOne(
+    //   { _id: decodedToken._id },
+    //   {
+    //     $pull: { students: { _id: id } }, // Remove student with matching ID
+    //   }
+    // );
+    const university = await University.findById(decodedToken._id);
+    if (!university) {
+      console.log("University not found");
+      return;
+    }
+
+    // Filter out the student with the given ID
+    university.students = university.students.filter(
+      (student) => student._id.toString() !== id.toString()
+    );
+
+    // Save the updated document
+    const updatedUniversity = await university.save();
+    return res.status(200).json({ message: "Student deleted successfully" });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ message: "Something went wrong" });
+  }
 };
