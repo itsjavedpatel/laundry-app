@@ -210,3 +210,14 @@ module.exports.updateProfile = async (req, res, next) => {
     res.status(400).json({ message: "Internal Server Error" });
   }
 };
+
+// Add laundry
+module.exports.addLaundry = async (req, res, next) => {
+  try {
+    const { name, email, laundryId } = req.body;
+    const { _id, role } = req.decodedToken;
+    if (role !== "university") {
+      return res.status(401).json({ message: "Unauthorized Acess" });
+    }
+  } catch (error) {}
+};
