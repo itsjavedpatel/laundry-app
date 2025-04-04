@@ -22,6 +22,9 @@ import IsStudentWrapper from "./protected/IsStudentWrapper";
 import StudentEditProfile from "./components/StudentEditProfile";
 import LaundryAndDelivery from "./pages/LaundryAndDelivery";
 import StudentChangePass from "./components/StudentChangePass";
+import PlaceOrder from "./components/PlaceOrder";
+import OrderStatus from "./components/OrderStatus";
+import RenewSubscription from "./components/RenewSubscription"
 
 function App() {
   return (
@@ -75,6 +78,9 @@ function App() {
               path="student-password-change"
               element={<StudentChangePass />}
             />
+            <Route path="student-schedule-wash" element={<PlaceOrder />} />
+            <Route path="student-order-status" element={<OrderStatus />} />
+            <Route path="student-renew-subscription" element={<RenewSubscription />} />
           </Route>
         </Routes>
       </BrowserRouter>
