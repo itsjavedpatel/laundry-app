@@ -3,8 +3,9 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
 
-import { Shirt, Home, Key } from "lucide-react";
-import { Link, useNavigate } from "react-router-dom";
+import { Key } from "lucide-react";
+import { useNavigate } from "react-router-dom";
+import StudentNavbar from "../navbars/StudentNavbar";
 
 const StudentChangePass = () => {
   const navigate = useNavigate();
@@ -75,28 +76,7 @@ const StudentChangePass = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-r from-[#eeaeca] to-[#94bbe9] ">
-      <nav className="bg-white h-16 shadow-md fixed top-0 left-0 right-0 z-50">
-        <div className="max-w-7xl mx-auto px-4 py-3">
-          <div className="flex items-center  justify-between">
-            <div className="flex items-center gap-2">
-              <Shirt className="w-8 h-8 text-indigo-600" />
-              <Link
-                to="/"
-                className="text-xl font-bold bg-gradient-to-r from-indigo-600 to-purple-600 text-transparent bg-clip-text"
-              >
-                E-DHOBI
-              </Link>
-            </div>
-
-            <Link
-              to="/student-dashboard"
-              className="text-xl font-bold  text-transparent bg-clip-text"
-            >
-              <Home className="w-8 h-8 text-gray-600" />
-            </Link>
-          </div>
-        </div>
-      </nav>
+      <StudentNavbar />
       <div className=" translate-y-[50%]  max-w-6xl mx-auto px-4">
         <div className="space-y-6">
           {/* Password Change Section */}

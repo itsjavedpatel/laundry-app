@@ -1,10 +1,10 @@
 import React, { useContext, useState } from "react";
 import { CreditCard } from "lucide-react";
-import Navbar from "../navbars/NavBar";
 import { StudentDataContext } from "./../context/StudentContext";
 import axios from "axios";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import StudentNavbar from "../navbars/StudentNavbar";
 function Subscription() {
   const { student } = useContext(StudentDataContext);
   const [receiptNumber, setReceiptNumber] = useState("");
@@ -43,7 +43,7 @@ function Subscription() {
   if (isSubmitted) {
     return (
       <>
-        <Navbar />
+        <StudentNavbar />
         <div className=" min-h-screen  bg-gradient-to-r from-[#eeaeca] to-[#94bbe9]">
           <div className="max-w-md mx-auto  translate-y-32   p-6 rounded-lg  text-center">
             <div className="text-green-500 text-5xl mb-4">✓</div>
@@ -63,7 +63,7 @@ function Subscription() {
 
   return (
     <>
-      <Navbar />
+      <StudentNavbar />
       <div className="p-2  min-h-screen bg-gradient-to-r from-[#eeaeca] to-[#94bbe9] ">
         <div className=" bg-white translate-y-32 rounded-lg shadow-md  max-w-md mx-auto">
           <h1 className=" p-4 text-2xl font-bold mb-6">Renew Subscription</h1>

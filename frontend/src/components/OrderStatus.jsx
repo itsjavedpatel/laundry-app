@@ -8,7 +8,7 @@ import {
   Search,
   ArrowRight,
 } from "lucide-react";
-import Navbar from "../navbars/NavBar";
+import StudentNavbar from "../navbars/StudentNavbar";
 
 function OrderStatus() {
   const [selectedMonth, setSelectedMonth] = useState(
@@ -105,10 +105,10 @@ function OrderStatus() {
 
   return (
     <div className=" min-h-screen bg-gradient-to-r from-[#eeaeca] to-[#94bbe9] ">
-      <Navbar />
-      <div className=" mt-4 max-w-3xl mx-auto px-4">
+      <StudentNavbar />
+      <div className="translate-y-20 mt-4 max-w-3xl mx-auto px-4">
         <div className="flex items-center justify-between mb-8">
-          <h1 className="text-2xl font-bold text-gray-900">
+          <h1 className="md:text-2xl font-bold text-gray-900">
             Order Status & History
           </h1>
           <div className="flex items-center gap-3">
@@ -117,7 +117,7 @@ function OrderStatus() {
               type="month"
               value={selectedMonth}
               onChange={(e) => setSelectedMonth(e.target.value)}
-              className="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm"
+              className=" px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm"
             />
           </div>
         </div>
