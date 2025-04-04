@@ -1,12 +1,11 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import logoutHandler from "../utils/logoutHandler";
-
-import axios from "axios";
 
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
+import { UniversityDataContext } from "./../context/UniversityContext";
 import {
   Bell,
   ChevronDown,
@@ -20,6 +19,7 @@ import {
 
 export function UniversityNavbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const { university } = useContext(UniversityDataContext);
   const navigate = useNavigate();
   const handleLogout = async () => {
     try {
@@ -78,13 +78,19 @@ export function UniversityNavbar() {
               </div>
             </div>
           </div>
-
-          <Link
-            to="/fee-request"
-            className="p-2 text-[#dad4b8] hover:text-gray-300"
-          >
-            <Bell className="w-6 h-6" />
-          </Link>
+          <div>
+            <p
+              className={`relative  text-[5px] top-9 -right-3.5 bg-red-600 h-2 w-2 rounded-full  ${
+                university.requests.length > 0 ? "" : "hidden"
+              }`}
+            ></p>
+            <Link
+              to="/fee-request"
+              className="p-2 text-[#dad4b8] hover:text-gray-300"
+            >
+              <Bell className="w-6 h-6" />
+            </Link>
+          </div>
 
           <div className="relative group">
             <button className="flex items-center gap-2  hover:text-gray-300">

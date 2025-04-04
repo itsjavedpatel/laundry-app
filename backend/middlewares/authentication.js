@@ -5,6 +5,7 @@ module.exports.authUser = async (req, res, next) => {
   try {
     // fetch token if any
     const token = req.cookies.token || req.headers.authorization?.split(" ")[1];
+
     // if token is not available
     if (!token) {
       console.log("No token");

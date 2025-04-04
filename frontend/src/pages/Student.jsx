@@ -78,7 +78,7 @@ function Student() {
         <div className="max-w-md mx-auto flex flex-col items-center text-center">
           <p
             className={`pb-3 ${
-              status === "inactive" ? "text-red-700 ml-2 " : ""
+              status === "inactive" ? "text-red-700 ml-2 " : "hidden"
             }`}
           >
             Reactivate your services to continue using laundry services

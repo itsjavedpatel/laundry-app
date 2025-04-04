@@ -2,119 +2,49 @@ import React, { useContext, useState } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import {
-  Search,
-  Filter,
-  Plus,
-  Check,
-  X,
-  Trash2,
-  FileDown,
-  X as Close,
-} from "lucide-react";
+
 import { UniversityNavbar } from "../navbars/UniversityNavbar";
 import { UniversityDataContext } from "../context/UniversityContext";
-import AddStudent from "./AddStudent";
 
 function FeeRequest() {
   const { university, setUniversity } = useContext(UniversityDataContext);
-  const studentList = university.students;
+  const studentList = university.requests;
   const [students, setStudents] = useState(studentList);
-  const [searchTerm, setSearchTerm] = useState("");
-  const [statusFilter, setStatusFilter] = useState("all");
-  const [showAddModal, setShowAddModal] = useState(false);
-
-  const filteredStudents = students
-    .filter(
-      (student) =>
-        student.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        student.studentId.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        student.laundryId.toLowerCase().includes(searchTerm.toLowerCase())
-    )
-    .filter((student) =>
-      statusFilter === "all" ? true : student.status === statusFilter
-    );
-
-  const toggleStatus = async (studentId, id) => {
+  const token = localStorage.getItem("token");
+  const handleAccept = async (studentId) => {
     try {
-      const token = localStorage.getItem("token");
       const response = await axios.put(
-        `http://localhost:3000/university/update-student`,
-        { id },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-      setStudents(
-        students.map((student) =>
-          student.laundryId === studentId
-            ? {
-                ...student,
-                status: student.status === "active" ? "inactive" : "active",
-              }
-            : student
-        )
-      );
-      setUniversity(response.data.uni);
-      toast.success(response.data.message);
-    } catch (error) {
-      toast.error("Error updating student status");
-    }
-  };
-
-  const deleteStudent = async (studentId) => {
-    try {
-      const confirmDelete = window.confirm(
-        "Are you sure you want to delete this student?"
-      );
-      if (!confirmDelete) return;
-      const token = localStorage.getItem("token");
-      const response = await axios.delete(
-        `http://localhost:3000/university/delete-student/${studentId}`,
+        `${import.meta.env.VITE_BASE_URL}/university/accept-request`,
+        { studentId: studentId },
         { headers: { Authorization: `Bearer ${token}` } }
       );
-      setStudents(students.filter((student) => student._id !== studentId));
-
+      setUniversity(response.data.university);
       toast.success(response.data.message);
     } catch (error) {
-      toast.error("Error deleting student");
+      console.log(error);
+
+      if (error.response) {
+        toast.error(error.response.data.message);
+      } else {
+        toast.error("Something Went Wrong! Try Again Later");
+      }
     }
   };
-
-  const exportToCSV = () => {
-    const headers = [
-      "S.No",
-      "Name",
-      "Contact",
-      "Laundry ID",
-      "Email",
-      "Student ID",
-      "Status",
-    ];
-    const csvData = filteredStudents.map((student, index) =>
-      [
-        index + 1,
-        student.name,
-        student.contact,
-        student.laundryId,
-        student.email,
-        student.studentId,
-        student.status,
-      ].join(",")
-    );
-
-    const csv = [headers.join(","), ...csvData].join("\n");
-    const blob = new Blob([csv], { type: "text/csv" });
-    const url = window.URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = "students.csv";
-    a.click();
-    window.URL.revokeObjectURL(url);
+  const handleReject = async (studentId) => {
+    try {
+      const response = await axios.put(
+        `${import.meta.env.VITE_BASE_URL}/university/reject-request`,
+        { studentId: studentId },
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+      setUniversity(response.data.university);
+      toast.warn(response.data.message);
+    } catch (error) {
+      if (error.response) {
+        toast.error(error.response.data.message);
+      } else toast.error("Something went wrong");
+    }
   };
-
   return (
     <div className="min-h-screen bg-gradient-to-r from-[#eeaeca] to-[#94bbe9]">
       {/* Header */}
@@ -123,37 +53,6 @@ function FeeRequest() {
       {/* Main Content */}
       <main className="max-w-full mx-auto px-4 sm:px-6 lg:px-8 mt-8 py-16 ">
         {/* Search, Filter, and Export Bar */}
-        <div className="flex flex-col sm:flex-row gap-4 mb-6  ">
-          <div className="relative flex-1">
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-5 w-5" />
-            <input
-              type="text"
-              placeholder="Search by name or student ID or laundry ID"
-              className="pl-10 pr-4 py-2 w-full rounded-lg border bg-[#ebe7e7] border-gray-900 focus:outline-none focus:ring-1 focus:ring-black"
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-            />
-          </div>
-          <div className="flex items-center gap-2 ">
-            <Filter className="text-gray-600 h-5 w-5" />
-            <select
-              className="px-4 py-2 rounded-lg border bg-[#ebe7e7] border-gray-900 focus:outline-none focus:ring-1 focus:ring-black"
-              value={statusFilter}
-              onChange={(e) => setStatusFilter(e.target.value)}
-            >
-              <option value="all">All Status</option>
-              <option value="active">Active</option>
-              <option value="inactive">Inactive</option>
-            </select>
-            <button
-              onClick={exportToCSV}
-              className="flex items-center gap-2 px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors"
-            >
-              <FileDown className="h-5 w-5" />
-              Export CSV
-            </button>
-          </div>
-        </div>
 
         {/* Data Table */}
         <div className=" bg-[#ebe7e7] border-gray-900 focus:outline-none focus:ring-1 focus:ring-black rounded-lg shadow overflow-x-auto ">
@@ -168,27 +67,27 @@ function FeeRequest() {
                 </th>
 
                 <th className="px-6 py-3 text-left text-s font-medium  uppercase tracking-wider">
-                  Laundry ID
+                  Receipt Number
                 </th>
                 <th className="px-6 py-3 text-left text-s font-medium  uppercase tracking-wider">
                   Student ID
                 </th>
 
-                <th className="px-6 py-3 text-left text-s font-medium  uppercase tracking-wider">
+                <th className="px-6 py-3 text-center text-s font-medium  uppercase tracking-wider">
                   Actions
                 </th>
               </tr>
             </thead>
             <tbody className="text-gray-700">
-              {filteredStudents.map((student, index) => (
-                <tr key={student.laundryId} className="">
+              {studentList.map((student, index) => (
+                <tr key={student._id} className="">
                   <td className="px-6 py-4 whitespace-nowrap">{index + 1}</td>
                   <td className="px-6 py-4 whitespace-nowrap">
-                    {student.name}
+                    {student.studentName}
                   </td>
 
                   <td className="px-6 py-4 whitespace-nowrap">
-                    {student.laundryId}
+                    {student.receiptNumber}
                   </td>
 
                   <td className="px-6 py-4 whitespace-nowrap">
@@ -196,24 +95,18 @@ function FeeRequest() {
                   </td>
 
                   <td className="px-6 py-4 whitespace-nowrap">
-                    <div className="flex items-center gap-6">
+                    <div className="flex items-center  gap-6">
                       <button
-                        onClick={() =>
-                          toggleStatus(student.laundryId, student._id)
-                        }
-                        className="text-blue-600 hover:text-blue-900"
+                        onClick={() => handleAccept(student.studentId)}
+                        className="py-1 px-2 w-1/2 rounded-md  bg-green-600 text-white hover:bg-green-900 hover:scale-105"
                       >
-                        {student.status === "active" ? (
-                          <X className="h-5 w-5" />
-                        ) : (
-                          <Check className="h-5 w-5" />
-                        )}
+                        Accept
                       </button>
                       <button
-                        onClick={() => deleteStudent(student._id)}
-                        className="text-red-600 hover:text-red-900"
+                        onClick={() => handleReject(student.studentId)}
+                        className="py-1 px-3 w-1/2 rounded-md bg-red-700 text-white hover:bg-red-800 hover:scale-105"
                       >
-                        <Trash2 className="h-5 w-5" />
+                        Reject
                       </button>
                     </div>
                   </td>
@@ -222,25 +115,6 @@ function FeeRequest() {
             </tbody>
           </table>
         </div>
-
-        {/* Floating Add Button */}
-        <button
-          onClick={() => setShowAddModal(true)}
-          className="fixed bottom-8 right-8 bg-green-600 text-white rounded-full p-4 shadow-lg hover:bg-green-700 transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
-          aria-label="Add new student"
-        >
-          <Plus className="h-6 w-6" />
-        </button>
-
-        {/* Add Student Modal */}
-        {showAddModal && (
-          <>
-            <AddStudent
-              setShowAddModal={setShowAddModal}
-              setStudents={setStudents}
-            />
-          </>
-        )}
       </main>
     </div>
   );

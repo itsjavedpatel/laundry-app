@@ -44,8 +44,8 @@ function Subscription() {
     return (
       <>
         <Navbar />
-        <div className=" min-h-screen bg-gradient-to-r from-[#eeaeca] to-[#94bbe9]">
-          <div className="max-w-md mx-auto  p-6 rounded-lg  text-center">
+        <div className=" min-h-screen  bg-gradient-to-r from-[#eeaeca] to-[#94bbe9]">
+          <div className="max-w-md mx-auto  translate-y-32   p-6 rounded-lg  text-center">
             <div className="text-green-500 text-5xl mb-4">✓</div>
             <h2 className="text-2xl font-bold mb-4">
               Submitted successfully!{" "}

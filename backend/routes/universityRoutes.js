@@ -9,6 +9,8 @@ const {
   updateProfile,
   addLaundry,
   deleteLaundry,
+  acceptRequest,
+  rejectRequest,
 } = require("../controllers/universityController");
 const { authUser } = require("../middlewares/authentication");
 const universityRouter = express.Router();
@@ -41,4 +43,10 @@ universityRouter.put("/update-password", authUser, changePassword);
 
 // update profile
 universityRouter.put("/update-profile", authUser, updateProfile);
+
+// accept renew Request
+universityRouter.put("/accept-request", authUser, acceptRequest);
+
+// reject renew request
+universityRouter.put("/reject-request", authUser, rejectRequest);
 module.exports = universityRouter;

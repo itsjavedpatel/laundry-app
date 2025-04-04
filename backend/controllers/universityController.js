@@ -1,4 +1,5 @@
 const Student = require("../models/Student");
+
 const University = require("../models/University");
 
 const generatePassword = require("../utils/generatePassword");
@@ -336,5 +337,58 @@ module.exports.deleteStudent = async (req, res, next) => {
   } catch (error) {
     console.log(error);
     return res.status(500).json({ message: "Something went wrong" });
+  }
+};
+
+//accept student request
+module.exports.acceptRequest = async (req, res, next) => {
+  try {
+    const { _id } = req.decodedToken;
+    const { studentId } = req.body;
+
+    let university = await University.findById(_id)?.populate("students");
+    if (!university) {
+      return res.status(401).json({ message: "Unauthorized Access" });
+    }
+    const student = await Student.findOne({ university: _id, studentId });
+    if (!student) {
+      return res.status(404).json({ message: "Student  Not found" });
+    }
+    university.requests = university.requests.filter(
+      (r) => r.studentId !== studentId
+    );
+    if (university.laundries.length > 0) {
+      university.populate("laundries");
+    }
+
+    await university.save();
+    student.status = "active";
+    await student.save();
+    return res
+      .status(201)
+      .json({ message: "Student accepted successfully", university });
+  } catch (error) {
+    return res.status(500).json({ message: "Internal Server Error" });
+  }
+};
+
+module.exports.rejectRequest = async (req, res, next) => {
+  try {
+    const { _id } = req.decodedToken;
+    const { studentId } = req.body;
+    let university = await University.findById(_id)?.populate("students");
+    if (!university) {
+      return res.status(401).json({ message: "Unauthorized Access" });
+    }
+    university.requests = university.requests.filter(
+      (r) => r.studentId !== studentId
+    );
+    if (university.laundries.length > 0) {
+      university.populate("laundries");
+    }
+    await university.save();
+    return res.status(201).json({ message: "Request rejected", university });
+  } catch (error) {
+    return res.status(500).json({ message: "Internal server error" });
   }
 };
