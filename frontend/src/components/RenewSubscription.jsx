@@ -31,43 +31,45 @@ function Subscription() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-r from-[#eeaeca] to-[#94bbe9] ">
+    <>
       <Navbar />
-      <div className=" mt-7 max-w-md mx-auto">
-        <h1 className="text-2xl font-bold mb-6">Renew Subscription</h1>
-        <div className=" p-6 rounded-lg shadow-md">
-          <div className="flex items-center gap-2 mb-6">
-            <CreditCard className="text-gray-600" size={24} />
-            <h2 className="text-lg font-semibold">Subscription Details</h2>
-          </div>
-          <form onSubmit={handleSubmit}>
-            <div className="mb-6">
-              <label
-                htmlFor="receiptNumber"
-                className="block text-sm font-medium text-gray-700 mb-2"
-              >
-                Fee Receipt Number
-              </label>
-              <input
-                type="text"
-                id="receiptNumber"
-                value={receiptNumber}
-                onChange={(e) => setReceiptNumber(e.target.value)}
-                className="w-full p-2 border rounded-lg focus:ring-2 focus:ring-gray-500 focus:border-gray-500"
-                placeholder="Enter your fee receipt number"
-                required
-              />
+      <div className=" p-4 min-h-screen bg-gradient-to-r from-[#eeaeca] to-[#94bbe9] ">
+        <div className=" bg-white  rounded-lg shadow-md mt-7 max-w-md mx-auto">
+          <h1 className=" p-4 text-2xl font-bold mb-6">Renew Subscription</h1>
+          <div className=" p-6 rounded-lg shadow-md">
+            <div className="flex items-center gap-2 mb-6">
+              <CreditCard className="text-gray-600" size={24} />
+              <h2 className="text-lg font-semibold">Subscription Details</h2>
             </div>
-            <button
-              type="submit"
-              className="w-full bg-gray-600 text-white py-2 rounded-lg hover:bg-gray-700 transition-colors"
-            >
-              Renew Subscription
-            </button>
-          </form>
+            <form onSubmit={handleSubmit}>
+              <div className="mb-6">
+                <label
+                  htmlFor="receiptNumber"
+                  className="block text-sm font-medium text-gray-700 mb-2"
+                >
+                  Fee Receipt Number
+                </label>
+                <input
+                  type="text"
+                  id="receiptNumber"
+                  value={receiptNumber}
+                  onChange={(e) => setReceiptNumber(e.target.value)}
+                  className="w-full p-2 border rounded-lg focus:ring-2 focus:ring-gray-500 focus:border-gray-500"
+                  placeholder="Enter your fee receipt number"
+                  required
+                />
+              </div>
+              <button
+                type="submit"
+                className="w-full bg-gray-600 text-white py-2 rounded-lg hover:bg-gray-700 transition-colors"
+              >
+                Renew Subscription
+              </button>
+            </form>
+          </div>
         </div>
       </div>
-    </div>
+    </>
   );
 }
 

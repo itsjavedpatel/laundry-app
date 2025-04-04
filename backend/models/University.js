@@ -12,6 +12,11 @@ const universitySchema = new mongoose.Schema(
       trim: true,
       unique: true,
     },
+    requests: [
+      {
+        type: Object,
+      },
+    ],
     password: {
       type: String,
       select: true,

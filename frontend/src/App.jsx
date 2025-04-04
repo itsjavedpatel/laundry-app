@@ -25,6 +25,7 @@ import RenewSubscription from "./components/RenewSubscription";
 import UniProtectedWrapper from "./protected/UniProtectedWrapper";
 import OrderStatus from "./components/OrderStatus";
 import PlaceOrder from "./components/PlaceOrder";
+import FeeRequest from "./components/FeeRequest";
 function App() {
   return (
     <>
@@ -57,6 +58,7 @@ function App() {
             <Route path="/uni-edit-profile" element={<UniEditProfile />} />
             <Route path="/uni-privacy" element={<UniPrivacy />} />
             <Route path="/laundry-delivery" element={<LaundryDelivery />} />
+            <Route path="/fee-request" element={<FeeRequest />} />
           </Route>
           <Route path="*" element={<Error />} />
           <Route path="/forget-password" element={<ForgetPassword />} />

@@ -76,6 +76,13 @@ function Student() {
       {/* Top Section */}
       <div className="px-4 pt-24 pb-10 bg-gradient-to-r from-[#eeaeca] to-[#94bbe9] text-gray-700">
         <div className="max-w-md mx-auto flex flex-col items-center text-center">
+          <p
+            className={`pb-3 ${
+              status === "inactive" ? "text-red-700 ml-2 " : ""
+            }`}
+          >
+            Reactivate your services to continue using laundry services
+          </p>
           <div className="w-32 h-32 rounded-full bg-white/10 backdrop-blur-md border-4 border-white/30 text-gray-600 flex items-center justify-center text-4xl font-bold shadow-xl mb-6">
             {getInitials(name)}
           </div>
@@ -90,7 +97,7 @@ function Student() {
                 className={`${
                   status === "active"
                     ? "text-green-700 font-semibold ml-2"
-                    : "text-red-700 ml-2"
+                    : "text-red-700 ml-2 "
                 }`}
               >
                 {status}
@@ -123,9 +130,13 @@ function Student() {
           </Link>
           <Link
             to="/student-schedule-wash"
-            className="p-6 bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 flex flex-col items-center gap-3 group hover:-translate-y-1"
+            className={`p-6 bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 flex flex-col items-center gap-3 group hover:-translate-y-1 ${
+              student.status === "inactive"
+                ? "pointer-events-none text-gray-400 cursor-not-allowed"
+                : ""
+            }`}
           >
-            <div className="p-3 rounded-xl bg-purple-50 group-hover:bg-purple-100 transition-colors">
+            <div className="p-3 rounded-xl bg-purple-50 group-hover:bg-purple-100 transition-colors ">
               <Waves className="w-7 h-7 text-purple-600" />
             </div>
             <span className="text-sm font-medium text-gray-700">
@@ -140,7 +151,7 @@ function Student() {
               <CreditCard className="w-7 h-7 text-pink-600" />
             </div>
             <span className="text-sm font-medium text-gray-700">
-              Renew Subscription
+              Reactivate
             </span>
           </Link>
           <Link

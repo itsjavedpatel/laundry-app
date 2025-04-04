@@ -4,6 +4,7 @@ const bcrypt = require("bcryptjs/dist/bcrypt");
 const { sendPassword, sendOTP } = require("../utils/Mailer");
 const otpModel = require("../models/OTP");
 const BlacklistTokenModel = require("../models/BlacklistedToken");
+const University = require("../models/University");
 
 module.exports.changePassword = async (req, res, next) => {
   try {
@@ -120,5 +121,22 @@ module.exports.studentData = async (req, res, next) => {
     return res.status(200).json({ student });
   } catch (error) {
     return res.status(500).json({ message: "Unable to access profile" });
+  }
+};
+// Requests
+module.exports.sendRequest = async (req, res, next) => {
+  try {
+    const {_id,role} = req.decodedToken;
+    const formData = req.body;
+    const student=await Student.findById(_id);
+    if(!student){
+      return res.status(401).json({message:"Unauthorized Access"})
+    }
+    const university=await University.findById(student.university);
+    university.requests.push(formData);
+    await university.save();
+    return res.status(201).json({message:"Request sent successfully"})
+  } catch (error) {
+    res.status(500).json({ message: "Internal Server Error" });
   }
 };

@@ -79,9 +79,12 @@ export function UniversityNavbar() {
             </div>
           </div>
 
-          <button className="p-2 text-[#dad4b8] hover:text-gray-300">
+          <Link
+            to="/fee-request"
+            className="p-2 text-[#dad4b8] hover:text-gray-300"
+          >
             <Bell className="w-6 h-6" />
-          </button>
+          </Link>
 
           <div className="relative group">
             <button className="flex items-center gap-2  hover:text-gray-300">

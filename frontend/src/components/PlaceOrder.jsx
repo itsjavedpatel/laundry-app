@@ -33,6 +33,13 @@ function PlaceOrder() {
       quantity: 0,
       category: "boys",
     },
+    {
+      id: "Others",
+      name: "Others",
+      icon: <Bed size={24} />,
+      quantity: 0,
+      category: "boys",
+    },
 
     // Girls Items
     {
@@ -60,6 +67,13 @@ function PlaceOrder() {
       id: "girls-jeans",
       name: "Jeans",
       icon: <Shirt size={24} />,
+      quantity: 0,
+      category: "girls",
+    },
+    {
+      id: "Others",
+      name: "Others",
+      icon: <Bed size={24} />,
       quantity: 0,
       category: "girls",
     },
@@ -164,7 +178,7 @@ function PlaceOrder() {
   return (
     <div className=" min-h-screen bg-gradient-to-r from-[#eeaeca] to-[#94bbe9] ">
       <Navbar />
-      <div className=" mt-5 max-w-md mx-auto">
+      <div className=" p-2 mt-5 max-w-md mx-auto">
         <h1 className="text-2xl font-bold mb-6">Place New Order</h1>
 
         <div className="bg-blue-50 p-4 rounded-lg mb-6">
@@ -250,10 +264,6 @@ function PlaceOrder() {
                 ))}
             </div>
           ))}
-
-          <div className="text-sm text-gray-600 mb-4">
-            Estimated Weight: {calculateTotalWeight().toFixed(1)} kg
-          </div>
 
           <button
             type="submit"
