@@ -3,7 +3,7 @@ import { Building2, Mail, MapPin, Loader2, Shield } from "lucide-react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import NavBar from "./NavBar";
+import NavBar from "../navbars/NavBar";
 
 function Register() {
   const navigate = useNavigate();

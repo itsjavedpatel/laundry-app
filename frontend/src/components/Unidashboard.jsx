@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import { School, Users } from "lucide-react";
 import { PieChart } from "./PieChart";
 import { StatCard } from "./StatCard";
-import { UniversityNavbar } from "./UniversityNavbar";
+import { UniversityNavbar } from "../navbars/UniversityNavbar";
 import profileimage from "../assets/images/pfp.jpg";
 import { UniversityDataContext } from "../context/UniversityContext";
 

@@ -3,7 +3,7 @@ import { useNavigate, Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
-import NavBar from "../components/NavBar";
+import NavBar from "../navbars/NavBar";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -36,8 +36,8 @@ const Login = () => {
       // 🏆 Redirect user based on role
       if (formData.role === "Student") {
         navigate("/student-dashboard");
-      } else if (formData.role === "Admin") {
-        navigate("/admin-dashboard");
+      } else if (formData.role === "Laundry") {
+        navigate("/laundry-dashboard");
       } else if (formData.role === "University") {
         navigate("/university-dashboard");
       }

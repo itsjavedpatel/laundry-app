@@ -4,7 +4,7 @@ import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
 
 import { Lock, Mail, AlertTriangle, Shield, Key } from "lucide-react";
-import { UniversityNavbar } from "./UniversityNavbar";
+import { UniversityNavbar } from "../navbars/UniversityNavbar";
 import { useNavigate } from "react-router-dom";
 
 const UniPrivacy = () => {
@@ -117,7 +117,7 @@ const UniPrivacy = () => {
                         oldPassword: e.target.value,
                       })
                     }
-                    className="block w-full rounded-lg border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                    className="block w-full px-2 py-1 rounded-lg border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500"
                     placeholder="Enter current password"
                   />
                 </div>
@@ -135,7 +135,7 @@ const UniPrivacy = () => {
                         newPassword: e.target.value,
                       })
                     }
-                    className="block w-full rounded-lg border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                    className="block w-full px-2 py-1 rounded-lg border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500"
                     placeholder="Enter new password"
                   />
                 </div>
@@ -154,7 +154,7 @@ const UniPrivacy = () => {
                           otp: e.target.value,
                         })
                       }
-                      className="block w-full rounded-lg border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                      className="block w-full px-2 py-1 rounded-lg border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500"
                       placeholder="Enter OTP sent to your email"
                     />
                   </div>

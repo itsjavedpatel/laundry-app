@@ -2,10 +2,8 @@ import React, { useContext, useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import axios from "axios";
-import NavBar from "../components/NavBar";
+
 import { StudentDataContext } from "../context/StudentContext";
-import StudentEditProfile from "../components/StudentEditProfile";
 import logoutHandler from "../utils/logoutHandler";
 
 import {
@@ -20,6 +18,7 @@ import {
   Shield,
   AlertCircle,
   Shirt,
+  Home,
 } from "lucide-react";
 
 function Student() {
@@ -50,7 +49,7 @@ function Student() {
       {/* Navigation Bar */}
       <nav className="bg-white h-16 shadow-md fixed top-0 left-0 right-0 z-50">
         <div className="max-w-7xl mx-auto px-4 py-3">
-          <div className="flex items-center justify-between">
+          <div className="flex items-center  justify-between">
             <div className="flex items-center gap-2">
               <Shirt className="w-8 h-8 text-indigo-600" />
               <Link
@@ -60,6 +59,13 @@ function Student() {
                 E-DHOBI
               </Link>
             </div>
+
+            <Link
+              to="/student-dashboard"
+              className="text-xl font-bold  text-transparent bg-clip-text"
+            >
+              <Home className="w-8 h-8 text-gray-600" />
+            </Link>
           </div>
         </div>
       </nav>
@@ -76,7 +82,6 @@ function Student() {
             <p className="text-gray-600 text-lg">Student ID: {studentId}</p>
 
             <p className={`text-gray-600 text-lg `}>
-              {" "}
               Status :
               <span
                 className={`${

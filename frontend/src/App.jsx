@@ -13,15 +13,15 @@ import UniStudents from "./components/UniStudents";
 import PaymentAndSubs from "./components/PaymentAndSubs";
 import UniEditProfile from "./components/UniEditProfile";
 import UniPrivacy from "./components/UniPrivacy";
-import UniProtectedWrapper from "./pages/UniProtectedWrapper";
 import UniversityContext from "./context/UniversityContext";
 import ForgetPassword from "./components/ForgetPassword";
 import LaundryDelivery from "./components/LaundryDelivery";
 import StudentContext from "./context/StudentContext";
 import IsStudentWrapper from "./protected/IsStudentWrapper";
 import StudentEditProfile from "./components/StudentEditProfile";
-import LaundryAndDelivery from "./pages/LaundryAndDelivery";
+import LaundryPage from "./pages/LaundryPage";
 import StudentChangePass from "./components/StudentChangePass";
+import UniProtectedWrapper from "./protected/UniProtectedWrapper";
 
 function App() {
   return (
@@ -38,7 +38,6 @@ function App() {
 
       <BrowserRouter>
         <Routes>
-          <Route path="/laundryanddelivery" element={<LaundryAndDelivery />} />
           <Route path="/" element={<LandingPage />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
@@ -76,6 +75,7 @@ function App() {
               element={<StudentChangePass />}
             />
           </Route>
+          <Route path="/laundry-dashboard" element={<LaundryPage />} />
         </Routes>
       </BrowserRouter>
     </>

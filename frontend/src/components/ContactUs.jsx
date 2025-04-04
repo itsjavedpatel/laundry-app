@@ -22,11 +22,11 @@ const ContactUs = () => {
             <div className="space-y-4">
               <div className="flex items-center space-x-4">
                 <Phone className="h-6 w-6 text-blue-600" />
-                <span className="text-gray-600">+1 (555) 123-4567</span>
+                <span className="text-gray-600">+91-975XXXX343</span>
               </div>
               <div className="flex items-center space-x-4">
                 <Mail className="h-6 w-6 text-blue-600" />
-                <span className="text-gray-600">contact@smartlaundry.com</span>
+                <span className="text-gray-600">edhobi111@gmail.com</span>
               </div>
               <div className="flex items-center space-x-4">
                 <MapPin className="h-6 w-6 text-blue-600" />

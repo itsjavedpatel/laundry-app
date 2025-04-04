@@ -6,7 +6,8 @@ import {
   CheckCircle2,
   ArrowUpDown,
 } from "lucide-react";
-import Navbar from "../components/NavBar";
+
+import { LaundryNavbar } from "../navbars/LaundryNavbar";
 
 const initialOrders = [
   {
@@ -38,7 +39,7 @@ const initialOrders = [
   },
 ];
 
-function LaundryAndDelivery() {
+function LaundryPage() {
   const [orders, setOrders] = useState(initialOrders);
   const [selectedStatus, setSelectedStatus] = useState("pickup");
   const [sortOrder, setSortOrder] = useState("newest");
@@ -92,11 +93,11 @@ function LaundryAndDelivery() {
 
   return (
     <div className="min-h-screen bg-gradient-to-r from-[#eeaeca] to-[#94bbe9]">
-      <Navbar />
+      <LaundryNavbar />
 
       <main className=" bg-gradient-to-r from-[#eeaeca] to-[#94bbe9] max-w-7xl mx-auto px-4 py-6">
-        <div className=" bg-gradient-to-r from-[#eeaeca] to-[#94bbe9] rounded-lg shadow-md overflow-hidden">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-2 p-4 bg-gradient-to-r from-[#eeaeca] to-[#94bbe9] border-b">
+        <div className="  rounded-lg shadow-md overflow-hidden">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-2 p-4  border-b">
             {statusButtons.map(({ status, label, icon: Icon }) => (
               <button
                 key={status}
@@ -190,4 +191,4 @@ function LaundryAndDelivery() {
   );
 }
 
-export default LaundryAndDelivery;
+export default LaundryPage;

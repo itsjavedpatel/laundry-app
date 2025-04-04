@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Calendar, CheckCircle, AlertCircle, Shield, Gift } from "lucide-react";
-import { UniversityNavbar } from "./UniversityNavbar";
+import { UniversityNavbar } from "../navbars/UniversityNavbar";
 
 const PaymentAndSubs = () => {
   const plans = [

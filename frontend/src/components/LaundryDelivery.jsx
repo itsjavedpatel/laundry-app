@@ -1,6 +1,6 @@
 import { Waves, Plus, Users, Truck, Trash2, Edit } from "lucide-react";
 import React, { useContext, useState } from "react";
-import { UniversityNavbar } from "./UniversityNavbar";
+import { UniversityNavbar } from "../navbars/UniversityNavbar";
 import { UniversityDataContext } from "../context/UniversityContext";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";

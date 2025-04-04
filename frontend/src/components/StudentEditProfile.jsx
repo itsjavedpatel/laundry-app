@@ -7,12 +7,14 @@ import {
   Mail,
   CreditCard as IdCard,
   Shirt,
+  Home,
+  Contact,
 } from "lucide-react";
 import { useNavigate, Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
-import NavBar from "../components/NavBar";
+
 import { StudentDataContext } from "../context/StudentContext";
 import { useContext } from "react";
 function StudentEditProfile() {
@@ -58,7 +60,7 @@ function StudentEditProfile() {
       );
 
       setStudent(response.data.updatedStudent);
-    
+
       toast.success(response.data.message);
     } catch (error) {
       if (error.response) {
@@ -86,6 +88,12 @@ function StudentEditProfile() {
                 E-DHOBI
               </Link>
             </div>
+            <Link
+              to="/student-dashboard"
+              className="text-xl font-bold  text-transparent bg-clip-text"
+            >
+              <Home className="w-8 h-8 text-gray-600" />
+            </Link>
           </div>
         </div>
       </nav>
@@ -167,7 +175,7 @@ function StudentEditProfile() {
 
           <div className="space-y-2">
             <label className="flex items-center text-sm font-medium text-gray-700">
-              <Building2 size={18} className="mr-2" />
+              <Contact size={18} className="mr-2" />
               Mobile No
             </label>
             <input
@@ -192,7 +200,6 @@ function StudentEditProfile() {
               className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
             />
           </div>
-
 
           <div className="space-y-2">
             <label className="flex items-center text-sm font-medium text-gray-700">

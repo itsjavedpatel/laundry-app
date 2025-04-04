@@ -2,7 +2,7 @@ import React, { useContext, useState } from "react";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Lock, Mail, MapPin, Upload, X, Link as LinkIcon } from "lucide-react";
-import { UniversityNavbar } from "./UniversityNavbar";
+import { UniversityNavbar } from "../navbars/UniversityNavbar";
 import { UniversityDataContext } from "./../context/UniversityContext";
 import axios from "axios";
 

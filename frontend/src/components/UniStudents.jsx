@@ -12,7 +12,7 @@ import {
   FileDown,
   X as Close,
 } from "lucide-react";
-import { UniversityNavbar } from "./UniversityNavbar";
+import { UniversityNavbar } from "../navbars/UniversityNavbar";
 import { UniversityDataContext } from "../context/UniversityContext";
 import AddStudent from "./AddStudent";
 

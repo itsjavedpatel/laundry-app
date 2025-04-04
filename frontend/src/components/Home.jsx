@@ -32,11 +32,11 @@ const Home = () => {
             </p>
           </div>
 
-          <div className="lg:w-1/2 mt-12 lg:mt-0 perspective">
+          <div className="lg:w-1/2 mt-12 md:w-[70%] lg:mt-0 perspective">
             <img
               src="https://www.thespruce.com/thmb/aVwNrnmY4yY1SwnY4DKMsywRB10=/5616x3744/filters:no_upscale():max_bytes(150000):strip_icc()/girl-leaning-into-laundromat-washer-to-get-clothes-108224630-5aa88a091f4e130037edb934.jpg"
               alt="Modern Laundry Service"
-              className="rounded-lg shadow-xl transform rotate-y-[20deg] md:floating"
+              className="rounded-lg shadow-xl transform rotate-y-[20deg] lg:floating"
             />
           </div>
         </div>

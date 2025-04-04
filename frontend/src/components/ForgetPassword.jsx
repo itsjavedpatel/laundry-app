@@ -3,14 +3,14 @@ import { Building2, Mail, MapPin, Loader2, Shield } from "lucide-react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import NavBar from "./NavBar";
+import NavBar from "../navbars/NavBar";
 
 function ForgetPassword() {
   const navigate = useNavigate();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isOtpSend, setIsOtpSend] = useState(false);
   const [formData, setFormData] = useState({
-    role:"",
+    role: "",
     email: "",
     otp: "",
   });
@@ -94,34 +94,34 @@ function ForgetPassword() {
           {/* Header Section */}
           <div className="text-center mb-10">
             <h1 className="text-3xl font-bold text-gray-900 mb-3">
-            Reset Account Password
+              Reset Account Password
             </h1>
           </div>
 
           {/* Form Section */}
           <div className="bg-white rounded-xl shadow-lg p-8">
             <form className="space-y-6">
-            <div>
-                  <label
-                    htmlFor="role"
-                    className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-900"
-                  >
-                    Select role
-                  </label>
-                  <select
-                    className="block w-full pl-5 pr-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white"
-                    value={formData.role}
-                    onChange={handleChange}
-                    name="role"
-                  >
-                    <option value="">-- Select Role --</option>
-                    <option value="Admin">Admin</option>
-                    <option value="University">University</option>
-                    <option value="Student">Student</option>
-                    <option value="Laundry">Laundry Agent</option>
-                    <option value="Delivery">Delivery Agent</option>
-                  </select>
-                </div>
+              <div>
+                <label
+                  htmlFor="role"
+                  className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-900"
+                >
+                  Select role
+                </label>
+                <select
+                  className="block w-full pl-5 pr-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white"
+                  value={formData.role}
+                  onChange={handleChange}
+                  name="role"
+                >
+                  <option value="">-- Select Role --</option>
+                  <option value="Admin">Admin</option>
+                  <option value="University">University</option>
+                  <option value="Student">Student</option>
+                  <option value="Laundry">Laundry Agent</option>
+                  <option value="Delivery">Delivery Agent</option>
+                </select>
+              </div>
 
               {/* Email Input */}
               <div>
@@ -208,7 +208,8 @@ function ForgetPassword() {
               )}
               {/* Note */}
               <p className="text-sm text-gray-600 text-center mt-4">
-                Password will be sent to your registered email after account authentication 
+                Password will be sent to your registered email after account
+                authentication
               </p>
             </form>
           </div>
