@@ -21,7 +21,10 @@ import IsStudentWrapper from "./protected/IsStudentWrapper";
 import StudentEditProfile from "./components/StudentEditProfile";
 import LaundryPage from "./pages/LaundryPage";
 import StudentChangePass from "./components/StudentChangePass";
-
+import RenewSubscription from "./components/RenewSubscription";
+import UniProtectedWrapper from "./protected/UniProtectedWrapper";
+import OrderStatus from "./components/OrderStatus";
+import PlaceOrder from "./components/PlaceOrder";
 function App() {
   return (
     <>

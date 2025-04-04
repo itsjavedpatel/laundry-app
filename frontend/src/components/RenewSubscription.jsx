@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { CreditCard } from "lucide-react";
-import Navbar from "./NavBar";
+import Navbar from "../navbars/NavBar";
 
 function Subscription() {
   const [receiptNumber, setReceiptNumber] = useState("");

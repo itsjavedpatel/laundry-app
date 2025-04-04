@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Shirt, Bed, AlertCircle } from "lucide-react";
-import Navbar from "./NavBar";
+import Navbar from "../navbars/NavBar";
 
 function PlaceOrder() {
   const [items, setItems] = useState([

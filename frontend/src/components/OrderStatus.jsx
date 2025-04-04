@@ -8,7 +8,7 @@ import {
   Search,
   ArrowRight,
 } from "lucide-react";
-import Navbar from "./NavBar";
+import Navbar from "../navbars/NavBar";
 
 function OrderStatus() {
   const [selectedMonth, setSelectedMonth] = useState(
