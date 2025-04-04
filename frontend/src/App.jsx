@@ -21,7 +21,6 @@ import IsStudentWrapper from "./protected/IsStudentWrapper";
 import StudentEditProfile from "./components/StudentEditProfile";
 import LaundryPage from "./pages/LaundryPage";
 import StudentChangePass from "./components/StudentChangePass";
-import UniProtectedWrapper from "./protected/UniProtectedWrapper";
 
 function App() {
   return (
@@ -73,6 +72,12 @@ function App() {
             <Route
               path="student-password-change"
               element={<StudentChangePass />}
+            />
+            <Route path="student-schedule-wash" element={<PlaceOrder />} />
+            <Route path="student-order-status" element={<OrderStatus />} />
+            <Route
+              path="student-renew-subscription"
+              element={<RenewSubscription />}
             />
           </Route>
           <Route path="/laundry-dashboard" element={<LaundryPage />} />

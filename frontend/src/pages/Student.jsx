@@ -5,6 +5,9 @@ import "react-toastify/dist/ReactToastify.css";
 
 import { StudentDataContext } from "../context/StudentContext";
 import logoutHandler from "../utils/logoutHandler";
+import PlaceOrder from "../components/PlaceOrder";
+import OrderStatus from "../components/OrderStatus";
+import RenewSubscription from "../components/RenewSubscription";
 
 import {
   User,
@@ -118,28 +121,37 @@ function Student() {
               Edit Profile
             </div>
           </Link>
-          <button className="p-6 bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 flex flex-col items-center gap-3 group hover:-translate-y-1">
+          <Link
+            to="/student-schedule-wash"
+            className="p-6 bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 flex flex-col items-center gap-3 group hover:-translate-y-1"
+          >
             <div className="p-3 rounded-xl bg-purple-50 group-hover:bg-purple-100 transition-colors">
               <Waves className="w-7 h-7 text-purple-600" />
             </div>
             <span className="text-sm font-medium text-gray-700">
               Schedule Wash
             </span>
-          </button>
-          <button className="p-6 bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 flex flex-col items-center gap-3 group hover:-translate-y-1">
+          </Link>
+          <Link
+            to="/student-renew-subscription"
+            className="p-6 bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 flex flex-col items-center gap-3 group hover:-translate-y-1"
+          >
             <div className="p-3 rounded-xl bg-pink-50 group-hover:bg-pink-100 transition-colors">
               <CreditCard className="w-7 h-7 text-pink-600" />
             </div>
             <span className="text-sm font-medium text-gray-700">
               Renew Subscription
             </span>
-          </button>
-          <button className="p-6 bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 flex flex-col items-center gap-3 group hover:-translate-y-1">
+          </Link>
+          <Link
+            to="/student-order-status"
+            className="p-6 bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 flex flex-col items-center gap-3 group hover:-translate-y-1"
+          >
             <div className="p-3 rounded-xl bg-blue-50 group-hover:bg-blue-100 transition-colors">
               <Package className="w-7 h-7 text-blue-600" />
             </div>
             <span className="text-sm font-medium text-gray-700">Orders</span>
-          </button>
+          </Link>
         </div>
 
         {/* Logout Button */}
