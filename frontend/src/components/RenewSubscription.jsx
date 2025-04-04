@@ -1,40 +1,71 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { CreditCard } from "lucide-react";
 import Navbar from "../navbars/NavBar";
-
+import { StudentDataContext } from "./../context/StudentContext";
+import axios from "axios";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 function Subscription() {
+  const { student } = useContext(StudentDataContext);
   const [receiptNumber, setReceiptNumber] = useState("");
   const [isSubmitted, setIsSubmitted] = useState(false);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    if (receiptNumber.trim()) {
-      setIsSubmitted(true);
+    try {
+      const formData = {
+        studentName: student.name,
+        studentId: student.studentId,
+        receiptNumber: receiptNumber.trim(),
+      };
+
+      const token = localStorage.getItem("token");
+
+      const response = await axios.post(
+        `${import.meta.env.VITE_BASE_URL}/student/request-service`,
+        formData,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      if (receiptNumber.trim()) {
+        setIsSubmitted(true);
+      }
+    } catch (error) {
+      if (error.response) {
+        toast.error(error.response.data.message);
+      } else toast.error("Unable to send request");
     }
   };
 
   if (isSubmitted) {
     return (
-      <div className=" min-h-screen bg-gradient-to-r from-[#eeaeca] to-[#94bbe9]">
+      <>
         <Navbar />
-        <div className="max-w-md mx-auto  p-6 rounded-lg  text-center">
-          <div className="text-green-500 text-5xl mb-4">✓</div>
-          <h2 className="text-2xl font-bold mb-4">Submitted successfully! </h2>
-          <p className="text-gray-600 mb-4">
-            Your subscription will be renewed by the university upon
-            verification of your credentials. You may continue using our
-            services once the verification process is complete.
-          </p>
+        <div className=" min-h-screen bg-gradient-to-r from-[#eeaeca] to-[#94bbe9]">
+          <div className="max-w-md mx-auto  p-6 rounded-lg  text-center">
+            <div className="text-green-500 text-5xl mb-4">✓</div>
+            <h2 className="text-2xl font-bold mb-4">
+              Submitted successfully!{" "}
+            </h2>
+            <p className="text-gray-600 mb-4">
+              Your subscription will be renewed by the university upon
+              verification of your credentials. You may continue using our
+              services once the verification process is complete.
+            </p>
+          </div>
         </div>
-      </div>
+      </>
     );
   }
 
   return (
     <>
       <Navbar />
-      <div className=" p-4 min-h-screen bg-gradient-to-r from-[#eeaeca] to-[#94bbe9] ">
-        <div className=" bg-white  rounded-lg shadow-md mt-7 max-w-md mx-auto">
+      <div className="p-2  min-h-screen bg-gradient-to-r from-[#eeaeca] to-[#94bbe9] ">
+        <div className=" bg-white translate-y-32 rounded-lg shadow-md  max-w-md mx-auto">
           <h1 className=" p-4 text-2xl font-bold mb-6">Renew Subscription</h1>
           <div className=" p-6 rounded-lg shadow-md">
             <div className="flex items-center gap-2 mb-6">

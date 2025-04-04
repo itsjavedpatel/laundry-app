@@ -14,7 +14,22 @@ const universitySchema = new mongoose.Schema(
     },
     requests: [
       {
-        type: Object,
+        studentName: {
+          type: String,
+          required: true,
+        },
+        studentId: {
+          type: String,
+          required: true,
+        },
+        receiptNumber: {
+          type: String,
+          required: true,
+        },
+        requestedAt: {
+          type: Date,
+          default: Date.now,
+        },
       },
     ],
     password: {

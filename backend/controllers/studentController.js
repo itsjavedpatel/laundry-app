@@ -126,16 +126,24 @@ module.exports.studentData = async (req, res, next) => {
 // Requests
 module.exports.sendRequest = async (req, res, next) => {
   try {
-    const {_id,role} = req.decodedToken;
+    const { _id } = req.decodedToken;
+
     const formData = req.body;
-    const student=await Student.findById(_id);
-    if(!student){
-      return res.status(401).json({message:"Unauthorized Access"})
+
+    const student = await Student.findById(_id);
+    if (!student) {
+      return res.status(401).json({ message: "Unauthorized Access" });
     }
-    const university=await University.findById(student.university);
+    const university = await University.findById(student.university);
+    const isSent = university.requests.some(
+      (r) => r.receiptNumber === formData.receiptNumber
+    );
+    if (isSent) {
+      return res.status(409).json({ message: "Request already sent" });
+    }
     university.requests.push(formData);
     await university.save();
-    return res.status(201).json({message:"Request sent successfully"})
+    return res.status(201).json({ message: "Request sent successfully" });
   } catch (error) {
     res.status(500).json({ message: "Internal Server Error" });
   }

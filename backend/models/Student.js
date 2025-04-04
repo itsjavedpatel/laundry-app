@@ -60,8 +60,13 @@ const studentSchema = new mongoose.Schema(
     validUpto: {
       type: Date,
     },
-    wash: {
+    washCount: {
       type: Number,
+      default: 0,
+    },
+    lastWashReset: {
+      type: Date,
+      default: Date.now,
     },
   },
   { timestamps: true }
