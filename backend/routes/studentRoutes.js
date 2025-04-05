@@ -6,6 +6,8 @@ const {
   otpForPassChange,
   changePassword,
   sendRequest,
+  markOneAsRead,
+  markAllAsRead,
 } = require("../controllers/studentController");
 const studentRouter = express.Router();
 
@@ -21,4 +23,8 @@ studentRouter.put("/update-password", authUser, changePassword);
 
 // request for updating status
 studentRouter.post("/request-service", authUser, sendRequest);
+
+// Marking Notifications as read
+studentRouter.put("/markoneasread", authUser, markOneAsRead);
+studentRouter.put("/markallasread", authUser, markAllAsRead);
 module.exports = studentRouter;

@@ -148,3 +148,49 @@ module.exports.sendRequest = async (req, res, next) => {
     res.status(500).json({ message: "Internal Server Error" });
   }
 };
+
+// mark one notification as read
+
+module.exports.markOneAsRead = async (req, res, next) => {
+  try {
+    const { _id } = req.decodedToken;
+    const { messageId } = req.body;
+    const student = await Student.findById(_id);
+    if (!student) {
+      return res.status(401).json({ message: "Unauthorized Access" });
+    }
+    student.notifications = student.notifications?.filter(
+      (m) => m._id.toString() !== messageId.toString()
+    );
+    await student.save();
+    return res.status(200).json({ message: "Marked as read", student });
+  } catch (error) {
+    return res.status(500).json({ message: "Internal server error" });
+  }
+};
+// Mark all notification as read
+module.exports.markAllAsRead = async (req, res, next) => {
+  try {
+    const { _id } = req.decodedToken;
+
+    const student = await Student.findByIdAndUpdate(
+      _id,
+      {
+        $set: {
+          "notifications.$[].isRead": true,
+        },
+      },
+      { new: true }
+    );
+    if (!student) {
+      return res.status(401).json({ message: "Unauthorized Access" });
+    }
+    student.populate("university", "name");
+    if (student.orders.length > 0) {
+      student.populate("orders");
+    }
+    return res.status(200).json({ message: "Marked All as read", student });
+  } catch (error) {
+    return res.status(500).json({ message: "Internal server error" });
+  }
+};
