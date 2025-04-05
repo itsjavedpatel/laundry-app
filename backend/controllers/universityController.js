@@ -308,7 +308,7 @@ module.exports.addLaundry = async (req, res, next) => {
 module.exports.deleteStudent = async (req, res, next) => {
   const decodedToken = req.decodedToken;
   console.log(decodedToken._id);
-
+  const id = req.params.studentId;
   console.log("id :", id);
   try {
     const student = await Student.findByIdAndDelete(id);
@@ -360,7 +360,7 @@ module.exports.acceptRequest = async (req, res, next) => {
     }
     const message = "🎉 Your activation request has been accepted!";
     student.notifications.push({ message });
-    global.io.to(student._id.toString()).emit("notification", { message });
+
     await university.save();
     student.status = "active";
     await student.save();
@@ -393,8 +393,6 @@ module.exports.rejectRequest = async (req, res, next) => {
     const message = "❌ Your activation request has been rejected.";
     student.notifications.push({ message });
     await student.save();
-    global.io.to(student._id.toString()).emit("notification", { message });
-
     await university.save();
     return res.status(201).json({ message: "Request rejected", university });
   } catch (error) {
