@@ -20,7 +20,7 @@ const LaundryContext = ({children}) =>{
                 setIsLoading(false);
                 return;
             }
-            const response = await axios.get("http://localhost:3000/laundry/get-data",
+            const response = await axios.get(`${import.meta.env.VITE_BASE_URL}/laundry/get-data`,
                 {
                     headers : {
                         Authorization : `Bearer${token}`,
@@ -41,7 +41,7 @@ const LaundryContext = ({children}) =>{
     if (isLoading) return <h1>Loading....</h1>;
     return(
         <LaundryDataContext.Provider value = {{laundry,setLaundry}}>
-            {childern}
+            {children}
         </LaundryDataContext.Provider>
     );
 };

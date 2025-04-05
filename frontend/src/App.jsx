@@ -85,10 +85,6 @@ function App() {
               path="student-renew-subscription"
               element={<RenewSubscription />}
             />
-            {/* <Route
-              path="student-notification"
-              element={<StudentNotification />}
-            /> */}
           </Route>
           <Route path="/laundry-dashboard" element={<LaundryPage />} />
         </Routes>

@@ -35,7 +35,7 @@ const UniEditProfile = () => {
       const token = localStorage.getItem("token");
 
       const response = await axios.put(
-        "http://localhost:3000/university/update-profile",
+        `${import.meta.env.VITE_BASE_URL}/university/update-profile`,
         profile,
         {
           headers: {

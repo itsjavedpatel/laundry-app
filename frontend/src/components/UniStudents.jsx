@@ -39,7 +39,7 @@ function UniStudents() {
     try {
       const token = localStorage.getItem("token");
       const response = await axios.put(
-        `http://localhost:3000/university/update-student`,
+        `${import.meta.env.VITE_BASE_URL}/university/update-student`,
         { id },
         {
           headers: {
@@ -72,7 +72,9 @@ function UniStudents() {
       if (!confirmDelete) return;
       const token = localStorage.getItem("token");
       const response = await axios.delete(
-        `http://localhost:3000/university/delete-student/${studentId}`,
+        `${
+          import.meta.env.VITE_BASE_URL
+        }/university/delete-student/${studentId}`,
         { headers: { Authorization: `Bearer ${token}` } }
       );
       setStudents(students.filter((student) => student._id !== studentId));

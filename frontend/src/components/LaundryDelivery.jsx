@@ -29,7 +29,7 @@ function LaundryDelivery() {
     const token = localStorage.getItem("token");
     try {
       const response = await axios.post(
-        "http://localhost:3000/university/add-laundry",
+        `${import.meta.env.VITE_BASE_URL}/university/add-laundry`,
         formData,
         {
           headers: {
@@ -66,7 +66,9 @@ function LaundryDelivery() {
 
       const token = localStorage.getItem("token");
       const response = await axios.delete(
-        `http://localhost:3000/university/delete-laundry/${laundryId}`,
+        `${
+          import.meta.env.VITE_BASE_URL
+        }/university/delete-laundry/${laundryId}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,

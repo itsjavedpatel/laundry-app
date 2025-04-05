@@ -17,7 +17,7 @@ const UniversityContext = ({ children }) => {
 
       try {
         const response = await axios.get(
-          "http://localhost:3000/university/get-data",
+          `${import.meta.env.VITE_BASE_URL}/university/get-data`,
           {
             headers: { Authorization: `Bearer ${token}` },
           }
