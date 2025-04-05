@@ -89,10 +89,7 @@ function App() {
               path="student-renew-subscription"
               element={<RenewSubscription />}
             />
-            {/* <Route
-              path="student-notification"
-              element={<StudentNotification />}
-            /> */}
+          
           </Route>
           <Route
             element={

@@ -8,7 +8,6 @@ module.exports.authUser = async (req, res, next) => {
 
     // if token is not available
     if (!token) {
-      console.log("No token");
       return res.status(401).json({ message: "Unauthorized access" });
     }
     // Verify token and check blacklist in parallel
@@ -29,7 +28,6 @@ module.exports.authUser = async (req, res, next) => {
     req.decodedToken = decodedToken;
     return next();
   } catch (error) {
-    console.log("bhai:", error);
     return res.status(401).json({ message: "Unauthorized access" });
   }
 };
