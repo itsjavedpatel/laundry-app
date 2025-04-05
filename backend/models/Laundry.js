@@ -10,6 +10,7 @@ const laundrySchema = new mongoose.Schema(
       type: String,
       required: true,
       unique: true,
+      immutable: true,
       trim: true,
     },
     password: {
@@ -20,6 +21,7 @@ const laundrySchema = new mongoose.Schema(
       type: String,
       required: true,
       unique: true,
+      immutable: true,
     },
     orders: [
       {
@@ -34,7 +36,7 @@ const laundrySchema = new mongoose.Schema(
     },
     maxWash: {
       type: Number,
-      default: 10,
+      default: 30,
     },
   },
   { timestamps: true }

@@ -1,7 +1,6 @@
 const Student = require("../models/Student");
-const generatePassword = require("../utils/generatePassword");
 const bcrypt = require("bcryptjs/dist/bcrypt");
-const { sendPassword, sendOTP } = require("../utils/Mailer");
+const  sendOTP  = require("../utils/Mailer");
 const otpModel = require("../models/OTP");
 const BlacklistTokenModel = require("../models/BlacklistedToken");
 const University = require("../models/University");

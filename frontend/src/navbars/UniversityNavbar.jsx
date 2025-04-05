@@ -73,7 +73,7 @@ export function UniversityNavbar() {
                   to="/Laundry-delivery"
                   className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                 >
-                  Laundry & Delivery
+                  Laundry
                 </Link>
               </div>
             </div>
@@ -164,7 +164,7 @@ export function UniversityNavbar() {
             to="/Laundry-delivery"
             className="block text-gray-600 hover:text-gray-900"
           >
-            Laundry & Delivery
+            Laundry
           </Link>
           <Link
             to="/uni-edit-profile"
