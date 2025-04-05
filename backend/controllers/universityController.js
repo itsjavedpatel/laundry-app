@@ -360,7 +360,9 @@ module.exports.acceptRequest = async (req, res, next) => {
     if (university.laundries.length > 0) {
       university.populate("laundries");
     }
-
+    const message = "🎉 Your activation request has been accepted!";
+    student.notifications.push({ message });
+    global.io.to(student._id.toString()).emit("notification", { message });
     await university.save();
     student.status = "active";
     await student.save();
@@ -386,6 +388,15 @@ module.exports.rejectRequest = async (req, res, next) => {
     if (university.laundries.length > 0) {
       university.populate("laundries");
     }
+    const student = await Student.findOne({ university: _id, studentId });
+    if (!student) {
+      return res.status(404).json({ message: "Student  Not found" });
+    }
+    const message = "❌ Your activation request has been rejected.";
+    student.notifications.push({ message });
+    await student.save();
+    global.io.to(student._id.toString()).emit("notification", { message });
+
     await university.save();
     return res.status(201).json({ message: "Request rejected", university });
   } catch (error) {
