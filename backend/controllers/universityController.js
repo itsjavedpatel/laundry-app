@@ -264,46 +264,6 @@ module.exports.addLaundry = async (req, res, next) => {
   }
 };
 
-// add delivery
-// module.exports.addDelivery = async (req, res, next) => {
-//   try {
-//     const { name, email, empId, mobile } = req.body;
-//     const { _id, role } = req.decodedToken;
-//     if (role !== "university") {
-//       return res.status(401).json({ message: "Unauthorized Access" });
-//     }
-//     const deliveryExist = await deliveryId.findOne({ email });
-//     if (deliveryExist) {
-//       return res.status(409).json({ message: "Delivery agent already exist " });
-//     }
-//     const password = generatePassword();
-//     const hashedpass = await bcrypt.hash(password, 10);
-//     const response = await sendPassword(username, email, password);
-//     if (!response) {
-//       return res.status(424).json({ message: "Delivery addition failed" });
-//     }
-
-//     const newDelivery = await Delivery.create({
-//       name,
-//       email,
-//       empId,
-//       mobile,
-//       university: uni._id,
-//       password: hashedpass,
-//     });
-//     uni.delivery.push(newDelivery._id);
-//     await uni.populate("delivery");
-//     await uni.save();
-//     return res
-//       .status(201)
-//       .json({ message: "Delivery added successfully", uni });
-//   } catch (error) {
-//     return res
-//       .status(500)
-//       .json({ message: "Something Went Wrong !! Try again later" });
-//   }
-// };
-
 //delete student
 module.exports.deleteStudent = async (req, res, next) => {
   const decodedToken = req.decodedToken;
