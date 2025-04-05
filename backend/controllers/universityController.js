@@ -7,7 +7,6 @@ const bcrypt = require("bcryptjs/dist/bcrypt");
 const { sendPassword, sendOTP } = require("../utils/Mailer");
 const otpModel = require("../models/OTP");
 const Laundry = require("../models/Laundry");
-const Delivery = require("../models/Delivery");
 const BlacklistTokenModel = require("../models/BlacklistedToken");
 
 // Sending university data

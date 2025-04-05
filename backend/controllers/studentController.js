@@ -1,6 +1,6 @@
 const Student = require("../models/Student");
 const bcrypt = require("bcryptjs/dist/bcrypt");
-const  sendOTP  = require("../utils/Mailer");
+const {sendOTP} = require("../utils/Mailer");
 const otpModel = require("../models/OTP");
 const BlacklistTokenModel = require("../models/BlacklistedToken");
 const University = require("../models/University");
@@ -128,6 +128,7 @@ module.exports.sendRequest = async (req, res, next) => {
     const { _id } = req.decodedToken;
 
     const formData = req.body;
+    console.log(formData, _id);
 
     const student = await Student.findById(_id);
     if (!student) {

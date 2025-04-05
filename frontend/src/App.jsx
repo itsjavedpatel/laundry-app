@@ -27,6 +27,10 @@ import OrderStatus from "./components/OrderStatus";
 import PlaceOrder from "./components/PlaceOrder";
 import FeeRequest from "./components/FeeRequest";
 import StudentNotification from "./components/StudentNotification";
+import LaundryChangePassword from "./components/LaundryChangePassword";
+import LaundryEditProfile from "./components/LaundryEditProfile";
+import LaundryContext from "./context/LaundryContext";
+import IsLaundryWrapper from "./protected/IsLaundryWrapper";
 function App() {
   return (
     <>
@@ -88,9 +92,25 @@ function App() {
             {/* <Route
               path="student-notification"
               element={<StudentNotification />}
-            /> */}
+              /> */}
           </Route>
-          <Route path="/laundry-dashboard" element={<LaundryPage />} />
+          <Route
+            element={
+              <LaundryContext>
+                <IsLaundryWrapper />
+              </LaundryContext>
+            }
+          >
+            <Route
+              path="/laundry-password-change"
+              element={<LaundryChangePassword />}
+            />
+            <Route
+              path="/laundry-edit-profile"
+              element={<LaundryEditProfile />}
+            />
+            <Route path="/laundry-dashboard" element={<LaundryPage />} />
+          </Route>
         </Routes>
       </BrowserRouter>
     </>

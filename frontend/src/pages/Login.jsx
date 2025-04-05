@@ -30,7 +30,8 @@ const Login = () => {
       const { token, user } = response.data;
       // setUniversity(user);
       localStorage.setItem("token", token);
-
+      console.log("token: ",token);
+      
       toast.success("🎉 Login successful!");
 
       // 🏆 Redirect user based on role

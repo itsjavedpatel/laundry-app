@@ -7,6 +7,7 @@ const cookieParser = require("cookie-parser");
 const authRouter = require("./routes/authRoutes");
 const universityRouter = require("./routes/universityRoutes");
 const studentRouter = require("./routes/studentRoutes");
+const laundryRouter = require("./routes/laundryRoutes");
 
 // import server from socket.io
 const { Server } = require("socket.io");
@@ -72,3 +73,4 @@ mongoose
 app.use("/auth", authRouter);
 app.use("/university", universityRouter);
 app.use("/student", studentRouter);
+app.use("/laundry", laundryRouter);

@@ -1,16 +1,17 @@
 const Laundry = require("../models/Laundry");
 const Order = require("../models/Order");
-const generatePassword = require("../utils/Mailer");
 const bcrypt = require("bcryptjs/dist/bcrypt");
 const otpModel = require("../models/OTP");
 const BlacklistTokenModel = require("../models/BlacklistedToken");
 const University = require("../models/University");
-
+const {sendOTP} =require("../utils/Mailer")
 // gettting laundry data
-module.export.getLaundrydata = async (req, res, next) => {
+module.exports.getLaundrydata = async (req, res, next) => {
   const decodedToken = req.decodedToken;
+  console.log("decodedToken : ", decodedToken);
   try {
     let laundryData = await Laundry.findById(decodedToken._id);
+    console.log("laundryData : ", laundryData);
     if (!laundryData) {
       return res.status(401).json({ message: "Unauthorized access" });
     }
@@ -19,7 +20,7 @@ module.export.getLaundrydata = async (req, res, next) => {
     }
     return res.status(200).json({ laundryData });
   } catch (error) {
-    console.log("error", error);
+    console.log("error : ", error);
     return res.status(401).json({ message: "Unauthorized access" });
   }
 };
@@ -54,22 +55,27 @@ module.exports.otpForPassChange = async (req, res, next) => {
   try {
     const decodedToken = req.decodedToken;
     const { oldPassword, newPassword } = req.body;
-
+    console.log(req.body)
     const laundry = await Laundry.findById(decodedToken._id).select(
       "+password"
     );
+    console.log(laundry);
     if (!laundry) {
       return res.status(401).json({ message: "Unauthorized access" });
     }
     const isMatch = await bcrypt.compare(oldPassword, laundry.password);
+    console.log(isMatch);
     if (!isMatch) {
       return res.status(401), json({ message: "Incorrect old password" });
     }
-    const otp = Math.florr(100000 + Math.random() * 900000).toString();
+    const otp = Math.floor(100000 + Math.random() * 900000).toString();
+    console.log(otp);
     await sendOTP(laundry.email, otp);
     const newOtp = await otpModel.create({ otp, email: laundry.email });
-    res.status(201), json({ message: "OTP sent to your registered email" });
+    console.log(newOtp)
+    res.status(201).json({ message: "OTP sent to your registered email" });
   } catch (error) {
+
     return res
       .status(500)
       .json({ message: "Something went wrong !! try again later" });
@@ -77,6 +83,25 @@ module.exports.otpForPassChange = async (req, res, next) => {
 };
 
 module.exports.changePassword = async (req, res, next) => {
-  const token = req.cookies.token || req.headers.authorization?.split(" ")[1];
-  
+  try {
+    const token = req.cookies.token || req.headers.authorization?.split(" ")[1];
+    const decodedToken = req.decodedToken;
+    const { newPassword, otp } = req.body.passwordForm;
+    const laundry = await Laundry.findById(decodedToken._id).select(
+      "+password"
+    );
+    const email = laundry.email;
+    const checkOtp = await otpModel.findOne({ otp, email });
+    if (!checkOtp) {
+      return res.status(402).json({ message: "Incorrect Otp" });
+    }
+    const hashPass = await bcrypt.hash(newPassword, 10);
+    res.clearCookie("token");
+    await BlacklistTokenModel.create({ token });
+    laundry.password = hashPass;
+    await laundry.save();
+    res.status(201).json({ message: "Password changed Successfully" });
+  } catch (error) {
+    return res.status(500).json({ message: "Something went wrong " });
+  }
 };

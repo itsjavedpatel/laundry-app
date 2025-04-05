@@ -27,7 +27,7 @@ const testUniversity1 = {
 exports.login = async (req, res) => {
   const { email, password, role } = req.body;
 
-  // console.log("🟢 Data received at backend:", req.body);
+  console.log("🟢 Data received at backend:", req.body);
 
   try {
     let user;
@@ -50,11 +50,11 @@ exports.login = async (req, res) => {
         .json({ message: "Role is not declared", data: req.body });
     }
 
-    // console.log("🟢 User found in database:", user);
+    console.log("🟢 User found in database:", user);
 
     // 🔍 If user is not found, return 404 error
     if (!user) {
-      // console.log("❌ User not found!");
+      console.log("❌ User not found!");
       return res
         .status(404)
         .json({ message: "User not Found!", data: req.body });
@@ -63,14 +63,14 @@ exports.login = async (req, res) => {
     // 🛑 Check if the entered password matches the stored password (without bcrypt for now)
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
-      // console.log("❌ Incorrect password!");
+      console.log("❌ Incorrect password!");
       return res
         .status(400)
         .json({ message: "Invalid email or password!", data: req.body });
     }
 
     // ✅ Login Successful
-    // console.log("✅ Login successful for:", user.email);
+    console.log("✅ Login successful for:", user.email);
     // Generate token
     const token = jwt.sign(
       { _id: user._id, role: user.role },
@@ -80,10 +80,10 @@ exports.login = async (req, res) => {
       }
     );
     res.cookie("token", token);
-
+    console.log("token created: ",token)
     return res.status(200).json({ message: "Login successful", token, user });
   } catch (error) {
-    // console.error("❌ Backend error:", error);
+    console.error("❌ Backend error:", error);
     return res.status(500).json({ message: "Something went wrong!" });
   }
 };
