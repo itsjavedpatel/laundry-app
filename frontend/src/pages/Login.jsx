@@ -23,7 +23,7 @@ const Login = () => {
     try {
       // Send POST request to backend
       const response = await axios.post(
-        "http://localhost:3000/auth/login", // API endpoint
+        `${import.meta.env.VITE_BASE_URL}/auth/login`, // API endpoint
         formData,
         { headers: { "Content-Type": "application/json" } }
       );

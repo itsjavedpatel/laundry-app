@@ -22,7 +22,7 @@ const AddStudent = ({ setShowAddModal }) => {
     const token = localStorage.getItem("token");
     try {
       const response = await axios.post(
-        "http://localhost:3000/university/add-student",
+        `${import.meta.env.VITE_BASE_URL}/university/add-student`,
         formData,
         {
           headers: {

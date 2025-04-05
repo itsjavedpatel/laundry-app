@@ -22,7 +22,7 @@ function Register() {
     setIsSubmitting(true);
     try {
       const response = await axios.post(
-        "http://localhost:3000/auth/register/send-otp",
+        `${import.meta.env.VITE_BASE_URL}/auth/register/send-otp`,
         formData,
         { headers: { "Content-Type": "application/json" } }
       );
@@ -55,7 +55,7 @@ function Register() {
     console.log("formData in verify otp:", formData);
     try {
       const response = await axios.post(
-        "http://localhost:3000/auth/register/verify-otp",
+        `${import.meta.env.VITE_BASE_URL}/auth/register/verify-otp`,
         formData,
         { headers: { "Content-Type": "application/json" } }
       );

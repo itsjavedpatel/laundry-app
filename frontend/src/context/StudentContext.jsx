@@ -19,7 +19,7 @@ const StudentContext = ({ children }) => {
         return;
       }
       const response = await axios.get(
-        "http://localhost:3000/student/get-data",
+        `${import.meta.env.VITE_BASE_URL}/student/get-data`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -43,7 +43,7 @@ const StudentContext = ({ children }) => {
   // useEffect for socket connection
   useEffect(() => {
     if (student?._id && !socketRef.current) {
-      const socket = io("http://localhost:3000", {
+      const socket = io(`${import.meta.env.VITE_BASE_URL}`, {
         transports: ["websocket"], // ✅ Force WebSocket to avoid polling issues
         withCredentials: true,
       });

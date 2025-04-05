@@ -50,7 +50,7 @@ function StudentEditProfile() {
       const token = localStorage.getItem("token");
 
       const response = await axios.put(
-        "http://localhost:3000/student/update-profile",
+        `${import.meta.env.VITE_BASE_URL}/student/update-profile`,
         profile,
         {
           headers: {

@@ -22,7 +22,7 @@ function ForgetPassword() {
     setIsSubmitting(true);
     try {
       const response = await axios.post(
-        "http://localhost:3000/auth/forgotpass/send-otp",
+        `${import.meta.env.VITE_BASE_URL}/auth/forgotpass/send-otp`,
         formData,
         { headers: { "Content-Type": "application/json" } }
       );
@@ -56,7 +56,7 @@ function ForgetPassword() {
     setIsSubmitting(true);
     try {
       const response = await axios.post(
-        "http://localhost:3000/auth/forgotpass/verify-otp",
+        `${import.meta.env.VITE_BASE_URL}/auth/forgotpass/verify-otp`,
         formData,
         { headers: { "Content-Type": "application/json" } }
       );

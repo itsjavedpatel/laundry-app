@@ -5,11 +5,14 @@ import "react-toastify/dist/ReactToastify.css";
 const logoutHandler = async () => {
   const token = localStorage.getItem("token");
   try {
-    const response = await axios.get("http://localhost:3000/auth/logout", {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
+    const response = await axios.get(
+      "${import.meta.env.VITE_BASE_URL}/auth/logout",
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
 
     localStorage.removeItem("token");
     return true;

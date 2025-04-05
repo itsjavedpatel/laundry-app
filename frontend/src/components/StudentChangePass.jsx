@@ -22,7 +22,7 @@ const StudentChangePass = () => {
     // Here you would verify OTP and update password
     try {
       const response = await axios.put(
-        "http://localhost:3000/student/update-password",
+        `${import.meta.env.VITE_BASE_URL}/student/update-password`,
         { passwordForm },
         {
           headers: {
@@ -56,7 +56,7 @@ const StudentChangePass = () => {
         return;
       }
       const response = await axios.post(
-        "http://localhost:3000/student/update-password",
+        `${import.meta.env.VITE_BASE_URL}/student/update-password`,
         passwordForm,
         {
           headers: {
