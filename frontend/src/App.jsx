@@ -26,6 +26,7 @@ import UniProtectedWrapper from "./protected/UniProtectedWrapper";
 import OrderStatus from "./components/OrderStatus";
 import PlaceOrder from "./components/PlaceOrder";
 import FeeRequest from "./components/FeeRequest";
+import StudentNotification from "./components/StudentNotification";
 function App() {
   return (
     <>
@@ -84,6 +85,10 @@ function App() {
               path="student-renew-subscription"
               element={<RenewSubscription />}
             />
+            {/* <Route
+              path="student-notification"
+              element={<StudentNotification />}
+            /> */}
           </Route>
           <Route path="/laundry-dashboard" element={<LaundryPage />} />
         </Routes>

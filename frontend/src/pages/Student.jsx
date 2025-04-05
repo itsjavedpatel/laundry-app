@@ -54,7 +54,7 @@ function Student() {
       <StudentNavbar />
 
       {/* Top Section */}
-      <div className="px-4 pt-24 pb-10 bg-gradient-to-r from-[#eeaeca] to-[#94bbe9] text-gray-700">
+      <div className="px-4 pt-32 pb-10 bg-gradient-to-r from-[#eeaeca] to-[#94bbe9] text-gray-700">
         <div className="max-w-md mx-auto flex flex-col items-center text-center">
           <p
             className={`pb-3 ${
