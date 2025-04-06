@@ -10,7 +10,7 @@ const orderSchema = new mongoose.Schema(
       ref: "Laundry",
     },
     orderDetails: {
-      wieght: {
+      weight: {
         type: String,
       },
       quantity: {

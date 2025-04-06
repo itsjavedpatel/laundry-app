@@ -1,4 +1,7 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
+import axios from "axios";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import {
   Shirt as Tshirt,
   Loader2,
@@ -6,41 +9,13 @@ import {
   CheckCircle2,
   ArrowUpDown,
 } from "lucide-react";
-
+import { LaundryDataContext } from "../context/LaundryContext";
 import { LaundryNavbar } from "../navbars/LaundryNavbar";
-
-const initialOrders = [
-  {
-    id: "1",
-    name: " Akshay",
-    laundryId: "L001",
-    hostel: "Block A",
-    roomNumber: "101",
-    status: "pickup",
-    createdAt: new Date("2024-03-10T10:00:00"),
-  },
-  {
-    id: "2",
-    name: "Javed",
-    laundryId: "L002",
-    hostel: "Block B",
-    roomNumber: "205",
-    status: "washing",
-    createdAt: new Date("2024-03-11T14:30:00"),
-  },
-  {
-    id: "3",
-    name: "Saket",
-    laundryId: "L003",
-    hostel: "Block A",
-    roomNumber: "304",
-    status: "ready",
-    createdAt: new Date("2024-03-12T09:15:00"),
-  },
-];
-
 function LaundryPage() {
-  const [orders, setOrders] = useState(initialOrders);
+  const { laundry, setLaundry } = useContext(LaundryDataContext);
+  const orderList = laundry.orders;
+  console.log(laundry);
+  const [orders, setOrders] = useState(orderList);
   const [selectedStatus, setSelectedStatus] = useState("pickup");
   const [sortOrder, setSortOrder] = useState("newest");
 
