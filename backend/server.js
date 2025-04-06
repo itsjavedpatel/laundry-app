@@ -25,7 +25,7 @@ app.use(cookieParser());
 
 // create PORT
 app.get("/", (req, res) => {
-  res.send("Hello");
+  res.send("Backend is running");
 });
 const PORT = process.env.PORT || 3000;
 //? middleware:passing form data
@@ -33,9 +33,7 @@ app.use(express.urlencoded({ extended: true }));
 mongoose
   .connect(process.env.MONGO_URI)
   .then(() => {
-    app.listen(PORT, () =>
-      console.log(`Server is running on http://localhost:${PORT}`)
-    );
+    app.listen(PORT, () => console.log(`Server is running on ${PORT}`));
     console.log("Db connected succesfully");
   })
   .catch((error) => {

@@ -9,7 +9,6 @@ export const StudentDataContext = createContext();
 const StudentContext = ({ children }) => {
   const [student, setStudent] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
-  const socketRef = useRef(null); // ✅ Using ref to persist socket instance
   const token = localStorage.getItem("token");
 
   const fetchData = async () => {
@@ -39,7 +38,6 @@ const StudentContext = ({ children }) => {
   useEffect(() => {
     fetchData();
   }, [setStudent]);
-  // useEffect for socket connection
 
   if (isLoading) return <h1>Loading....</h1>;
   if (!token) <Navigate to="/login" />;

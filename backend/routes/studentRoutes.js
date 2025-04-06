@@ -8,6 +8,7 @@ const {
   sendRequest,
   markOneAsRead,
   markAllAsRead,
+  placeOrder,
 } = require("../controllers/studentController");
 const studentRouter = express.Router();
 
@@ -27,4 +28,8 @@ studentRouter.post("/request-service", authUser, sendRequest);
 // Marking Notifications as read
 studentRouter.put("/markoneasread", authUser, markOneAsRead);
 studentRouter.put("/markallasread", authUser, markAllAsRead);
+
+// Place order
+studentRouter.post("/place-order", authUser, placeOrder);
+
 module.exports = studentRouter;

@@ -16,7 +16,7 @@ const studentSchema = new mongoose.Schema(
 
     password: {
       type: String,
-      select: true,
+      select: false,
     },
 
     mobile: {
@@ -46,6 +46,7 @@ const studentSchema = new mongoose.Schema(
       {
         type: mongoose.Schema.Types.ObjectId,
         ref: "Order",
+        default: [],
       },
     ],
     role: {

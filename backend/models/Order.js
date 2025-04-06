@@ -21,7 +21,7 @@ const orderSchema = new mongoose.Schema(
     orderStatus: {
       type: String,
       enum: [
-        "To be picked up ",
+        "To be picked up",
         "Washing",
         "To be Delivered",
         "Completed",
@@ -44,10 +44,6 @@ const orderSchema = new mongoose.Schema(
         expected.setDate(expected.getDate() + 5); // Add 5 day
         return expected;
       },
-    },
-    deliveryPartner: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Delivery",
     },
   },
   { timestamps: true }

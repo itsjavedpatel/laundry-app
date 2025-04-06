@@ -15,7 +15,7 @@ const laundrySchema = new mongoose.Schema(
     },
     password: {
       type: String,
-      select: true,
+      select: false,
     },
     laundryId: {
       type: String,
@@ -27,6 +27,7 @@ const laundrySchema = new mongoose.Schema(
       {
         type: mongoose.Schema.Types.ObjectId,
         ref: "Order",
+        default: [],
       },
     ],
     role: {
