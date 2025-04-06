@@ -1,5 +1,7 @@
 import React from "react";
 import { WashingMachine } from "lucide-react";
+import { Link } from "react-router-dom";
+
 const Footer = () => {
   return (
     <footer className="bg-gray-800 text-white py-12 mt-auto">
@@ -68,21 +70,26 @@ const Footer = () => {
           <div>
             <h3 className="text-lg font-semibold mb-4">Legal</h3>
             <ul className="space-y-2">
-              <li>
-                <button className="text-gray-400 hover:text-white">
+              <div className="space-y-2">
+                <Link
+                  to="/privacypolicy"
+                  className="block text-gray-400 hover:text-white"
+                >
                   Privacy Policy
-                </button>
-              </li>
-              <li>
-                <button className="text-gray-400 hover:text-white">
-                  Terms of Service
-                </button>
-              </li>
-              <li>
-                <button className="text-gray-400 hover:text-white">
-                  Cookie Policy
-                </button>
-              </li>
+                </Link>
+
+                <Link to="/termofuse" className="block">
+                  <span className="text-gray-400 hover:text-white">
+                    Terms of Service
+                  </span>
+                </Link>
+
+                <Link to="/cookiespolicy" className="block">
+                  <span className="text-gray-400 hover:text-white">
+                    Cookie Policy
+                  </span>
+                </Link>
+              </div>
             </ul>
           </div>
           <div>

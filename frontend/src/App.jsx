@@ -31,6 +31,14 @@ import LaundryChangePassword from "./components/LaundryChangePassword";
 import LaundryEditProfile from "./components/LaundryEditProfile";
 import LaundryContext from "./context/LaundryContext";
 import IsLaundryWrapper from "./protected/IsLaundryWrapper";
+import PrivacyPolicy from "./components/PrivacyPolicy";
+import CookiesPolicy from "./components/CookiesPolicy";
+import TermsOfUse from "./components/TermOfUse";
+import Faq from "./components/Faq";
+import GrievanceRedressal from "./components/GrievanceRedressal";
+import UniHelpAndSupport from "./components/UniHelpAndSupport";
+import UniFaq from "./components/UniFaq";
+
 function App() {
   return (
     <>
@@ -49,6 +57,9 @@ function App() {
           <Route path="/" element={<LandingPage />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
+          <Route path="/privacypolicy" element={<PrivacyPolicy />} />
+          <Route path="/cookiespolicy" element={<CookiesPolicy />} />
+          <Route path="/termofuse" element={<TermsOfUse />} />
 
           <Route
             element={
@@ -64,6 +75,8 @@ function App() {
             <Route path="/uni-privacy" element={<UniPrivacy />} />
             <Route path="/laundry-delivery" element={<LaundryDelivery />} />
             <Route path="/fee-request" element={<FeeRequest />} />
+            <Route path="/help-support" element={<UniHelpAndSupport />} />
+            <Route path="/uni-faq" element={<UniFaq />} />
           </Route>
           <Route path="*" element={<Error />} />
           <Route path="/forget-password" element={<ForgetPassword />} />
@@ -89,7 +102,12 @@ function App() {
               path="student-renew-subscription"
               element={<RenewSubscription />}
             />
-          
+            <Route path="/termsofuse" element={<TermsOfUse />} />
+            <Route path="/faq" element={<Faq />} />
+            <Route
+              path="/grievanceredressal"
+              element={<GrievanceRedressal />}
+            />
           </Route>
           <Route
             element={

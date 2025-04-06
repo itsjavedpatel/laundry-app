@@ -24,15 +24,17 @@ const ContactUs = () => {
                 <Phone className="h-6 w-6 text-blue-600" />
                 <span className="text-gray-600">+91-975XXXX343</span>
               </div>
-              <div className="flex items-center space-x-4">
+              <a
+                href="mailto:edhobi111@gmail.com"
+                className="flex items-center space-x-4 hover:underline"
+              >
                 <Mail className="h-6 w-6 text-blue-600" />
                 <span className="text-gray-600">edhobi111@gmail.com</span>
-              </div>
+              </a>
+
               <div className="flex items-center space-x-4">
                 <MapPin className="h-6 w-6 text-blue-600" />
-                <span className="text-gray-600">
-                  123 Street, Jaipur, Rajasthan 12345
-                </span>
+                <span className="text-gray-600">Jaipur</span>
               </div>
             </div>
           </div>

@@ -125,7 +125,11 @@ function Student() {
           </Link>
           <Link
             to="/student-renew-subscription"
-            className="p-6 bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 flex flex-col items-center gap-3 group hover:-translate-y-1"
+            className={`p-6 bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 flex flex-col items-center gap-3 group hover:-translate-y-1 ${
+              student.status === "active"
+                ? "pointer-events-none text-gray-400 cursor-not-allowed"
+                : ""
+            }`}
           >
             <div className="p-3 rounded-xl bg-pink-50 group-hover:bg-pink-100 transition-colors">
               <CreditCard className="w-7 h-7 text-pink-600" />
@@ -156,13 +160,13 @@ function Student() {
 
         {/* Footer Links */}
         <div className="grid grid-cols-2 gap-4 text-sm text-gray-600 bg-white p-6 rounded-2xl shadow-lg mb-8">
-          <a
-            href="#"
+          <Link
+            to="/termsofuse"
             className="flex items-center gap-2 hover:text-indigo-600 transition-colors p-2 hover:bg-indigo-50 rounded-lg"
           >
             <FileText className="w-4 h-4" />
             Terms of Use
-          </a>
+          </Link>
           <Link
             to="/student-password-change"
             className="flex items-center gap-2 hover:text-indigo-600 transition-colors p-2 hover:bg-indigo-50 rounded-lg"
@@ -170,20 +174,21 @@ function Student() {
             <Shield className="w-4 h-4" />
             Change Password
           </Link>
-          <a
-            href="#"
+          <Link
+            to="/faq"
             className="flex items-center gap-2 hover:text-indigo-600 transition-colors p-2 hover:bg-indigo-50 rounded-lg"
           >
             <HelpCircle className="w-4 h-4" />
             FAQs
-          </a>
-          <a
+          </Link>
+          <Link
+            to="/grievanceredressal"
             href="#"
             className="flex items-center gap-2 hover:text-indigo-600 transition-colors p-2 hover:bg-indigo-50 rounded-lg"
           >
             <AlertCircle className="w-4 h-4" />
             Grievance Redressal
-          </a>
+          </Link>
         </div>
       </div>
     </div>

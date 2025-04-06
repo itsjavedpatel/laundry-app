@@ -51,7 +51,10 @@ export function UniversityNavbar() {
             <Home className="w-4 h-4" />
             <span>Home</span>
           </Link>
-          <Link to="#" className="flex items-center gap-2 hover:text-gray-300 ">
+          <Link
+            to="/help-support"
+            className="flex items-center gap-2 hover:text-gray-300 "
+          >
             <HelpCircle className="w-4 h-4" />
             <span>Help & Support</span>
           </Link>
