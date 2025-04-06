@@ -45,10 +45,6 @@ const orderSchema = new mongoose.Schema(
         return expected;
       },
     },
-    deliveryPartner: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Delivery",
-    },
   },
   { timestamps: true }
 );

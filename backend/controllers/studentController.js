@@ -1,9 +1,11 @@
 const Student = require("../models/Student");
 const bcrypt = require("bcryptjs/dist/bcrypt");
-const {sendOTP} = require("../utils/Mailer");
+const { sendOTP } = require("../utils/Mailer");
 const otpModel = require("../models/OTP");
 const BlacklistTokenModel = require("../models/BlacklistedToken");
 const University = require("../models/University");
+const Order = require("../models/Order");
+const Laundry = require("../models/Laundry");
 
 module.exports.changePassword = async (req, res, next) => {
   try {
@@ -84,12 +86,20 @@ module.exports.updateProfile = async (req, res, next) => {
       { _id, email },
       { name, hostel, mobile: mobileNo, roomNo },
       { new: true }
-    ).populate("university", "name");
+    );
 
     if (!updatedStudent) {
       return res.status(404).json({ message: "User Not Found" });
     }
-
+    updatedStudent.populate({
+      path: "university",
+      select: "name",
+      populate: {
+        path: "laundries",
+        select: "name maxWash",
+      },
+    });
+    updatedStudent.populate("orders");
     return res
       .status(200)
       .json({ message: "Profile Updated Successfully", updatedStudent });
@@ -105,17 +115,19 @@ module.exports.studentData = async (req, res, next) => {
       return res.status(401).json({ message: "Unauthorized access" });
     }
 
-    let student = await Student.findById(decodedToken._id).populate(
-      "university",
-      "name"
-    );
+    let student = await Student.findById(decodedToken._id).populate({
+      path: "university",
+      select: "name",
+      populate: {
+        path: "laundries",
+        select: "name maxWash",
+      },
+    });
     if (!student) {
       return res.status(404).json({ message: "User not found" });
     }
 
-    if (student.orders.length > 0) {
-      await student.populate("orders");
-    }
+    student.populate("orders");
 
     return res.status(200).json({ student });
   } catch (error) {
@@ -185,12 +197,64 @@ module.exports.markAllAsRead = async (req, res, next) => {
     if (!student) {
       return res.status(401).json({ message: "Unauthorized Access" });
     }
-    student.populate("university", "name");
-    if (student.orders.length > 0) {
-      student.populate("orders");
-    }
+    student.populate({
+      path: "university",
+      select: "name",
+      populate: {
+        path: "laundries",
+        select: "name maxWash",
+      },
+    });
+    student.populate("orders");
+
     return res.status(200).json({ message: "Marked All as read", student });
   } catch (error) {
     return res.status(500).json({ message: "Internal server error" });
+  }
+};
+
+// place order
+module.exports.placeOrder = async (req, res, next) => {
+  try {
+    const { _id, role } = req.decodedToken;
+    const { laundryId, orderDetails } = req.body;
+    const student = await Student.findById(_id);
+    if (!student) {
+      return res.status(401).json({ message: "Unauthorized Access" });
+    }
+    // find laundry
+    const laundry = await Laundry.findById(laundryId);
+    const dateNow = new Date();
+    const lastReset = student.lastWashReset || new Date(0);
+    const maxWash = laundry.maxWash;
+    const isNewMonth =
+      dateNow.getFullYear() !== lastReset.getFullYear() ||
+      dateNow.getMonth() !== lastReset.getMonth();
+    if (isNewMonth) {
+      student.washCount = 0;
+      student.lastWashReset = dateNow;
+    }
+    // Check if student able to place order or not
+    if (student.washCount >= maxWash) {
+      return res
+        .status(403)
+        .json({ message: "You have reached your monthly wash limit." });
+    }
+    student.washCount += 1;
+    // create order here
+    const newOrder = await Order.create({
+      to: laundryId,
+      from: _id,
+      orderDetails,
+    });
+    student.orders.push(newOrder._id);
+    laundry.orders.push(newOrder._id);
+    await student.save();
+    await laundry.save();
+    student.populate("orders");
+    student.populate("university", "name");
+    res.status(200).json({ message: "Order placed Successfully", student });
+  } catch (error) {
+    res.status(500).json({ message: "Internal Server Error" });
   }
 };

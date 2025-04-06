@@ -55,12 +55,14 @@ const universitySchema = new mongoose.Schema(
       {
         type: mongoose.Schema.Types.ObjectId,
         ref: "Student",
+        default: [],
       },
     ],
     laundries: [
       {
         type: mongoose.Schema.Types.ObjectId,
         ref: "Laundry",
+        default: [],
       },
     ],
     delivery: [
