@@ -16,8 +16,12 @@ module.exports.getLaundrydata = async (req, res, next) => {
       return res.status(401).json({ message: "Unauthorized access" });
     }
     if (laundryData.orders.length > 0) {
-      laundryData = await laundryData.populate("orders");
+      laundryData = await laundryData.populate({
+        path:"orders",
+        populate:{path:"from",select:"name hostel roomNo laundryId"}
+      });
     }
+    
     return res.status(200).json({ laundryData });
   } catch (error) {
     console.log("error : ", error);

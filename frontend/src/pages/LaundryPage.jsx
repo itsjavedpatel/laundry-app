@@ -14,23 +14,22 @@ import { LaundryNavbar } from "../navbars/LaundryNavbar";
 function LaundryPage() {
   const { laundry, setLaundry } = useContext(LaundryDataContext);
   const orderList = laundry.orders;
-  console.log(laundry);
   const [orders, setOrders] = useState(orderList);
-  const [selectedStatus, setSelectedStatus] = useState("pickup");
+  const [selectedStatus, setSelectedStatus] = useState("To be picked up");
   const [sortOrder, setSortOrder] = useState("newest");
-
+  // console.log(orders);
   const moveToNextStatus = (orderId) => {
     setOrders(
       orders.map((order) => {
-        if (order.id === orderId) {
+        if (order._id === orderId) {
           const statusMap = {
-            pickup: "washing",
-            washing: "ready",
-            ready: "completed",
+            "To be picked up": "Washing",
+            Washing: "To be Delivered",
+            "To be Delivered": "Completed",
           };
           return {
             ...order,
-            status: statusMap[order.status] || order.status,
+            status: statusMap[order.orderStatus] || order.orderStatus,
           };
         }
         return order;
@@ -39,11 +38,16 @@ function LaundryPage() {
   };
 
   const statusButtons = [
-    { status: "pickup", label: "To Be Picked Up", icon: PackageCheck },
-    { status: "washing", label: "Under Wash", icon: Loader2 },
-    { status: "ready", label: "Ready to Deliver", icon: Tshirt },
-    { status: "completed", label: "Completed", icon: CheckCircle2 },
+    { status: "To be picked up", label: "To be picked up", icon: PackageCheck },
+    { status: "Washing", label: "Washing", icon: Loader2 },
+    { status: "To be Delivered", label: "To be Delivered", icon: Tshirt },
+    { status: "Completed", label: "Completed", icon: CheckCircle2 },
   ];
+  // "To be picked up",
+  //       "Washing",
+  //       "To be Delivered",
+  //       "Completed",
+  //       "Cancelled",
 
   const toggleSortOrder = () => {
     setSortOrder((current) => (current === "newest" ? "oldest" : "newest"));
@@ -52,12 +56,12 @@ function LaundryPage() {
   const getSortedOrders = (filteredOrders) => {
     return [...filteredOrders].sort((a, b) => {
       const sortMultiplier = sortOrder === "newest" ? -1 : 1;
-      return sortMultiplier * (a.createdAt.getTime() - b.createdAt.getTime());
+      return sortMultiplier * (new Date(a.createdAt) - new Date(b.createdAt));
     });
   };
 
   const formatDate = (date) => {
-    return date.toLocaleDateString("en-US", {
+    return new Date(date).toLocaleDateString("en-US", {
       year: "numeric",
       month: "short",
       day: "numeric",
@@ -70,8 +74,11 @@ function LaundryPage() {
     <div className="min-h-screen bg-gradient-to-r from-[#eeaeca] to-[#94bbe9]">
       <LaundryNavbar />
 
-      <main className=" bg-gradient-to-r from-[#eeaeca] to-[#94bbe9] max-w-7xl mx-auto px-4 py-6">
-        <div className="  rounded-lg shadow-md overflow-hidden">
+      <main className="  max-w-7xl mx-auto px-4 py-6">
+        <h1 className="text-3xl font-bold text-[#3c3c78] my-6 ">
+          {laundry.name}
+        </h1>
+        <div className="  rounded-lg shadow-lg p-2 overflow-hidden">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-2 p-4  border-b">
             {statusButtons.map(({ status, label, icon: Icon }) => (
               <button
@@ -127,28 +134,28 @@ function LaundryPage() {
               </thead>
               <tbody className="bg-white divide-y divide-gray-200">
                 {getSortedOrders(
-                  orders.filter((order) => order.status === selectedStatus)
+                  orders.filter((order) => order.orderStatus === selectedStatus)
                 ).map((order) => (
-                  <tr key={order.id}>
+                  <tr key={order._id}>
                     <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                      {order.name}
+                      {order.from.name}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                      {order.laundryId}
+                      {order.from.laundryId}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                      {order.hostel}
+                      {order.from.hostel}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                      {order.roomNumber}
+                      {order.from.roomNo}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                       {formatDate(order.createdAt)}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
-                      {order.status !== "completed" && (
+                      {order.orderStatus !== "Completed" && (
                         <button
-                          onClick={() => moveToNextStatus(order.id)}
+                          onClick={() => moveToNextStatus(order._id)}
                           className="px-3 py-1 bg-gray-400 text-white rounded-md"
                         >
                           Move Next
