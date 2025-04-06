@@ -1,9 +1,13 @@
 import React, { useContext, useState } from "react";
 import { Shirt, Bed, AlertCircle } from "lucide-react";
-
 import StudentNavbar from "../navbars/StudentNavbar";
 import { StudentDataContext } from "../context/StudentContext";
+import axios from "axios";
+import { toast } from "react-toastify";
+
 function PlaceOrder() {
+  const { setStudent } = useContext(StudentDataContext);
+  const token = localStorage.getItem("token");
   const { student } = useContext(StudentDataContext);
   const laundryList = student.university.laundries || [];
   const [items, setItems] = useState([
@@ -97,28 +101,6 @@ function PlaceOrder() {
   const [orderPlaced, setOrderPlaced] = useState(false);
   const [error, setError] = useState(null);
 
-  // const calculateTotalWeight = () => {
-  //   const weights = {
-  //     "boys-shirts": 0.2,
-  //     "boys-tshirts": 0.15,
-  //     "boys-pants": 0.4,
-  //     "boys-jeans": 0.5,
-  //     "boys-others": 0.5,
-  //     "girls-kurtis": 0.3,
-  //     "girls-tops": 0.2,
-  //     "girls-pants": 0.4,
-  //     "girls-jeans": 0.5,
-  //     "girls-others": 0.5,
-  //     bedsheets: 0.8,
-  //     pillowcovers: 0.2,
-  //   };
-
-  //   return items.reduce(
-  //     (total, item) => total + (weights[item.id] * item.quantity || 0),
-  //     0
-  //   );
-  // };
-
   const updateQuantity = (id, value) => {
     setError(null);
     setItems(
@@ -128,22 +110,40 @@ function PlaceOrder() {
     );
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // const totalWeight = calculateTotalWeight();
 
-    if (!selectedLaundry) {
-      setError("Please select a laundry");
-      return;
-    }
+    try {
+      if (!selectedLaundry) {
+        setError("Please select a laundry");
+        return;
+      }
+      console.log(selectedLaundry);
+      console.log(items);
+      const totalClothesCount = items.reduce(
+        (sum, item) => sum + item.quantity,
+        0
+      );
+      console.log(totalClothesCount);
 
-    if (remainingWashes === 0) {
-      setError("You have used all your washes for this month");
-      return;
-    }
-
-    if (items.some((item) => item.quantity > 0)) {
+      const response = await axios.post(
+        `${import.meta.env.VITE_BASE_URL}/student/place-order`,
+        { count: totalClothesCount, laundryId: selectedLaundry },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      toast.success(response.data.message);
+      setStudent(student);
       setOrderPlaced(true);
+    } catch (error) {
+      if (error.response) {
+        toast.error(error.response.data.message);
+      } else {
+        toast.error("Something went Wrong");
+      }
     }
   };
 
@@ -185,15 +185,15 @@ function PlaceOrder() {
         <div className="py-16 p-2 mt-5 max-w-md mx-auto">
           <h1 className="text-2xl font-bold mb-6">Place New Order</h1>
 
-          <div className="bg-blue-50 p-4 rounded-lg mb-6">
+          {/* <div className="bg-blue-50 p-4 rounded-lg mb-6">
             <h2 className="font-semibold text-blue-800 mb-2">
               Monthly Wash Status
             </h2>
             <p className="text-blue-600">
-              Remaining washes: {laundryList[0].maxWash - student.washCount} of{" "}
-              {laundryList[0].maxWash}
+              Remaining washes: {selectedLaundry.maxWash - student.washCount} of{" "}
+              {selectedLaundry.maxWash}
             </p>
-          </div>
+          </div> */}
 
           <form
             onSubmit={handleSubmit}
@@ -216,7 +216,6 @@ function PlaceOrder() {
                 id="laundry"
                 value={selectedLaundry}
                 onChange={(e) => setSelectedLaundry(e.target.value)}
-                required
                 className="w-full border rounded-md p-2"
               >
                 <option value="">-- Choose Laundry --</option>
@@ -292,7 +291,7 @@ function PlaceOrder() {
               Place Order
             </button>
 
-            {/* Important Notes moved here */}
+            {/* Important Notes   */}
             <div className="bg-yellow-50 p-4 rounded-lg mt-6">
               <div className="flex items-center gap-2 mb-2">
                 <AlertCircle className="text-yellow-600" size={20} />

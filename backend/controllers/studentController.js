@@ -127,8 +127,13 @@ module.exports.studentData = async (req, res, next) => {
       return res.status(404).json({ message: "User not found" });
     }
 
-    student.populate("orders");
-
+    await student.populate({
+      path: "orders",
+      populate: {
+        path: "to",
+        select: "name",
+      },
+    });
     return res.status(200).json({ student });
   } catch (error) {
     return res.status(500).json({ message: "Unable to access profile" });
@@ -216,21 +221,33 @@ module.exports.markAllAsRead = async (req, res, next) => {
 // place order
 module.exports.placeOrder = async (req, res, next) => {
   try {
-    const { _id, role } = req.decodedToken;
-    const { laundryId, orderDetails } = req.body;
+    const { _id } = req.decodedToken;
+
+    const { laundryId, count } = req.body;
+    console.log(req.body);
+
     const student = await Student.findById(_id);
+    console.log(student);
+
     if (!student) {
       return res.status(401).json({ message: "Unauthorized Access" });
     }
     // find laundry
     const laundry = await Laundry.findById(laundryId);
+
+    console.log(laundry);
+
     const dateNow = new Date();
     const lastReset = student.lastWashReset || new Date(0);
     const maxWash = laundry.maxWash;
+    console.log(maxWash, student.washCount);
     const isNewMonth =
       dateNow.getFullYear() !== lastReset.getFullYear() ||
       dateNow.getMonth() !== lastReset.getMonth();
+    console.log(isNewMonth);
+
     if (isNewMonth) {
+      console.log("NewMonth");
       student.washCount = 0;
       student.lastWashReset = dateNow;
     }
@@ -245,16 +262,33 @@ module.exports.placeOrder = async (req, res, next) => {
     const newOrder = await Order.create({
       to: laundryId,
       from: _id,
-      orderDetails,
+      orderDetails: {
+        quantity: count,
+      },
     });
+    console.log(newOrder);
     student.orders.push(newOrder._id);
     laundry.orders.push(newOrder._id);
     await student.save();
     await laundry.save();
-    student.populate("orders");
-    student.populate("university", "name");
+    await student.populate({
+      path: "orders",
+      populate: {
+        path: "to",
+        select: "name",
+      },
+    });
+    await student.populate({
+      path: "university",
+      select: "name",
+      populate: {
+        path: "laundries",
+        select: "name maxWash",
+      },
+    });
     res.status(200).json({ message: "Order placed Successfully", student });
   } catch (error) {
+    console.log(error);
     res.status(500).json({ message: "Internal Server Error" });
   }
 };
