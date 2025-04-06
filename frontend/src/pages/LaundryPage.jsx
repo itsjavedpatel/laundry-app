@@ -12,31 +12,32 @@ import {
 import { LaundryDataContext } from "../context/LaundryContext";
 import { LaundryNavbar } from "../navbars/LaundryNavbar";
 function LaundryPage() {
+  const token = localStorage.getItem("token");
   const { laundry, setLaundry } = useContext(LaundryDataContext);
   const orderList = laundry.orders;
   const [orders, setOrders] = useState(orderList);
   const [selectedStatus, setSelectedStatus] = useState("To be picked up");
   const [sortOrder, setSortOrder] = useState("newest");
   // console.log(orders);
-  const moveToNextStatus = (orderId) => {
-    setOrders(
-      orders.map((order) => {
-        if (order._id === orderId) {
-          const statusMap = {
-            "To be picked up": "Washing",
-            Washing: "To be Delivered",
-            "To be Delivered": "Completed",
-          };
-          return {
-            ...order,
-            status: statusMap[order.orderStatus] || order.orderStatus,
-          };
-        }
-        return order;
-      })
-    );
-  };
 
+  const moveToWash = async (orderId, studentId, currStatus) => {
+    try {
+      const response = await axios.put(
+        `${import.meta.env.VITE_BASE_URL}/laundry/pickupnow`,
+        { orderId, studentId, currStatus },
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+
+      setLaundry(response.data.laundry);
+      toast.success(response.data.message);
+    } catch (error) {
+      if (error.response) {
+        toast.error(error.response.data.message);
+      } else {
+        toast.error("Something went wrong");
+      }
+    }
+  };
   const statusButtons = [
     { status: "To be picked up", label: "To be picked up", icon: PackageCheck },
     { status: "Washing", label: "Washing", icon: Loader2 },
@@ -153,14 +154,54 @@ function LaundryPage() {
                       {formatDate(order.createdAt)}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
-                      {order.orderStatus !== "Completed" && (
-                        <button
-                          onClick={() => moveToNextStatus(order._id)}
-                          className="px-3 py-1 bg-gray-400 text-white rounded-md"
-                        >
-                          Move Next
-                        </button>
-                      )}
+                      {(() => {
+                        if (order.orderStatus === "To be picked up") {
+                          return (
+                            <button
+                              onClick={() =>
+                                moveToWash(
+                                  order._id,
+                                  order.from._id,
+                                  selectedStatus
+                                )
+                              }
+                              className="px-3 py-1 bg-gray-400 text-white rounded-md"
+                            >
+                              Pick Up Now
+                            </button>
+                          );
+                        } else if (order.orderStatus === "Washing") {
+                          return (
+                            <button
+                              onClick={() =>
+                                moveToWash(
+                                  order._id,
+                                  order.from._id,
+                                  selectedStatus
+                                )
+                              }
+                              className="px-3 py-1 bg-gray-400 text-white rounded-md"
+                            >
+                              Ready to deliver
+                            </button>
+                          );
+                        } else if (order.orderStatus === "To be Delivered") {
+                          return (
+                            <button
+                              onClick={() =>
+                                moveToWash(
+                                  order._id,
+                                  order.from._id,
+                                  selectedStatus
+                                )
+                              }
+                              className="px-3 py-1 bg-gray-400 text-white rounded-md"
+                            >
+                              Delivered
+                            </button>
+                          );
+                        }
+                      })()}
                     </td>
                   </tr>
                 ))}

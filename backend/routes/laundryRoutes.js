@@ -5,6 +5,7 @@ const {
   otpForPassChange,
   updateProfile,
   getLaundrydata,
+  pickUpOrder,
 } = require("../controllers/laundryController");
 
 const laundryRouter = express.Router();
@@ -19,4 +20,6 @@ laundryRouter.put("/update-profile", authUser, updateProfile);
 laundryRouter.post("/update-password", authUser, otpForPassChange);
 laundryRouter.put("/update-password", authUser, changePassword);
 
+// pickup order
+laundryRouter.put("/pickupnow", authUser, pickUpOrder);
 module.exports = laundryRouter;
