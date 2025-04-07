@@ -34,7 +34,7 @@ const Home = () => {
 
           <div className="lg:w-1/2 mt-12 md:w-[70%] lg:mt-0 perspective">
             <img
-              src="https://www.thespruce.com/thmb/aVwNrnmY4yY1SwnY4DKMsywRB10=/5616x3744/filters:no_upscale():max_bytes(150000):strip_icc()/girl-leaning-into-laundromat-washer-to-get-clothes-108224630-5aa88a091f4e130037edb934.jpg"
+              src="https://th.bing.com/th/id/R.3eaec632f24961bd7b2a99bc595279d2?rik=9tLCxaHHRR7AeQ&riu=http%3a%2f%2fwww.katebackdrop.com%2fcdn%2fshop%2fproducts%2fBH1047473D.webp%3fv%3d1708506435&ehk=TRfIP20S%2fCDyhg%2bGsk%2bC1qYP%2buC1zbFHQFGzTBRrBw4%3d&risl=&pid=ImgRaw&r=0"
               alt="Modern Laundry Service"
               className="rounded-lg shadow-xl transform rotate-y-[20deg] lg:floating"
             />

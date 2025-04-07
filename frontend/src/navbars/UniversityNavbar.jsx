@@ -81,17 +81,17 @@ export function UniversityNavbar() {
               </div>
             </div>
           </div>
-          <div>
-            <p
-              className={`relative  text-[5px] top-9 -right-3.5 bg-red-600 h-2 w-2 rounded-full  ${
-                university.requests.length > 0 ? "" : "hidden"
-              }`}
-            ></p>
+          <div className="relative">
             <Link
               to="/fee-request"
-              className="p-2 text-[#dad4b8] hover:text-gray-300"
+              className="p-2  text-[#dad4b8] hover:text-gray-300"
             >
-              <Bell className="w-6 h-6" />
+              <Bell className="h-6 w-6" />
+              {university.requests.length > 0 && (
+                <span className="absolute top-5 -right-1 bg-red-500 text-white text-xs rounded-full h-4 w-4 flex items-center justify-center">
+                  {university.requests.length}
+                </span>
+              )}
             </Link>
           </div>
 
@@ -147,43 +147,54 @@ export function UniversityNavbar() {
       </div>
 
       {isMenuOpen && (
-        <div className="md:hidden bg-white shadow-md p-4 space-y-4">
+        <div className="md:hidden bg-white shadow-sm p-4 space-y-2 ">
           <Link
             to="/university-dashboard"
-            className="flex items-center gap-2 hover:text-gray-300 "
+            className="flex items-center hover:text-gray-400 hover:bg-gray-100"
           >
             <span>Home</span>
           </Link>
-          <Link to="#" className="block text-gray-600 hover:text-gray-900">
+
+          <Link
+            to="/fee-request"
+            className="block text-gray-900  hover:text-gray-400 hover:bg-gray-100"
+          >
+            Notifications
+          </Link>
+
+          <Link
+            to="/help-support"
+            className="block hover:bg-gray-100 text-gray-900 hover:text-gray-400"
+          >
             Help & Support
           </Link>
           <Link
             to="/students"
-            className="block text-gray-600 hover:text-gray-900"
+            className="block text-gray-900 hover:bg-gray-100 hover:text-gray-400"
           >
             Student
           </Link>
           <Link
             to="/Laundry-delivery"
-            className="block text-gray-600 hover:text-gray-900"
+            className="block text-gray-900 hover:bg-gray-100 hover:text-gray-400"
           >
             Laundry
           </Link>
           <Link
             to="/uni-edit-profile"
-            className="block text-gray-600 hover:text-gray-900"
+            className="block text-gray-900 hover:bg-gray-100 hover:text-gray-400"
           >
             Edit Profile
           </Link>
           <Link
             to="/uni-privacy"
-            className="block text-gray-600 hover:text-gray-900"
+            className="block text-gray-900 hover:bg-gray-100 hover:text-gray-400"
           >
             Privacy & Security
           </Link>
           <Link
             to="/subscription-plan"
-            className="block text-gray-600 hover:text-gray-900"
+            className="block text-gray-900 hover:bg-gray-100 hover:text-gray-400"
           >
             Payment & Subscription
           </Link>
