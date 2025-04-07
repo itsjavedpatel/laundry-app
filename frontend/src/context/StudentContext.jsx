@@ -4,6 +4,7 @@ import { Navigate } from "react-router-dom";
 import { io } from "socket.io-client"; // ✅ Import socket.io-client
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import Shimmer from "../layouts/ShimmerUi";
 export const StudentDataContext = createContext();
 
 const StudentContext = ({ children }) => {
@@ -39,7 +40,7 @@ const StudentContext = ({ children }) => {
     fetchData();
   }, [setStudent]);
 
-  if (isLoading) return <h1>Loading....</h1>;
+  if (isLoading) return <Shimmer />;
   if (!token) <Navigate to="/login" />;
   return (
     <StudentDataContext.Provider value={{ student, setStudent }}>

@@ -9,6 +9,7 @@ import React, {
 import { Navigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import Shimmer from "../layouts/ShimmerUi";
 export const LaundryDataContext = createContext();
 
 const LaundryContext = ({ children }) => {
@@ -32,7 +33,6 @@ const LaundryContext = ({ children }) => {
       );
       setLaundry(response.data.laundryData);
     } catch (error) {
-      
       if (error.response?.status === 401) {
         localStorage.removeItem("token");
       }
@@ -43,7 +43,7 @@ const LaundryContext = ({ children }) => {
   useEffect(() => {
     fetchData();
   }, [setLaundry]);
-  if (isLoading) return <h1>Loading....</h1>;
+  if (isLoading) return <Shimmer />;
   if (!token) <Navigate to="/login" />;
   return (
     <LaundryDataContext.Provider value={{ laundry, setLaundry }}>

@@ -1,6 +1,7 @@
 import React, { createContext, useState, useEffect } from "react";
 import axios from "axios";
 import { Navigate } from "react-router-dom";
+import Shimmer from "../layouts/ShimmerUi";
 
 export const UniversityDataContext = createContext();
 
@@ -40,7 +41,7 @@ const UniversityContext = ({ children }) => {
   }, [setUniversity]);
 
   // ✅ Prevent rendering until data is fetched
-  if (isLoading) return <p>Loading...</p>;
+  if (isLoading) return <Shimmer />;
 
   return (
     <UniversityDataContext.Provider value={{ university, setUniversity }}>
