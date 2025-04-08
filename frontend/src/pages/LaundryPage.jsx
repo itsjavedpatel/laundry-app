@@ -8,6 +8,7 @@ import {
   PackageCheck,
   CheckCircle2,
   ArrowUpDown,
+  CheckCircle,
 } from "lucide-react";
 import { LaundryDataContext } from "../context/LaundryContext";
 import { LaundryNavbar } from "../navbars/LaundryNavbar";
@@ -38,17 +39,19 @@ function LaundryPage() {
       }
     }
   };
+  const statusColors = {
+    "To be picked up": "bg-blue-100 text-blue-800",
+    Washing: "bg-yellow-100 text-yellow-800",
+    "To be Delivered": "bg-orange-300 text-white",
+    Completed: "bg-green-100 text-green-800",
+    Cancelled: "bg-red-100 text-red-800",
+  };
   const statusButtons = [
     { status: "To be picked up", label: "To be picked up", icon: PackageCheck },
     { status: "Washing", label: "Washing", icon: Loader2 },
     { status: "To be Delivered", label: "To be Delivered", icon: Tshirt },
     { status: "Completed", label: "Completed", icon: CheckCircle2 },
   ];
-  // "To be picked up",
-  //       "Washing",
-  //       "To be Delivered",
-  //       "Completed",
-  //       "Cancelled",
 
   const toggleSortOrder = () => {
     setSortOrder((current) => (current === "newest" ? "oldest" : "newest"));
@@ -88,7 +91,7 @@ function LaundryPage() {
                 className={`flex items-center justify-center gap-2 px-4 py-2 rounded-md transition-colors
                   ${
                     selectedStatus === status
-                      ? "bg-gray-500 text-white"
+                      ? statusColors[status]
                       : "bg-white text-gray-600 hover:bg-gray-100"
                   }`}
               >
@@ -165,7 +168,7 @@ function LaundryPage() {
                                   selectedStatus
                                 )
                               }
-                              className="px-3 py-1 bg-gray-400 text-white rounded-md"
+                              className="px-3 py-1 bg-blue-100 text-blue-800 rounded-md"
                             >
                               Pick Up Now
                             </button>
@@ -180,7 +183,7 @@ function LaundryPage() {
                                   selectedStatus
                                 )
                               }
-                              className="px-3 py-1 bg-gray-400 text-white rounded-md"
+                              className="px-3 py-1 bg-yellow-100 text-yellow-800 rounded-md"
                             >
                               Ready to deliver
                             </button>
@@ -195,11 +198,14 @@ function LaundryPage() {
                                   selectedStatus
                                 )
                               }
-                              className="px-3 py-1 bg-gray-400 text-white rounded-md"
+                              className="px-3 py-1 bg-orange-300 text-white rounded-md flex gap-2"
                             >
                               Delivered
+                              <CheckCircle2 />
                             </button>
                           );
+                        } else {
+                          return <CheckCircle className="text-green-500" />;
                         }
                       })()}
                     </td>
