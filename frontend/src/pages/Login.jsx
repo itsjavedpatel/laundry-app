@@ -30,8 +30,8 @@ const Login = () => {
       const { token, user } = response.data;
       // setUniversity(user);
       localStorage.setItem("token", token);
-      console.log("token: ",token);
-      
+      console.log("token: ", token);
+
       toast.success("🎉 Login successful!");
 
       // 🏆 Redirect user based on role
@@ -105,11 +105,10 @@ const Login = () => {
                     name="role"
                   >
                     <option value="">-- Select Role --</option>
-                    <option value="Admin">Admin</option>
+                    {/* <option value="Admin">Admin</option> */}
                     <option value="University">University</option>
                     <option value="Student">Student</option>
                     <option value="Laundry">Laundry Agent</option>
-                    <option value="Delivery">Delivery Agent</option>
                   </select>
                 </div>
                 <div>
