@@ -36,7 +36,7 @@ export function LaundryNavbar() {
             to="/"
             className="text-xl font-bold bg-gradient-to-r from-indigo-600 to-purple-600 text-transparent bg-clip-text"
           >
-            E-DHOBI
+            E-DHOबी
           </Link>
         </div>
 
