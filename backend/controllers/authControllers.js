@@ -83,9 +83,9 @@ exports.login = async (req, res) => {
 //!Register logic
 // Send OTP
 exports.registerSendOTP = async (req, res) => {
-  // console.log("Incoming data :", req.body);
+  console.log("Incoming data :", req.body);
 
-  const { email, universityName } = req.body;
+  const { email } = req.body;
 
   try {
     const db = mongoose.connection.db;
@@ -125,8 +125,9 @@ exports.registerSendOTP = async (req, res) => {
     const domain = email.split("@")[1];
 
     const university = await uniInfo.findOne({
-      domain,
+      domain_name: domain,
     });
+
     if (!university) {
       return res.status(405).json({
         // Method not allowed status (405) for invalid domain

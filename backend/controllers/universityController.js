@@ -25,10 +25,6 @@ module.exports.getUnidata = async (req, res, next) => {
     if (uniData.laundries.length > 0) {
       uniData = await uniData.populate("laundries");
     }
-    // if (uniData.delivery.length > 0) {
-    //   uniData = await uniData.populate("delivery");
-    // }
-    // console.log(uniData);
 
     return res.status(200).json({ uniData });
   } catch (error) {
@@ -43,7 +39,7 @@ module.exports.addStudent = async (req, res, next) => {
   const { username, email, laundryId, studentId, mobile } = req.body;
   const decodedToken = req.decodedToken;
   try {
-    const studentExist = await Student.findOne({ email });
+    const studentExist = await Student.findOne({ email }).lean();
     if (studentExist) {
       return res.status(409).json({ message: "Student Already exists" });
     }
