@@ -26,7 +26,6 @@ import UniProtectedWrapper from "./protected/UniProtectedWrapper";
 import OrderStatus from "./components/OrderStatus";
 import PlaceOrder from "./components/PlaceOrder";
 import FeeRequest from "./components/FeeRequest";
-import StudentNotification from "./components/StudentNotification";
 import LaundryChangePassword from "./components/LaundryChangePassword";
 import LaundryEditProfile from "./components/LaundryEditProfile";
 import LaundryContext from "./context/LaundryContext";
