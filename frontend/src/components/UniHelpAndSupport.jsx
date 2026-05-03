@@ -52,7 +52,7 @@ const UniHelpAndSupport = () => {
             <ContactCard
               icon={Phone}
               title="Phone Support"
-              content="+91-9750XXXXX1"
+              content="+91-8306510323"
               subtext="Mon-Fri: 8AM-8PM"
             />
             <ContactCard

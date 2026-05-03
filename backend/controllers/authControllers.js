@@ -21,6 +21,11 @@ const testUniversity1 = {
   name: "IIT Bombay",
   domain: "gmail.com",
 };
+const testUniversity2 = {
+  email: "akshaykanha31@gmail.com",
+  name: "NIMS UNIVERSITY",
+  domain: "gmail.com",
+};
 
 //!login logic
 
@@ -103,7 +108,11 @@ exports.registerSendOTP = async (req, res) => {
 
     // If new university
     // 1. Verify university email by using domain name in our uniInfo collection
-    if (email === testUniversity.email || email === testUniversity1.email) {
+    if (
+      email === testUniversity.email ||
+      email === testUniversity1.email ||
+      email === testUniversity2.email
+    ) {
       const otp = Math.floor(100000 + Math.random() * 900000).toString();
       const newOtp = await otpModel.create({
         email,
