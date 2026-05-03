@@ -1,8 +1,6 @@
 import axios from "axios";
 import React, { createContext, useEffect, useRef, useState } from "react";
 import { Navigate } from "react-router-dom";
-import { io } from "socket.io-client"; // ✅ Import socket.io-client
-import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Shimmer from "../layouts/ShimmerUi";
 export const StudentDataContext = createContext();
